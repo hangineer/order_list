@@ -1,0 +1,56 @@
+------------------101------------------
+
+請使用 vue + pug + SCSS 實作，簡易的訂單管理介面，其中有以下功能：
+訂單列表
+訂單的 CRUD
+訂單編號 - 流水號不可編輯
+訂單備註
+訂單商品
+名稱
+價格
+數量
+這些功能皆需要使用不同的 path
+e.g.
+訂單列表 - /list
+訂單資訊 - /list/1
+另外，可用 console.log 在每個 lifeCycle 印出 log，觀察該 lifeCycle 運行時機
+
+使用環境:
+Mac+VsCode 開發
+
+基本插件:
+[Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur)
+[Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
+可使用Lib:
+element-ui
+vuex
+pug
+nuxt
+
+------------------102------------------
+請加上input欄位的驗證
+
+可參考的library：https://vee-validate.logaretm.com/
+
+------------------103------------------
+需能新增編輯商品定義(含圖)及庫存
+建立訂單時需考慮庫存數量
+使用者帳號需區分不同權限
+可以串接下列第三方服務
+
+firebase
+airtable
+
+------------------104------------------
+撰寫Dockerfile
+並將docker image上傳至Docker hub
+以便讓其它開發者能夠使用docker run啟動本專案
+
+------------------105------------------
+分別使用下列兩者做e2e testing:
+https://playwright.dev/
+https://www.cypress.io/
+
+補充兩者差異：
+https://cathalmacdonnacha.com/cypress-vs-playwright-which-is-best-for-e2e-testing
