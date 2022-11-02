@@ -1,18 +1,18 @@
 <template>
   <div class="home">
     <listTitle />
-    <orderList />
+    <addList />
   </div>
 </template>
 
 <script>
-import orderList from "@/components/orderList.vue";
+import addList from "@/components/addList.vue";
 import listTitle from "@/components/listTitle.vue";
 
 export default {
   name: "HomeView",
   components: {
-    orderList,
+    addList,
     listTitle,
   },
 };

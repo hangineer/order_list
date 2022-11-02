@@ -19,15 +19,6 @@ import "vue-easytable/libs/theme-default/index.css";
 import VueEasytable from "vue-easytable";
 Vue.use(VueEasytable);
 
-// todo
-// export const itemBus = new Vue({
-//   methods: {
-//     addItem(id, name, price, note) {
-//       this.$emit("addedItem", id, name, price, note);
-//     },
-//   },
-// });
-
 new Vue({
   render: (h) => h(App),
   router,

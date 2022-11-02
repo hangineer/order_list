@@ -1,10 +1,10 @@
-<template>
-  <div id="app">
+<template lang="pug">
+<div id="app">
     <router-view />
-  </div>
+    //- <router-link :to=`/list/${i}`>
+</div>
 </template>
 <!-- <script>
-
 </script> -->
 <style lang="scss">
 #app {
