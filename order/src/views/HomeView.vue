@@ -1,19 +1,22 @@
-<template>
-  <div class="home">
-    <listTitle />
-    <addList />
-  </div>
+<template lang="pug">
+div
+  listHeader
+  addList
+  a(href='/list') list
+  br
+  a(href='/add') addList
+  addList
+
 </template>
 
 <script>
-import addList from "@/components/addList.vue";
-import listTitle from "@/components/listTitle.vue";
-
+import listHeader from "@/components/listHeader";
+import AddList from "@/views/AddList.vue";
 export default {
   name: "HomeView",
   components: {
-    addList,
-    listTitle,
+    listHeader,
+    AddList,
   },
 };
 </script>

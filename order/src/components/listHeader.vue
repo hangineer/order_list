@@ -1,16 +1,15 @@
-<template>
-  <div class="listTitle">
-    <h2>{{ title }}</h2>
-    <hr />
-    <br />
-  </div>
+<template lang="pug">
+.listHeader
+    h2 {{ header }}
+    hr 
+    br
 </template>
 
 <script>
 export default {
   data: function () {
     return {
-      title: "Order List",
+      header: "Order List",
     };
   },
 };

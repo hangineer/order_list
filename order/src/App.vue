@@ -1,11 +1,14 @@
+<script>
+// import listHeader from "@/components/listHeader.vue";
+</script>
+
 <template lang="pug">
-<div id="app">
-    <router-view />
-    //- <router-link :to=`/list/${i}`>
-</div>
+#app
+  //- listHeader
+  router-view
+    //- <router-link :to=`/list/${i}`>list</router-link>
 </template>
-<!-- <script>
-</script> -->
+
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

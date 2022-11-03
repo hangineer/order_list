@@ -1,15 +1,31 @@
 <template>
   <div>
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="id" label="訂單編號" width="180">
+    <!-- <el-table :data="tableData" style="width: 100%">
+      <el-table-column prop="id" label="訂單編號" align="center" width="180">
       </el-table-column>
-      <el-table-column prop="name" label="商品名稱" width="180">
+      <el-table-column prop="name" label="商品名稱" align="center" width="180">
       </el-table-column>
-      <el-table-column prop="quantity" label="商品數量"></el-table-column>
-      <el-table-column prop="price" label="商品價格"> </el-table-column>
-      <el-table-column prop="note" label="訂單備註"> </el-table-column>
-    </el-table>
-    <br />
+      <el-table-column
+        prop="quantity"
+        label="商品數量"
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        prop="price"
+        label="商品價格"
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        prop="note"
+        label="訂單備註"
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        prop="inventory"
+        label="庫存量"
+        align="center"
+      ></el-table-column>
+    </el-table> -->
     <el-form
       :model="ruleForm.domains"
       :rules="rules"
@@ -18,7 +34,7 @@
       size="mini"
     >
       <el-form-item label="訂單編號:" prop="id">
-        <el-input v-model="id" :disabled="true"> </el-input>
+        <el-input v-model="id" :disabled="true"></el-input>
       </el-form-item>
 
       <el-form-item label="商品名稱:" prop="name">
@@ -45,9 +61,6 @@
       </el-form-item>
       <el-form-item>
         <el-button @click="newItem">新增</el-button>
-        <!-- <el-button type="primary" @click="submitForm('ruleForm')"
-          >新增</el-button 
-        >-->
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
@@ -58,15 +71,15 @@
 export default {
   data() {
     return {
-      tableData: [
-        {
-          id: 0,
-          name: "咖啡拿鐵",
-          price: "90",
-          quantity: "2",
-          note: "",
-        },
-      ],
+      // tableData: [
+      //   {
+      //     id: 0,
+      //     name: "咖啡拿鐵",
+      //     price: "90",
+      //     quantity: "2",
+      //     note: "",
+      //   },
+      // ],
       ruleForm: {
         domains: [
           {
