@@ -85,8 +85,9 @@ export default {
           {
             id: 0,
             name: "",
-            price: null,
+            img: null,
             quantity: null,
+            price: null,
             note: "",
           },
         ],
@@ -130,12 +131,12 @@ export default {
   computed: {
     id: function id() {
       // const format = "";
-      // let rowIndex = 0;
-      return this.tableData.length;
+      let rowIndex = 0;
+      return (rowIndex += 1);
+      // return this.tableData.length;
     },
   },
   methods: {
-    //todo 把表單新增到頁面上，並加上修改按鈕
     newItem() {
       if (
         this.ruleForm.domains.name &&
@@ -172,4 +173,4 @@ export default {
 </script>
 
 <style lang="scss" scoped></style>
-<style src="../../public/reset.css"></style>
+<style src="../../../public/reset.css"></style>
