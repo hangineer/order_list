@@ -1,12 +1,17 @@
 {
-  "tableData": [
+  "list": [
     {
       "id": 0,
-      "img": null,
       "name": "美式黑咖啡",
-      "price": "70",
-      "quantity": "2",
+      "img": null,
+      "quantity": 2,
+      "inventory": 0,
+      "price": 70,
       "note": ""
+    },
+    {
+      "name": "拿鐵",
+      "id": 3
     }
   ]
 }

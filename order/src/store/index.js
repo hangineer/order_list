@@ -7,24 +7,25 @@ export default new Vuex.Store({
   // todo
   state: {
     tableData: [
-      {
-        id: 0,
-        img: null,
-        name: "咖啡拿鐵",
-        price: "90",
-        quantity: "2",
-        note: "",
-      },
+      // {
+      //   id: 1,
+      //   name: "咖啡拿鐵",
+      //   img: null,
+      //   quantity: 2,
+      //   inventory: null,
+      //   price: 90,
+      //   note: "",
+      // },
     ],
   },
   mutations: {
-    setTableData(state, status) {
-      state.tableData = status;
+    setTableData(state, tableItem) {
+      state.tableData.push(tableItem);
     },
   },
   actions: {
-    updateTableData(context, status) {
-      context.commit("setTableData", status);
+    updateTableData(context, tableItem) {
+      context.commit("setTableData", tableItem);
     },
   },
   modules: {},

@@ -1,33 +1,7 @@
 <template>
   <div>
-    <!-- <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="id" label="訂單編號" align="center" width="180">
-      </el-table-column>
-      <el-table-column prop="name" label="商品名稱" align="center" width="180">
-      </el-table-column>
-      <el-table-column
-        prop="quantity"
-        label="商品數量"
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="price"
-        label="商品價格"
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="note"
-        label="訂單備註"
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="inventory"
-        label="庫存量"
-        align="center"
-      ></el-table-column>
-    </el-table> -->
     <el-form
-      :model="ruleForm.domains"
+      :model="ruleForm"
       :rules="rules"
       ref="ruleForm"
       label-width="100px"
@@ -39,25 +13,25 @@
 
       <el-form-item label="商品名稱:" prop="name">
         <el-input
-          v-model="ruleForm.domains.name"
+          v-model="ruleForm.name"
           placeholder="請輸入商品名稱"
         ></el-input>
       </el-form-item>
       <el-form-item label="商品數量:" prop="quantity">
         <el-input
-          v-model="ruleForm.domains.quantity"
+          v-model="ruleForm.quantity"
           placeholder="請輸入商品數量"
         ></el-input>
       </el-form-item>
       <el-form-item label="商品價格:" prop="price">
         <el-input
-          v-model="ruleForm.domains.price"
+          v-model="ruleForm.price"
           placeholder="請輸入商品價格"
         ></el-input>
       </el-form-item>
 
       <el-form-item label="訂單備註:" prop="note">
-        <el-input type="textarea" v-model="ruleForm.domains.note"></el-input>
+        <el-input type="textarea" v-model="ruleForm.note"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="newItem">新增</el-button>
@@ -71,26 +45,13 @@
 export default {
   data() {
     return {
-      // tableData: [
-      //   {
-      //     id: 0,
-      //     name: "咖啡拿鐵",
-      //     price: "90",
-      //     quantity: "2",
-      //     note: "",
-      //   },
-      // ],
       ruleForm: {
-        domains: [
-          {
-            id: 0,
-            name: "",
-            img: null,
-            quantity: null,
-            price: null,
-            note: "",
-          },
-        ],
+        id: 0,
+        name: "",
+        img: null,
+        quantity: null,
+        price: null,
+        note: "",
       },
       rules: {
         name: [
@@ -129,42 +90,35 @@ export default {
     };
   },
   computed: {
-    id: function id() {
+    id() {
       // const format = "";
-      let rowIndex = 0;
-      return (rowIndex += 1);
-      // return this.tableData.length;
+      // let rowIndex = 0;
+      // return (rowIndex += 1);
+      return this.$store.state.tableData.length + 1;
     },
   },
   methods: {
     newItem() {
-      if (
-        this.ruleForm.domains.name &&
-        this.ruleForm.domains.price &&
-        this.ruleForm.domains.quantity !== null
-      ) {
-        this.tableData.push({
-          id: this.tableData.length,
-          name: this.ruleForm.domains.name,
-          price: this.ruleForm.domains.price,
-          quantity: this.ruleForm.domains.quantity,
-          note: this.ruleForm.domains.note,
-        });
-      } else {
-        return;
-      }
-    },
-
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.ruleForm.id = this.id;
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          alert("submit!");
+          this.$store.dispatch("updateTableData", this.ruleForm).then(() => {
+            this.ruleForm = {
+              id: 0,
+              name: "",
+              img: null,
+              quantity: null,
+              price: null,
+              note: "",
+            };
+          });
         } else {
-          console.log("error submit!!");
-          return false;
+          alert("請確實填寫正確!");
+          // return false;
         }
       });
     },
+
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
