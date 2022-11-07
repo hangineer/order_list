@@ -7,15 +7,15 @@ export default new Vuex.Store({
   // todo
   state: {
     tableData: [
-      // {
-      //   id: 1,
-      //   name: "咖啡拿鐵",
-      //   img: null,
-      //   quantity: 2,
-      //   inventory: null,
-      //   price: 90,
-      //   note: "",
-      // },
+      {
+        id: 1,
+        name: "咖啡拿鐵",
+        img: null,
+        quantity: 2,
+        inventory: null,
+        price: 90,
+        note: "熱的無糖",
+      },
     ],
   },
   mutations: {

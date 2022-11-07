@@ -19,14 +19,7 @@ export default {
       return this.$store.state.tableData;
     },
   },
-  methods: {
-    //刪除
-    remove(i) {
-      let obj = this.tableData.slice(); //深拷貝
-      obj.splice(i, 1);
-      this.$store.dispatch("updateTableData", obj);
-    },
-  },
+  methods: {},
 };
 </script>
 

@@ -91,7 +91,6 @@ export default {
   },
   computed: {
     id() {
-      // const format = "";
       // let rowIndex = 0;
       // return (rowIndex += 1);
       return this.$store.state.tableData.length + 1;

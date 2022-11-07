@@ -1,6 +1,14 @@
 <template>
   <div>
     <!-- todo 若配合json server tableData可以改成list? -->
+    <!-- <el-table-column
+      label="日期"
+      width="180">
+      <template slot-scope="scope">
+        <i class="el-icon-time"></i>
+        <span style="margin-left: 10px">{{ scope.row.date }}</span>
+      </template>
+    </el-table-column> -->
     <el-table :data="tableData" style="width: 100%">
       <el-table-column prop="id" label="訂單編號" align="center" width="180">
       </el-table-column>
@@ -28,9 +36,8 @@
         label="訂單備註"
         align="center"
       ></el-table-column>
-
-      <el-table-column fixed="right" label="操作" width="100">
-        <template>
+      <el-table-column fixed="right" width="100">
+        <template slot-scope="scope">
           <!-- todo 版面還沒排好 -->
           <el-button
             class="data-button"
@@ -42,7 +49,7 @@
           <el-button
             class="data-button"
             size="mini"
-            @click.native.prevent="deleteRow(scope.$index, tableData)"
+            @click.native.prevent="remove(scope.$index, tableData)"
             icon="el-icon-delete"
             >刪除</el-button
           >
@@ -59,6 +66,12 @@ export default {
   computed: {
     tableData() {
       return this.$store.state.tableData;
+    },
+  },
+  methods: {
+    remove(index, rows) {
+      rows.splice(index, 1);
+      // this.$store.dispatch("updateTableData", rows);
     },
   },
   // axios.get('')
@@ -80,7 +93,7 @@ export default {
   margin: 5px !important;
 }
 //todo 區分表格顏色
-el-table-column:nth-child(odd) {
+el-table:nth-child(odd) {
   background-color: red;
 }
 </style>
