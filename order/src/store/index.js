@@ -20,24 +20,33 @@ export default new Vuex.Store({
   },
   //mutations可直接改變狀態
   mutations: {
-    setUpdateTableData(state, tableItem) {
-      state.tableData = tableItem;
-    },
+    // setUpdateTableData(state, tableItem) {
+    //   state.tableData = tableItem;
+    // },
     setPushTableData(state, tableItem) {
       state.tableData.push(tableItem);
     },
+    setRemoveTableData(state, index) {
+      state.tableData.splice(index, 1);
+    },
   },
   actions: {
-    updateTableData(context, tableItem) {
-      context.commit("setUpdateTableData", tableItem);
-    },
-    //新增
+    // updateTableData(context, tableItem) {
+    //   context.commit("setUpdateTableData", tableItem);
+    // },
+
+    //新增 C
     pushTableData(context, tableItem) {
       //提交一個mutation
       context.commit("setPushTableData", tableItem);
     },
-    //刪除
-    //修改
+
+    //修改 U
+
+    //刪除 D
+    removeTableData(context, index) {
+      context.commit("setRemoveTableData", index);
+    },
   },
   modules: {},
   getters: {},

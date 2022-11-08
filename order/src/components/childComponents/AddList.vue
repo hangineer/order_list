@@ -34,7 +34,7 @@
         <el-input type="textarea" v-model="ruleForm.note"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="newItem">新增</el-button>
+        <el-button @click="createItem">新增</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
@@ -97,7 +97,7 @@ export default {
     },
   },
   methods: {
-    newItem() {
+    createItem() {
       this.ruleForm.id = this.id;
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
