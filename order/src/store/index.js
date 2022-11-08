@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Vuex from "vuex";
+import Vuex from "vuex"; //共用參數的倉庫
 
 Vue.use(Vuex);
 
@@ -9,7 +9,7 @@ export default new Vuex.Store({
     tableData: [
       {
         id: 1,
-        name: "咖啡拿鐵",
+        name: "拿鐵歐蕾",
         img: null,
         quantity: 2,
         inventory: null,
@@ -18,15 +18,26 @@ export default new Vuex.Store({
       },
     ],
   },
+  //mutations可直接改變狀態
   mutations: {
-    setTableData(state, tableItem) {
+    setUpdateTableData(state, tableItem) {
+      state.tableData = tableItem;
+    },
+    setPushTableData(state, tableItem) {
       state.tableData.push(tableItem);
     },
   },
   actions: {
     updateTableData(context, tableItem) {
-      context.commit("setTableData", tableItem);
+      context.commit("setUpdateTableData", tableItem);
     },
+    //新增
+    pushTableData(context, tableItem) {
+      //提交一個mutation
+      context.commit("setPushTableData", tableItem);
+    },
+    //刪除
+    //修改
   },
   modules: {},
   getters: {},

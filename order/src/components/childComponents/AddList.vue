@@ -101,19 +101,18 @@ export default {
       this.ruleForm.id = this.id;
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          this.$store.dispatch("updateTableData", this.ruleForm).then(() => {
-            this.ruleForm = {
-              id: 0,
-              name: "",
-              img: null,
-              quantity: null,
-              price: null,
-              note: "",
-            };
-          });
+          this.$store.dispatch("pushTableData", this.ruleForm);
+          //清空表單
+          this.ruleForm = {
+            id: 0,
+            name: "",
+            img: null,
+            quantity: null,
+            price: null,
+            note: "",
+          };
         } else {
           alert("請確實填寫正確!");
-          // return false;
         }
       });
     },
@@ -126,4 +125,3 @@ export default {
 </script>
 
 <style lang="scss" scoped></style>
-<style src="../../../public/reset.css"></style>

@@ -42,7 +42,7 @@
           <el-button
             class="data-button"
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)"
+            @click="edit(scope.$index, scope.row)"
             icon="el-icon-edit"
             >編輯</el-button
           >
@@ -70,9 +70,12 @@ export default {
   },
   methods: {
     remove(index, rows) {
-      rows.splice(index, 1);
-      // this.$store.dispatch("updateTableData", rows);
+      let obj = rows.slice();
+      obj.splice(index, 1);
+      this.$store.dispatch("updateTableData", obj);
+      console.log(this.tableData);
     },
+    edit(index, rows) {},
   },
   // axios.get('')
   // .then(function (response) {
