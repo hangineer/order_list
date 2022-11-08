@@ -1,9 +1,5 @@
-import Vue from "vue";
-import Vuex from "vuex"; //共用參數的倉庫
-// import tableData from "./tableData";
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default {
+  namespaced: true,
   state: {
     tableData: [
       {
@@ -17,15 +13,14 @@ export default new Vuex.Store({
       },
     ],
   },
+
   //mutations可直接改變狀態(state)
   mutations: {
-    // setUpdateTableData(state, tableItem) {
-    //   state.tableData = tableItem;
-    // },
     //新增 c
     setPushTableData(state, tableItem) {
       state.tableData.push(tableItem);
     },
+
     //編輯 Ｕ
     setUpdateTableData(state, obj) {
       let { index, rows } = obj;
@@ -38,14 +33,12 @@ export default new Vuex.Store({
   },
   //不會跟state裡的內容有牽扯
   actions: {
-    // updateTableData(context, tableItem) {
-    //   context.commit("setUpdateTableData", tableItem);
-    // },
     //新增 C
     pushTableData(context, tableItem) {
       //提交一個mutation
       context.commit("setPushTableData", tableItem);
     },
+
     //修改 U
     updateTableData(context, obj) {
       context.commit("setUpdateTableData", obj);
@@ -55,8 +48,5 @@ export default new Vuex.Store({
       context.commit("setRemoveTableData", index);
     },
   },
-  modules: {
-    // tableData,
-  },
   getters: {},
-});
+};

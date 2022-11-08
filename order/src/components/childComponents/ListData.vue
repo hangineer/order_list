@@ -64,7 +64,9 @@ export default {
       this.$store.dispatch("removeTableData", index);
       console.log(this.tableData);
     },
-    editItem(index, rows) {},
+    editItem(index, rows) {
+      this.$router.push(`/${rows.id}`);
+    },
   },
 
   // axios.get('')

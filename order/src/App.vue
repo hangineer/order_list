@@ -11,6 +11,11 @@ export default {
   components: {
     listHeader,
   },
+  mounted: {
+    //思路：
+    //1. 打API，來取得tableData內的資料
+    //2. 把get到的tableData寫入store
+  },
 };
 </script>
 
