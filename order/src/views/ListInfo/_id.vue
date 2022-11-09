@@ -13,17 +13,26 @@
       </el-form-item>
 
       <el-form-item label="商品名稱:" prop="name">
-        <el-input placeholder="請輸入商品名稱"></el-input>
+        <el-input
+          v-model="targetItem.name"
+          placeholder="請輸入商品名稱"
+        ></el-input>
       </el-form-item>
       <el-form-item label="商品數量:" prop="quantity">
-        <el-input placeholder="請輸入商品數量"></el-input>
+        <el-input
+          v-model="targetItem.quantity"
+          placeholder="請輸入商品數量"
+        ></el-input>
       </el-form-item>
       <el-form-item label="商品價格:" prop="price">
-        <el-input placeholder="請輸入商品價格"></el-input>
+        <el-input
+          v-model="targetItem.price"
+          placeholder="請輸入商品價格"
+        ></el-input>
       </el-form-item>
 
       <el-form-item label="訂單備註:" prop="note">
-        <el-input type="textarea"></el-input>
+        <el-input v-model="targetItem.note" type="textarea"></el-input>
       </el-form-item>
       <el-form-item>
         <template slot-scope="scope">
@@ -52,17 +61,14 @@ export default {
   data() {
     return {
       targetItem: {
-        // this.$store.state.tableData.id
-        id: 0,
-        name: "",
-        img: null,
-        quantity: null,
-        price: null,
-        note: "",
+        // id: 0,
+        // name: "",
+        // img: null,
+        // quantity: null,
+        // price: null,
+        // note: "",
       },
-      // ruleForm: {
 
-      // },
       rules: {
         name: [
           { required: true, message: "請輸入商品名稱", trigger: "blur" },
@@ -99,25 +105,44 @@ export default {
       },
     };
   },
+  computed: {
+    nowId() {
+      return parseInt(this.$route.params.id); //表單抓到的值型態都為字串
+      //若沒轉型會有錯誤訊息：Cannot read properties of undefined (reading 'id')
+    },
+  },
   methods: {
     saveBtn(index, rows) {
-      let obj = {
-        index,
-        rows,
-      };
-      this.$store.dispatch("updateTableData", obj);
+      console.log("saveBtn", index, rows); //undefined undefined
+      //判斷表格不為空
+      this.$refs.targetItem.validate((valid) => {
+        if (valid) {
+          this.$store.dispatch("updateTableData", this.targetItem).then(() => {
+            this.$router.push("/"); //修改完按下儲存後，將導回根目錄
+          });
+        } else {
+          alert("請確實填寫");
+        }
+      });
+      // let obj = {
+      //   index,
+      //   rows,
+      // };
     },
     cancelBtn() {
       this.$router.push("/");
     },
   },
-  mounted() {
-    const nowId = this.$route.params.id;
-    this.targetItem = this.$store.state.tableData.find(
-      (item) => item.id === nowId
+  created: function () {
+    this.targetItem = JSON.parse(
+      JSON.stringify(
+        this.$store.state.tableData.find((item) => item.id === this.nowId)
+      )
     );
-    console.log(this.targetItem);
   },
+  // mounted() {
+
+  // },
 };
 </script>
 <style lang="scss" scoped></style>

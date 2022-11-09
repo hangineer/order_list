@@ -1,3 +1,4 @@
+//todo 可以嘗試用模組的方式引入
 export default {
   namespaced: true,
   state: {
@@ -40,8 +41,8 @@ export default {
     },
 
     //修改 U
-    updateTableData(context, obj) {
-      context.commit("setUpdateTableData", obj);
+    updateTableData(context, targetItem) {
+      context.commit("setUpdateTableData", targetItem);
     },
     //刪除 D
     removeTableData(context, index) {

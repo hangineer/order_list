@@ -27,16 +27,21 @@ export default new Vuex.Store({
       state.tableData.push(tableItem);
     },
     //編輯 Ｕ
-    setUpdateTableData(state, obj) {
-      let { index, rows } = obj;
-      state.tableData.splice(index, 1, rows);
+    setUpdateTableData(state, targetItem) {
+      // let { index, rows } = obj;
+      // state.tableData.splice(index, 1, rows);
+      let updateIndex = state.tableData.findIndex(
+        (item) => item.id === targetItem.id
+      );
+      state.tableData.splice(updateIndex, 1, targetItem);
     },
+
     //刪除 D
     setRemoveTableData(state, index) {
       state.tableData.splice(index, 1);
     },
   },
-  //不會跟state裡的內容有牽扯
+  //actions不會跟state裡的內容有牽扯
   actions: {
     // updateTableData(context, tableItem) {
     //   context.commit("setUpdateTableData", tableItem);
@@ -47,8 +52,8 @@ export default new Vuex.Store({
       context.commit("setPushTableData", tableItem);
     },
     //修改 U
-    updateTableData(context, obj) {
-      context.commit("setUpdateTableData", obj);
+    async updateTableData(context, obj) {
+      await context.commit("setUpdateTableData", obj);
     },
     //刪除 D
     removeTableData(context, index) {
@@ -58,5 +63,6 @@ export default new Vuex.Store({
   modules: {
     // tableData,
   },
+  //getters可想成資料加工，等同於computed
   getters: {},
 });

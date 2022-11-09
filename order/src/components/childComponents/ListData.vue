@@ -40,10 +40,29 @@
           <el-button
             class="data-button"
             size="mini"
-            @click.native.prevent="removeItem(scope.$index, tableData)"
+            @click="centerDialogVisible = true"
             icon="el-icon-delete"
             >刪除</el-button
           >
+
+          <el-dialog
+            title="確定要刪除此筆訂單嗎？"
+            :visible.sync="centerDialogVisible"
+            :modal-append-to-body="false"
+            :close-on-click-modal="false"
+            width="30%"
+            center
+          >
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="centerDialogVisible = false">取消</el-button>
+              <el-button
+                type="primary"
+                @click.native.prevent="removeItem(scope.$index, tableData)"
+                @click="centerDialogVisible = false"
+                >確定</el-button
+              >
+            </span>
+          </el-dialog>
         </template>
       </el-table-column>
     </el-table>
@@ -52,7 +71,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      centerDialogVisible: false,
+    };
   },
   computed: {
     tableData() {
@@ -87,6 +108,7 @@ export default {
 .data-button {
   margin: 5px !important;
 }
+
 //todo 區分表格顏色
 el-table:nth-child(odd) {
   background-color: red;
