@@ -1,8 +1,7 @@
 <template lang="pug">
 .listHeader
     h2 {{ header }}
-    hr 
-    br
+    //- hr 
 </template>
 
 <script>
@@ -16,9 +15,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h2 {
-  text-align: center;
-  margin: 30px auto;
-  font-size: 30px;
+.listHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 30px;
+  height: 80px;
+  margin-bottom: 20px;
+  background: lightblue;
+  h2 {
+    text-align: center;
+    // margin: 30px auto;
+    font-size: 30px;
+  }
 }
 </style>

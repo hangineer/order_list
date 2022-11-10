@@ -2,19 +2,18 @@ import Vue from "vue";
 import Vuex from "vuex"; //共用參數的倉庫
 // import tableData from "./tableData";
 Vue.use(Vuex);
-
 export default new Vuex.Store({
   state: {
     tableData: [
-      {
-        id: 1,
-        name: "拿鐵歐蕾",
-        img: null,
-        quantity: 2,
-        inventory: null,
-        price: 90,
-        note: "熱的無糖",
-      },
+      // {
+      //   id: 1,
+      //   name: "拿鐵歐蕾",
+      //   imgUrl: null,
+      //   quantity: 2,
+      //   inventory: null,
+      //   price: 90,
+      //   note: "熱的無糖",
+      // },
     ],
   },
   //mutations可直接改變狀態(state)
@@ -22,14 +21,22 @@ export default new Vuex.Store({
     // setUpdateTableData(state, tableItem) {
     //   state.tableData = tableItem;
     // },
+
     //新增 c
     setPushTableData(state, tableItem) {
       state.tableData.push(tableItem);
     },
+
+    //讀取 R
+    setRenderTableData(state, tableData) {
+      state.tableData = tableData;
+    },
+
     //編輯 Ｕ
     setUpdateTableData(state, targetItem) {
       // let { index, rows } = obj;
       // state.tableData.splice(index, 1, rows);
+
       let updateIndex = state.tableData.findIndex(
         (item) => item.id === targetItem.id
       );
@@ -46,14 +53,21 @@ export default new Vuex.Store({
     // updateTableData(context, tableItem) {
     //   context.commit("setUpdateTableData", tableItem);
     // },
+
     //新增 C
     pushTableData(context, tableItem) {
       //提交一個mutation
       context.commit("setPushTableData", tableItem);
     },
+
+    //讀取 R
+    renderTableData(context, tableData) {
+      context.commit("setRenderTableData", tableData);
+    },
+
     //修改 U
-    async updateTableData(context, obj) {
-      await context.commit("setUpdateTableData", obj);
+    updateTableData(context, obj) {
+      context.commit("setUpdateTableData", obj);
     },
     //刪除 D
     removeTableData(context, index) {

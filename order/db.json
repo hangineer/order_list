@@ -1,17 +1,31 @@
 {
-  "lists": [
+  "orders": [
     {
-      "id": 0,
+      "id": 1,
+      "name": "拿鐵歐蕾",
+      "imgUrl": null,
+      "quantity": 2,
+      "inventory": null,
+      "price": 90,
+      "note": "熱的無糖"
+    },
+    {
+      "id": 2,
+      "name": "焦糖瑪奇朵test",
+      "imgUrl": "",
+      "quantity": 20,
+      "inventory": 30,
+      "price": 100,
+      "note": "去冰，糖漿少壓一點，不要鮮奶油"
+    },
+    {
+      "id": 3,
       "name": "美式黑咖啡",
-      "img": null,
+      "imgUrl": "",
       "quantity": 2,
       "inventory": 0,
       "price": 70,
-      "note": ""
-    },
-    {
-      "name": "拿鐵",
-      "id": 3
+      "note": "熱的無糖"
     }
   ]
 }

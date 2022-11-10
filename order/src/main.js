@@ -14,10 +14,11 @@ Vue.use(Select);
 Vue.use(Form);
 Vue.use(FormItem);
 
-// vueEasyTable
-import "vue-easytable/libs/theme-default/index.css";
-import VueEasytable from "vue-easytable";
-Vue.use(VueEasytable);
+//element plus
+// import "../public/element-variables.scss";
+// import ElementPlus from "element-plus";
+// import "element-plus/dist/index.css";
+// Vue.use(ElementPlus);
 
 new Vue({
   render: (h) => h(App),

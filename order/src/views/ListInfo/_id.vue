@@ -57,6 +57,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -115,11 +116,26 @@ export default {
     saveBtn(index, rows) {
       console.log("saveBtn", index, rows); //undefined undefined
       //判斷表格不為空
+      let _this = this;
       this.$refs.targetItem.validate((valid) => {
         if (valid) {
-          this.$store.dispatch("updateTableData", this.targetItem).then(() => {
-            this.$router.push("/"); //修改完按下儲存後，將導回根目錄
-          });
+          axios
+            .patch(
+              `http://localhost:3000/orders/${parseInt(this.$route.params.id)}`,
+              _this.targetItem
+            )
+            .then(function (response) {
+              _this.$router.push("/");
+            })
+            .catch(function (error) {
+              console.log(error);
+              throw error;
+            });
+
+          // this.$store.dispatch("updateTableData", this.targetItem)
+          // .then(() => {
+          //   this.$router.push("/"); //修改完按下儲存後，將導回根目錄
+          // });
         } else {
           alert("請確實填寫");
         }
