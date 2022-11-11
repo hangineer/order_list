@@ -17,8 +17,10 @@ div
       //-   img(v-if='ruleForm.imgUrl' :src='ruleForm.imgUrl')
       //-   el-button(size='mini' type='primary') 點擊上傳
       //-   .el-upload__tip(slot='tip') 只能上傳jpg/png
-    el-form-item(label='商品數量:' prop='quantity')
+    el-form-item( label='商品數量:' prop='quantity')
       el-input(v-model='ruleForm.quantity' placeholder='請輸入商品數量')
+      p(class="inventory" v-model='ruleForm.inventory' :disabled='true' prop='inventory') 商品庫存:{{ ruleForm.inventory }}
+
     el-form-item(label='商品價格:' prop='price')
       el-input(v-model='ruleForm.price' placeholder='請輸入商品價格')
     el-form-item(label='訂單備註:' prop='note')
@@ -38,6 +40,7 @@ export default {
         name: "",
         imgUrl: "",
         quantity: null,
+        inventory: 10,
         price: null,
         note: "",
       },
@@ -100,6 +103,7 @@ export default {
       this.imgUrl = e.target.result;
     },
     //新增
+    //todo 庫存的判斷
     createItem() {
       this.ruleForm.id = this.id;
       this.$refs.ruleForm.validate((valid) => {
@@ -117,6 +121,7 @@ export default {
             name: "",
             img: null,
             quantity: null,
+            inventory: this.ruleForm.inventory - 1,
             price: null,
             note: "",
           };
@@ -132,4 +137,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+p.inventory {
+  display: flex;
+  font-size: 12px;
+  color: gray;
+  left: 10px;
+  top: 25px;
+}
+</style>

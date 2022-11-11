@@ -1,6 +1,7 @@
 <template lang="pug">
 .listHeader
-    h2 {{ header }}
+    a(href='/') 
+      h2 {{ header }}
     //- hr 
 </template>
 
@@ -24,10 +25,13 @@ export default {
   height: 80px;
   margin-bottom: 20px;
   background: lightblue;
-  h2 {
-    text-align: center;
-    // margin: 30px auto;
-    font-size: 30px;
+  a {
+    text-decoration: none;
+    h2 {
+      text-align: center;
+      color: #000000;
+      font-size: 30px;
+    }
   }
 }
 </style>

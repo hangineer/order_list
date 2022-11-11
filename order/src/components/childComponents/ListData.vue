@@ -36,18 +36,18 @@ export default {
       return "background-color: lightBlue ; color:#606266";
     },
     //刪除
-    // todo 未完成！！！！！！！！無法正確刪除
-    removeItem(index, rows) {
-      console.log("test", index, rows);
-      console.log("test2", rows[index - 1]);
+    removeItem(index, tableData) {
+      console.log(index); //非id
       let _this = this;
       axios
-        .delete(`http://localhost:3000/orders/${index}`)
+        .delete(`http://localhost:3000/orders/${index + 1}`)
         .then(function (response) {
-          // _this.$store.dispatch("removeTableData", rows[index - 1]);
-          // console.log(this.tableData);
+          console.log(response.data); //空的
+          console.log("被刪除的資料", tableData[index]);
+          _this.$store.dispatch("removeTableData", index);
         });
     },
+    //修改
     editItem(index, rows) {
       this.$router.push(`/${rows.id}`);
     },

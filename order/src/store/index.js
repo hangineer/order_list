@@ -36,11 +36,10 @@ export default new Vuex.Store({
     setUpdateTableData(state, targetItem) {
       // let { index, rows } = obj;
       // state.tableData.splice(index, 1, rows);
-
-      let updateIndex = state.tableData.findIndex(
-        (item) => item.id === targetItem.id
-      );
-      state.tableData.splice(updateIndex, 1, targetItem);
+      // let updateIndex = state.tableData.findIndex(
+      //   (item) => item.id === targetItem.id
+      // );
+      // state.tableData.splice(updateIndex, 1, targetItem);
     },
 
     //刪除 D
@@ -70,8 +69,8 @@ export default new Vuex.Store({
       context.commit("setUpdateTableData", obj);
     },
     //刪除 D
-    removeTableData(context, index) {
-      context.commit("setRemoveTableData", index);
+    removeTableData(context, tableData) {
+      context.commit("setRemoveTableData", tableData);
     },
   },
   modules: {
