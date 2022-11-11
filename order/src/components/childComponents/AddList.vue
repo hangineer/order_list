@@ -29,6 +29,7 @@ div
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -85,8 +86,6 @@ export default {
   },
   computed: {
     id() {
-      // let rowIndex = 0;
-      // return (rowIndex += 1);
       return this.$store.state.tableData.length + 1;
     },
   },
@@ -100,12 +99,18 @@ export default {
     imgUploaded(e) {
       this.imgUrl = e.target.result;
     },
+    //新增
     createItem() {
       this.ruleForm.id = this.id;
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          //todo 未完成的新增
-          this.$store.dispatch("pushTableData", this.ruleForm);
+          let _this = this; //在axios不能順利抓到this
+          axios
+            .post("http://localhost:3000/orders", this.ruleForm)
+            .then(function (response) {
+              let tableItem = response.data;
+              _this.$store.dispatch("pushTableData", tableItem);
+            });
           //清空表單
           this.ruleForm = {
             id: 0,

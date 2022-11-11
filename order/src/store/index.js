@@ -28,8 +28,8 @@ export default new Vuex.Store({
     },
 
     //讀取 R
-    setRenderTableData(state, tableData) {
-      state.tableData = tableData;
+    setRenderTableData(state, tableItem) {
+      state.tableData = tableItem;
     },
 
     //編輯 Ｕ

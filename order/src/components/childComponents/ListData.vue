@@ -35,28 +35,31 @@ export default {
     tableHeaderColor() {
       return "background-color: lightBlue ; color:#606266";
     },
-    // todo 未完成！！！！！！！！
+    //刪除
+    // todo 未完成！！！！！！！！無法正確刪除
     removeItem(index, rows) {
+      console.log("test", index, rows);
+      console.log("test2", rows[index - 1]);
       let _this = this;
       axios
         .delete(`http://localhost:3000/orders/${index}`)
         .then(function (response) {
-          // _this.$store.dispatch("removeTableData", index);
-          console.log(this.tableData);
+          // _this.$store.dispatch("removeTableData", rows[index - 1]);
+          // console.log(this.tableData);
         });
     },
     editItem(index, rows) {
       this.$router.push(`/${rows.id}`);
     },
   },
-  created() {
+  //讀取/顯示
+  created: function () {
     let _this = this;
     axios
       .get("http://localhost:3000/orders")
       .then(function (response) {
-        // console.log(response);
-        // _this.tableData = response.data;
-        _this.$store.dispatch("renderTableData", response.data);
+        let tableItem = response.data;
+        _this.$store.dispatch("renderTableData", tableItem);
       })
       .catch(function (error) {
         console.log(error);
