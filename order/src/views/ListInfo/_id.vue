@@ -1,5 +1,4 @@
 <template>
-  <!--todo 編輯按鈕按下會導向這裡，此頁是否需要變成一個component -->
   <div>
     <el-form
       :model="targetItem"

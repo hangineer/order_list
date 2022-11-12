@@ -2,14 +2,17 @@
 #app
     listHeader
     router-view
-      //- <router-link :to=`/list/${i}`>list</router-link>
+    //- listFooter
 </template>
 
 <script>
 import listHeader from "@/components/mainComponents/listHeader.vue";
+// import listFooter from "@/components/mainComponents/listFooter.vue";
+
 export default {
   components: {
     listHeader,
+    // listFooter,
   },
   // mounted: {
   //思路：

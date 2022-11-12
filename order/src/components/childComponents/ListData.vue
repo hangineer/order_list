@@ -2,11 +2,12 @@
 div
   el-table(:data='tableData'  style='width: 100%' :header-cell-style="tableHeaderColor")
     el-table-column(prop='id' label='訂單編號' align='center' width='180')
-    el-table-column(prop='name' label='商品名稱' align='center' width='180')
+    el-table-column(prop='productName' label='商品名稱' align='center' width='180')
     el-table-column(prop='img' label='商品圖片' align='center' width='180')
     el-table-column(prop='quantity' label='商品數量' align='center')
-    el-table-column(prop='inventory' label='庫存量' align='center')
-    el-table-column(prop='price' label='商品價格' align='center')
+    //- el-table-column(prop='inventory' label='庫存量' align='center')
+    //- el-table-column(prop='price' label='商品價格' align='center')
+    el-table-column(prop='total' label='訂單總額' align='center')
     el-table-column(prop='note' label='訂單備註' align='center')
     el-table-column(fixed='right' width='100')
       template(slot-scope='scope')
@@ -16,6 +17,9 @@ div
           span.dialog-footer(slot='footer')
             el-button(@click='centerDialogVisible = false') 取消
             el-button(type='primary' @click.native.prevent='removeItem(scope.$index, tableData)' @click='centerDialogVisible = false') 確定
+  div(style='margin-top: 20px')
+    el-button(@click='addListBtn' type='primary') 新增訂單
+
 </template>
 <script>
 import axios from "axios";
@@ -24,16 +28,22 @@ export default {
   data() {
     return {
       centerDialogVisible: false,
+      tableData: [],
+      productData: [],
+      selectedProduct: null,
     };
   },
   computed: {
-    tableData() {
-      return this.$store.state.tableData;
-    },
+    // tableData() {
+    //   return this.$store.state.tableData;
+    // },
   },
   methods: {
     tableHeaderColor() {
-      return "background-color: lightBlue ; color:#606266";
+      return "background-color: lightgray ; color:#606266";
+    },
+    addListBtn() {
+      this.$router.push("/add");
     },
     //刪除
     removeItem(index, tableData) {
@@ -42,7 +52,6 @@ export default {
       axios
         .delete(`http://localhost:3000/orders/${index + 1}`)
         .then(function (response) {
-          console.log(response.data); //空的
           console.log("被刪除的資料", tableData[index]);
           _this.$store.dispatch("removeTableData", index);
         });
@@ -53,18 +62,36 @@ export default {
     },
   },
   //讀取/顯示
-  created: function () {
+  async created() {
     let _this = this;
     axios
       .get("http://localhost:3000/orders")
       .then(function (response) {
-        let tableItem = response.data;
-        _this.$store.dispatch("renderTableData", tableItem);
+        let tableData = response.data;
+        // _this.$store.dispatch("renderTableData", tableItem);
       })
       .catch(function (error) {
         console.log(error);
         throw error;
       });
+    await axios
+      .get("http://localhost:3000/products")
+      .then(function (response) {
+        _this.productData = response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+        throw error;
+      });
+    this.tableData.forEach((list) => {
+      console.log("tableData.productName", list.productId);
+      this.productData.forEach((product) => {
+        if (product.id === list.productId) {
+          list.productName = product.name;
+          list.total = product.price * list.quantity;
+        }
+      });
+    });
   },
 };
 </script>

@@ -1,13 +1,12 @@
 <template lang="pug">
 .listHeader
     a(href='/') 
-      h2 {{ header }}
-    //- hr 
+      h2 {{ header }}  
 </template>
 
 <script>
 export default {
-  data: function () {
+  data() {
     return {
       header: "Order List",
     };
@@ -22,7 +21,7 @@ export default {
   align-items: center;
   box-sizing: border-box;
   padding: 30px;
-  height: 80px;
+  height: 60px;
   margin-bottom: 20px;
   background: lightblue;
   a {

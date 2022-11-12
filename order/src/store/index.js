@@ -18,10 +18,6 @@ export default new Vuex.Store({
   },
   //mutations可直接改變狀態(state)
   mutations: {
-    // setUpdateTableData(state, tableItem) {
-    //   state.tableData = tableItem;
-    // },
-
     //新增 c
     setPushTableData(state, tableItem) {
       state.tableData.push(tableItem);
@@ -49,10 +45,6 @@ export default new Vuex.Store({
   },
   //actions不會跟state裡的內容有牽扯
   actions: {
-    // updateTableData(context, tableItem) {
-    //   context.commit("setUpdateTableData", tableItem);
-    // },
-
     //新增 C
     pushTableData(context, tableItem) {
       //提交一個mutation
@@ -76,6 +68,6 @@ export default new Vuex.Store({
   modules: {
     // tableData,
   },
-  //getters可想成資料加工，等同於computed
+  //getters可想成資料加工，類似於computed
   getters: {},
 });
