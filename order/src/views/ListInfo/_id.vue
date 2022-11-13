@@ -1,65 +1,41 @@
-<template>
-  <div>
-    <el-form
-      :model="targetItem"
-      :rules="rules"
-      ref="targetItem"
-      label-width="100px"
-      size="mini"
-    >
-      <el-form-item label="訂單編號:" prop="id">
-        <el-input v-model="targetItem.id" :disabled="true"></el-input>
-      </el-form-item>
+<template lang="pug">
+div
+  el-form(:model="targetItem" 
+  :rules="rules" ref="targetItem" label-width="100px" size="mini")
+    el-form-item(label="訂單編號:" prop="id")
+      el-input(v-model="targetItem.id" :disabled="true")
 
-      <el-form-item label="商品名稱:" prop="name">
-        <el-input
-          v-model="targetItem.name"
-          placeholder="請輸入商品名稱"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="商品數量:" prop="quantity">
-        <el-input
-          v-model="targetItem.quantity"
-          placeholder="請輸入商品數量"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="商品價格:" prop="price">
-        <el-input
-          v-model="targetItem.price"
-          placeholder="請輸入商品價格"
-        ></el-input>
-      </el-form-item>
-
-      <el-form-item label="訂單備註:" prop="note">
-        <el-input v-model="targetItem.note" type="textarea"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="saveBtn(scope.$index, scope.row)"
-            type="success"
-            icon="el-icon-check"
-            >儲存</el-button
-          >
-
-          <el-button
-            size="mini"
-            @click="cancelBtn"
-            type="danger"
-            icon="el-icon-close"
-            >取消</el-button
-          >
-        </template>
-      </el-form-item>
-    </el-form>
-  </div>
+    el-form-item(label="商品名稱:") {{product.name}}
+      //- el-input( v-model="targetItem.name"
+      //-     placeholder="請輸入商品名稱")
+         
+    el-form-item(label="購買數量:" prop="quantity")
+      el-input(v-model="targetItem.quantity")
+    el-form-item(label="商品價格:" readonly)
+        el-input(v-model="targetItem.price")  
+    el-form-item(label="訂單備註:" prop="note")
+      el-input(v-model="targetItem.note" type="textarea")   
+    el-form-item
+      template(slot-scope="scope")
+        el-button( size="mini"
+              @click="saveBtn(scope.$index, scope.row)"
+              type="success"
+              icon="el-icon-check") 儲存
+        el-button(size="mini"
+              @click="cancelBtn"
+              type="danger"
+              icon="el-icon-close") 取消
+  //-       </template>
+  //-     </el-form-item>
+  //-   </el-form>
+  //- </div>
 </template>
 <script>
 import axios from "axios";
 export default {
   data() {
     return {
+      productData: [],
       targetItem: {
         // id: 0,
         // name: "",
@@ -70,15 +46,6 @@ export default {
       },
 
       rules: {
-        name: [
-          { required: true, message: "請輸入商品名稱", trigger: "blur" },
-          {
-            min: 1,
-            max: 10,
-            message: "長度在10字內(不包含0)",
-            trigger: "blur",
-          },
-        ],
         quantity: [
           {
             required: true,
@@ -87,15 +54,6 @@ export default {
             trigger: "blur",
           },
         ],
-        price: [
-          {
-            required: true,
-            pattern: /^\d+$/g,
-            message: "請輸入數字(需正數)",
-            trigger: "blur",
-          },
-        ],
-
         note: [
           {
             message: "請寫下備註",
@@ -148,7 +106,28 @@ export default {
       this.$router.push("/");
     },
   },
-  created: function () {
+  created() {
+    let _this = this;
+    axios
+      .get("http://localhost:3000/products")
+      .then(function (response) {
+        _this.productData = response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+        throw error;
+      });
+    axios
+      .get(`http://localhost:3000/orders/${parseInt(this.$route.params.id)}`)
+      .then(function (response) {
+        _this.targetItem = response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+        throw error;
+      });
+
+    //todo axios get
     this.targetItem = JSON.parse(
       JSON.stringify(
         this.$store.state.tableData.find((item) => item.id === this.nowId)

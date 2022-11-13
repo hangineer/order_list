@@ -4,7 +4,8 @@ div
     el-table-column(prop='id' label='訂單編號' align='center' width='180')
     el-table-column(prop='productName' label='商品名稱' align='center' width='180')
     el-table-column(prop='img' label='商品圖片' align='center' width='180')
-    el-table-column(prop='quantity' label='商品數量' align='center')
+    el-table-column(prop='quantity' label='購買數量' align='center')
+    el-table-column(prop='price' label='商品價格' align='center')
     //- el-table-column(prop='inventory' label='庫存量' align='center')
     //- el-table-column(prop='price' label='商品價格' align='center')
     el-table-column(prop='total' label='訂單總額' align='center')
@@ -40,7 +41,7 @@ export default {
   },
   methods: {
     tableHeaderColor() {
-      return "background-color: lightgray ; color:#606266";
+      return "background-color: lightBlue ; color:#606266";
     },
     addListBtn() {
       this.$router.push("/add");
@@ -51,9 +52,22 @@ export default {
       let _this = this;
       axios
         .delete(`http://localhost:3000/orders/${index + 1}`)
-        .then(function (response) {
-          console.log("被刪除的資料", tableData[index]);
+        .then((res) => {
+          // console.log(response.data); //空的
+          // console.log("被刪除的資料", tableData[index]);
           _this.$store.dispatch("removeTableData", index);
+        })
+        .catch((err) => {
+          console.log(err);
+          throw err;
+        });
+
+      axios
+        .get(`http://localhost:3000/orders/${index + 1}`)
+        .then(function (response) {
+          // console.log(response.data); //空的
+          // console.log("被刪除的資料", tableData[index]);
+          _this.$store.dispatch("renderTableData", tableData);
         });
     },
     //修改
@@ -61,14 +75,15 @@ export default {
       this.$router.push(`/${rows.id}`);
     },
   },
-  //讀取/顯示
+  //讀取、顯示
   async created() {
     let _this = this;
     axios
       .get("http://localhost:3000/orders")
       .then(function (response) {
-        let tableData = response.data;
-        // _this.$store.dispatch("renderTableData", tableItem);
+        _this.tableData = response.data;
+        // let tableData = response.data;
+        _this.$store.dispatch("renderTableData", response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -88,6 +103,7 @@ export default {
       this.productData.forEach((product) => {
         if (product.id === list.productId) {
           list.productName = product.name;
+          list.price = product.price;
           list.total = product.price * list.quantity;
         }
       });

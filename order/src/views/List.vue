@@ -5,7 +5,7 @@ div
 </template>
 
 <script>
-// import AddList from "@/components/childComponents/AddList.vue";
+// import AddList from "@/views/AddList.vue";
 import ListData from "@/components/childComponents/ListData.vue";
 
 export default {

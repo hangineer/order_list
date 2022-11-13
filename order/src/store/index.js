@@ -4,17 +4,7 @@ import Vuex from "vuex"; //共用參數的倉庫
 Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
-    tableData: [
-      // {
-      //   id: 1,
-      //   name: "拿鐵歐蕾",
-      //   imgUrl: null,
-      //   quantity: 2,
-      //   inventory: null,
-      //   price: 90,
-      //   note: "熱的無糖",
-      // },
-    ],
+    tableData: [],
   },
   //mutations可直接改變狀態(state)
   mutations: {

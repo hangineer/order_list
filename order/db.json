@@ -37,98 +37,47 @@
       "note": "熱的微糖"
     },
     {
-      "productId": 2,
-      "productName": "焦糖瑪奇朵",
-      "total": 100,
-      "quantity": 1,
-      "note": "test01",
-      "id": 5
-    },
-    {
-      "productId": 2,
-      "productName": "焦糖瑪奇朵",
-      "total": 100,
-      "quantity": 1,
-      "note": "test02",
-      "id": 6
-    },
-    {
       "productId": 4,
       "productName": "抹茶拿鐵",
-      "total": 100,
-      "quantity": 1,
-      "note": "test03",
-      "id": 7
-    },
-    {
-      "productId": 3,
-      "productName": "美式黑咖啡",
-      "total": 70,
-      "quantity": 1,
-      "note": "test04",
-      "id": 8
-    },
-    {
-      "productId": 3,
-      "productName": "美式黑咖啡",
-      "total": 70,
-      "quantity": 1,
-      "note": "test05",
-      "id": 9
-    },
-    {
-      "productId": 1,
-      "productName": "拿鐵歐蕾",
-      "total": 90,
-      "quantity": 1,
-      "note": "test?",
-      "id": 10
-    },
-    {
-      "productId": 1,
-      "productName": "拿鐵歐蕾",
-      "total": 90,
-      "quantity": 1,
+      "imgUrl": "https://i.imgur.com/b2x0C18.jpg",
+      "quantity": 5,
+      "total": 500,
       "note": "",
-      "id": 11
+      "id": 5
     }
   ],
   "products": [
     {
       "id": 1,
       "name": "拿鐵歐蕾",
-      "imgUrl": "",
-      "inventory": 100,
+      "imgUrl": "https://i.imgur.com/pACQ5LJ.jpg",
+      "inventory": 78,
       "price": 90,
-      "note": "",
-      "quantity": null
+      "note": ""
     },
     {
       "id": 2,
       "name": "焦糖瑪奇朵",
-      "imgUrl": "",
-      "inventory": 110,
+      "imgUrl": "https://i.imgur.com/IY8Mla9.jpg",
+      "inventory": 189,
       "price": 100,
-      "note": "",
-      "quantity": null
+      "note": ""
     },
     {
       "id": 3,
       "name": "美式黑咖啡",
-      "imgUrl": "",
-      "inventory": 120,
+      "imgUrl": "https://i.imgur.com/qmi2BOB.jpg",
+      "inventory": 200,
       "price": 70,
-      "note": "",
-      "quantity": null
+      "note": ""
     },
     {
       "id": 4,
       "name": "抹茶拿鐵",
-      "imgUrl": "",
-      "inventory": "130",
+      "imgUrl": "https://i.imgur.com/b2x0C18.jpg",
+      "inventory": 295,
       "price": "100",
-      "note": "",
-      "quantity": null
+      "note": ""
     }
   ]
 }

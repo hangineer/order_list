@@ -1,11 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-//import views內的需要用到的page
+//views內的page
 import List from "../views/List.vue";
 import ListInfo from "../views/ListInfo/_id.vue";
 import Admin from "../views/Admin.vue";
 import AddList from "../views/AddList.vue";
+import AddProduct from "../views/AddProduct.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -13,6 +14,11 @@ const routes = [
     path: "/",
     name: "Admin",
     component: Admin,
+  },
+  {
+    path: "/product",
+    name: "AddProduct",
+    component: AddProduct,
   },
   {
     path: "/list",
