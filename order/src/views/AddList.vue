@@ -146,6 +146,7 @@ export default {
         if (valid && this.product.inventory > this.ruleForm.quantity) {
           let _this = this; //在axios不能順利抓到this
           const createData = {
+            id: this.ruleForm.id,
             productId: this.product.id,
             productName: this.product.name,
             imgUrl: this.product.imgUrl,

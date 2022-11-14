@@ -4,20 +4,20 @@ div
   :rules="rules" ref="targetItem" label-width="100px" size="mini")
     el-form-item(label="訂單編號:") 
       el-input(v-model="targetItem.id" :disabled="true")
-    el-form-item(label="商品名稱:") {{ targetItem}} {{ targetItem.productName}} 
-      el-select(v-model="product" placeholder="請選擇商品")
+    el-form-item(label="商品名稱:") 
+      el-select(v-model="targetItem.productId" placeholder="請選擇商品")
         el-option(
           v-for='product in productData'
           :key='product.id' 
           :value="product.id"
           :label="product.name") 
-      img( v-model='product.imgUrl' :style="imgSize" :src='targetItem.imgUrl')
+      img( v-model='product.imgUrl' :style="imgSize" :src='product.imgUrl')
 
     el-form-item(label="購買數量:" prop="quantity")
       el-input(v-model="targetItem.quantity") 
       p(class="inventory") 商品庫存:{{ product.inventory }}
     el-form-item(label='商品價格:')
-      el-input(class="readonly" v-model='targetItem.price' readonly)
+      el-input(class="readonly" v-model='product.price' readonly)
     el-form-item( label='訂單總額:')
       el-input(class="readonly" v-model="total"  readonly)   
     el-form-item(label="訂單備註:" prop="note")
@@ -38,6 +38,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      product: [],
       productData: [],
       // selectedProduct: this.targetItem.id,
       targetItem: {},
@@ -72,47 +73,54 @@ export default {
       //若沒轉型會有錯誤訊息：Cannot read properties of undefined (reading 'id')
     },
     total() {
-      if (this.targetItem) {
+      if (this.product) {
         return (
-          parseInt(this.targetItem.price) * parseInt(this.targetItem.quantity)
+          parseInt(this.product.price) * parseInt(this.targetItem.quantity)
         );
       } else {
         return 0;
       }
     },
-    product() {
-      if (this.productData.find((e) => e.id === this.selectedProduct)) {
-        return this.productData.find((e) => e.id === this.selectedProduct);
-      } else {
-        return {
-          // id: -1,
-          // name: "",
-          // imgUrl: null,
-          // quantity: 0,
-          // price: 0,
-          // note: "",
-        };
-      }
-    },
+    // product() {
+    //   if (this.productData.find((e) => e.id === this.selectedProduct)) {
+    //     return this.productData.find((e) => e.id === this.selectedProduct);
+    //   } else {
+    //     return {
+    //       // id: -1,
+    //       // name: "",
+    //       // imgUrl: null,
+    //       // quantity: 0,
+    //       // price: 0,
+    //       // note: "",
+    //     };
+    //   }
+    // },
   },
   methods: {
     saveBtn(index, rows) {
-      console.log("saveBtn", index, rows); //undefined undefined
-      //判斷表格不為空
       let _this = this;
       this.$refs.targetItem.validate((valid) => {
-        if (valid) {
+        //判斷表格不為空且產品庫存要大於購買數量
+        if (valid && this.product.inventory > this.targetItem.quantity) {
           axios
             .patch(
               `http://localhost:3000/orders/${parseInt(this.$route.params.id)}`,
               _this.targetItem
             )
             .then(function (response) {
-              _this.$router.push("/list");
-              this.$store.dispatch(
-                "listModule/updateTableData",
-                this.targetItem
-              );
+              //todo 修改商品庫存
+              _this.product.inventory -= parseInt(_this.targetItem.quantity);
+              axios
+                .patch(
+                  `http://localhost:3000/products/${parseInt(
+                    _this.targetItem.productId
+                  )}`,
+                  _this.product
+                )
+                .then(function (response) {
+                  _this.$router.push("/list");
+                  // this.$store.dispatch("listModule/updateTableData",this.targetItem);
+                });
             })
             .catch(function (error) {
               console.log(error);
@@ -137,7 +145,7 @@ export default {
       .get("http://localhost:3000/products")
       .then(function (response) {
         _this.productData = response.data;
-        console.log("11111", _this.productData);
+        console.log("test", _this.productData);
         // _this.productData.forEach((item) => console.log(item));
         // console.log(_this.productData);
       })
@@ -145,26 +153,31 @@ export default {
         console.log(error);
         throw error;
       });
+    //訂單明細
     axios
       .get(`http://localhost:3000/orders/${parseInt(this.$route.params.id)}`)
       .then(function (response) {
         _this.targetItem = response.data;
+        _this.productData.forEach((e) => {
+          if (e.id == _this.targetItem.productId) {
+            _this.product = e;
+          }
+        });
       })
       .catch(function (error) {
         console.log(error);
         throw error;
       });
-
-    //todo axios get
-    this.targetItem = JSON.parse(
-      JSON.stringify(
-        this.$store.state.tableData.find((item) => item.id === this.nowId)
-      )
-    );
   },
-  // mounted() {
-
-  // },
+  watch: {
+    "targetItem.productId": function () {
+      this.productData.forEach((e) => {
+        if (e.id == this.targetItem.productId) {
+          this.product = e;
+        }
+      });
+    },
+  },
 };
 </script>
 

@@ -72,8 +72,8 @@ export default {
       axios
         .delete(`http://localhost:3000/orders/${index + 1}`)
         .then((res) => {
-          // console.log(response.data); //空的
-          // console.log("被刪除的資料", tableData[index]);
+          let inventory =
+            Number(quantity) + _this.productData[productId - 1].inventory;
           _this.$store.dispatch("listModule/removeTableData", index);
         })
         .catch((err) => {
@@ -102,7 +102,7 @@ export default {
     axios
       .get("http://localhost:3000/orders")
       .then(function (response) {
-        _this.tableData = response.data;
+        // _this.tableData = response.data;
         _this.$store.dispatch("renderTableData", response.data);
       })
       .catch(function (error) {

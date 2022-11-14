@@ -41,24 +41,34 @@
       "note": "熱的微糖"
     },
     {
-      "productId": 4,
+      "productId": 2,
       "productName": "抹茶拿鐵",
       "imgUrl": "https://i.imgur.com/b2x0C18.jpg",
-      "quantity": 5,
+      "quantity": "7",
       "price": 100,
       "total": 500,
-      "note": "test5",
+      "note": "test55555",
       "id": 5
     },
     {
       "productId": 1,
       "productName": "拿鐵歐蕾",
       "imgUrl": "https://i.imgur.com/pACQ5LJ.jpg",
-      "quantity": "5",
+      "quantity": "8",
       "price": 90,
       "total": 270,
       "note": "test6",
       "id": 6
+    },
+    {
+      "productId": 2,
+      "productName": "拿鐵歐蕾",
+      "imgUrl": "https://i.imgur.com/pACQ5LJ.jpg",
+      "quantity": "6",
+      "price": 90,
+      "total": 90,
+      "note": "test7",
+      "id": 7
     }
   ],
   "products": [
@@ -66,7 +76,7 @@
       "id": 1,
       "name": "拿鐵歐蕾",
       "imgUrl": "https://i.imgur.com/pACQ5LJ.jpg",
-      "inventory": 64,
+      "inventory": 147,
       "price": 90,
       "note": ""
     },
@@ -74,7 +84,7 @@
       "id": 2,
       "name": "焦糖瑪奇朵",
       "imgUrl": "https://i.imgur.com/IY8Mla9.jpg",
-      "inventory": 178,
+      "inventory": 164,
       "price": 100,
       "note": ""
     },
@@ -90,7 +100,7 @@
       "id": 4,
       "name": "抹茶拿鐵",
       "imgUrl": "https://i.imgur.com/b2x0C18.jpg",
-      "inventory": 294,
+      "inventory": 291,
       "price": "100",
       "note": ""
     }
