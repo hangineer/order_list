@@ -1,11 +1,11 @@
 <template lang="pug">
 div
-  el-table(:data='tableData'  style='width: 100%' :header-cell-style="tableHeaderColor")
-    el-table-column(prop='id' label='訂單編號' align='center' width='180')
+  el-table( :data='tableData'  style='width: 100%' :header-cell-style="tableHeaderColor")
+    el-table-column(prop='id' label='# 訂單編號' align='center' width='180')
     el-table-column(prop='productName' label='商品名稱' align='center' width='180')
-    el-table-column(prop='img' label='商品圖片' align='center' width='180')
+    //- el-table-column(prop='img' label='商品圖片' align='center' width='180')
     el-table-column(prop='quantity' label='購買數量' align='center')
-    el-table-column(prop='price' label='商品價格' align='center')
+    el-table-column(prop='price' label='商品價格' align ='center')
     //- el-table-column(prop='inventory' label='庫存量' align='center')
     //- el-table-column(prop='price' label='商品價格' align='center')
     el-table-column(prop='total' label='訂單總額' align='center')
@@ -17,35 +17,54 @@ div
         el-dialog(title='確定要刪除此筆訂單嗎？' :visible.sync='centerDialogVisible' :modal-append-to-body='false' :close-on-click-modal='false' width='30%' center='')
           span.dialog-footer(slot='footer')
             el-button(@click='centerDialogVisible = false') 取消
-            el-button(type='primary' @click.native.prevent='removeItem(scope.$index, tableData)' @click='centerDialogVisible = false') 確定
-  div(style='margin-top: 20px')
-    el-button(@click='addListBtn' type='primary') 新增訂單
+            el-button(type='primary'  @click.native.prevent='removeItem(scope.$index, tableData)' @click='centerDialogVisible = false') 確定
 
+  //- el-pagination(:page-size="pagesize" layout='prev, pager, next,total' @current-change="current_change"  :total='total' hide-on-single)
+
+  </el-pagination>
 </template>
 <script>
 import axios from "axios";
-
 export default {
   data() {
     return {
-      centerDialogVisible: false,
+      centerDialogVisible: false, //彈跳視窗
       tableData: [],
       productData: [],
       selectedProduct: null,
+      //以下為分頁相關
+      // loading: false,
+      // total: 0,
+      // currentPage: 1,
+      // pageSize: 5, //指定要展示多少筆訂單
     };
   },
   computed: {
-    // tableData() {
-    //   return this.$store.state.tableData;
-    // },
+    tableData() {
+      return this.$store.state.tableData;
+    },
   },
   methods: {
     tableHeaderColor() {
       return "background-color: lightBlue ; color:#606266";
     },
-    addListBtn() {
-      this.$router.push("/add");
-    },
+    // 分頁顯示
+    // current_change(currentPage) {
+    //   this.currentPage = currentPage;
+    // },
+    // getList() {
+    //   this.loading = true;
+    //   const param = {
+    //     note: this.tableData.note,
+    //     Message: this.tableData.quantity,
+    //   };
+    //   http.get("http://localhost:3000/orders", param, function (res) {
+    //     this.loading = false;
+    //     this.tableData = res.data.orders;
+    //     this.total = res.data.total;
+    //   });
+    // },
+
     //刪除
     removeItem(index, tableData) {
       console.log(index); //非id
@@ -55,19 +74,21 @@ export default {
         .then((res) => {
           // console.log(response.data); //空的
           // console.log("被刪除的資料", tableData[index]);
-          _this.$store.dispatch("removeTableData", index);
+          _this.$store.dispatch("listModule/removeTableData", index);
         })
         .catch((err) => {
           console.log(err);
           throw err;
         });
-
+      //  刪除後get新的內容
       axios
         .get(`http://localhost:3000/orders/${index + 1}`)
         .then(function (response) {
-          // console.log(response.data); //空的
-          // console.log("被刪除的資料", tableData[index]);
-          _this.$store.dispatch("renderTableData", tableData);
+          _this.$store.dispatch("listModule/renderTableData", tableData);
+        })
+        .catch((err) => {
+          console.log(err);
+          throw err;
         });
     },
     //修改
@@ -82,7 +103,6 @@ export default {
       .get("http://localhost:3000/orders")
       .then(function (response) {
         _this.tableData = response.data;
-        // let tableData = response.data;
         _this.$store.dispatch("renderTableData", response.data);
       })
       .catch(function (error) {

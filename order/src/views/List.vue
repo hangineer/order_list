@@ -1,17 +1,20 @@
 <template lang="pug">
 div
     //- AddList
-    ListData
+    listData
+    addListBtn
 </template>
 
 <script>
 // import AddList from "@/views/AddList.vue";
-import ListData from "@/components/childComponents/ListData.vue";
+import listData from "@/components/childComponents/listData.vue";
+import addListBtn from "@/components/childComponents/addListBtn.vue";
 
 export default {
   components: {
     // AddList,
-    ListData,
+    listData,
+    addListBtn,
   },
   computed: {
     tableData() {

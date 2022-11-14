@@ -7,7 +7,7 @@ div
   //- inventory: 庫存
   //- note: 訂單備註
   div.relative
-   el-button(class="fallback" @click="fallback" icon='el-icon-back') 返回列表
+   el-button( class="fallback" @click="fallback" icon='el-icon-back' size="small") 返回列表
   el-form(
     :model='ruleForm'
     :rules='rules' 
@@ -17,23 +17,29 @@ div
     el-form-item(label='訂單編號:')
       el-input(v-model='id' :disabled='true')
     el-form-item(label='商品名稱:' )
-      el-radio(
-        v-for='product in productData'
-        :key='product.id' 
-        v-model='selectedProduct' 
-        :label="product.id") {{product.name}}
+      el-select(v-model="selectedProduct" placeholder="請選擇商品")
+        el-option(
+          v-for='product in productData'
+          :key='product.id' 
+          :value="product.id"
+          :label="product.name") 
+      //- el-radio(
+      //-   v-for='product in productData'
+      //-   :key='product.id' 
+      //-   v-model='selectedProduct' 
+      //-   :label="product.id") {{product.name}}
       img( v-model='product.imgUrl' :style="imgSize" :src='product.imgUrl')
     el-form-item( label='購買數量:' prop='quantity')
       el-input(v-model='ruleForm.quantity' placeholder='請輸入購買數量')
       p(class="inventory") 商品庫存:{{ product.inventory }}
     el-form-item(label='商品價格:')
-      el-input(class="readonly" v-model='product.price',readonly)
+      el-input(class="readonly" v-model='product.price' readonly)
     el-form-item( label='訂單總額:')
-      el-input(class="readonly" v-model='total' ,readonly)   
+      el-input(class="readonly" v-model='total' readonly)   
     el-form-item(label='訂單備註:' prop='note')
       el-input(type='textarea' v-model='ruleForm.note')
     el-form-item
-      el-button(type='primary' @click='centerDialogVisible = true') 新增
+      el-button(class="createItem" type='primary' @click='centerDialogVisible = true' ) 新增
       el-dialog(title='確定新增此筆訂單？' :visible.sync='centerDialogVisible' :modal-append-to-body='false' :close-on-click-modal='false' width='30%' center='')
           span.dialog-footer(slot='footer')
             el-button(@click='centerDialogVisible = false') 取消
@@ -48,7 +54,7 @@ export default {
     return {
       tableData: [],
       productData: [],
-      selectedProduct: 1, //radio box
+      selectedProduct: 1, //select option
       imgSize: {
         display: "block",
         width: "200px",
@@ -144,6 +150,7 @@ export default {
             productName: this.product.name,
             imgUrl: this.product.imgUrl,
             quantity: parseInt(this.ruleForm.quantity),
+            price: parseInt(this.product.price),
             total: this.total,
             note: this.ruleForm.note,
           };
@@ -152,7 +159,7 @@ export default {
             .then(function (response) {
               console.log("新增成功");
               // let tableItem = response.data;
-              // _this.$store.dispatch("pushTableData", tableItem);
+              _this.$store.dispatch("listModule/pushTableData", createData);
             });
           //修改商品庫存
           this.product.inventory -= parseInt(this.ruleForm.quantity);
@@ -177,7 +184,7 @@ export default {
           };
           this.$router.push("/list");
         } else if (this.product.inventory < this.ruleForm.quantity) {
-          alert("購買數量需大於商品庫存");
+          alert("購買數量需小於商品庫存");
         } else {
           alert("請確實填寫正確!");
         }
@@ -192,22 +199,30 @@ export default {
 
 <style lang="scss" scoped>
 .relative {
-  position: absolute;
+  // position: absolute;
+  width: 100px;
+  height: 30px;
+  margin-bottom: 10px;
   .fallback {
+    padding: 8px;
+    text-indent: 0px !important;
     position: relative;
-    left: 10px;
+    left: 20px;
     top: 0px;
+    box-shadow: 2px 2px 2px darkgray;
   }
 }
-
 .readonly {
   opacity: 0.5;
 }
-p.inventory {
+.inventory {
   display: flex;
   font-size: 12px;
   color: gray;
   left: 10px;
   top: 25px;
+}
+.createItem {
+  margin: 20px !important;
 }
 </style>

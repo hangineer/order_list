@@ -4,8 +4,9 @@
       "id": 1,
       "productId": 1,
       "productName": "拿鐵歐蕾",
-      "imgUrl": "",
+      "imgUrl": "https://i.imgur.com/pACQ5LJ.jpg",
       "quantity": 1,
+      "price": 90,
       "total": 90,
       "note": "熱的無糖"
     },
@@ -13,8 +14,9 @@
       "id": 2,
       "productId": 2,
       "productName": "焦糖瑪奇朵",
-      "imgUrl": "",
+      "imgUrl": "https://i.imgur.com/IY8Mla9.jpg",
       "quantity": 2,
+      "price": 100,
       "total": 200,
       "note": "去冰，糖漿少壓一點，不要鮮奶油"
     },
@@ -22,8 +24,9 @@
       "id": 3,
       "productId": 3,
       "productName": "美式黑咖啡",
-      "imgUrl": "",
+      "imgUrl": "https://i.imgur.com/qmi2BOB.jpg",
       "quantity": 3,
+      "price": 70,
       "total": 210,
       "note": "熱的無糖"
     },
@@ -31,8 +34,9 @@
       "id": 4,
       "productId": 4,
       "productName": "抹茶拿鐵",
-      "imgUrl": "",
+      "imgUrl": "https://i.imgur.com/b2x0C18.jpg",
       "quantity": 1,
+      "price": 100,
       "total": 100,
       "note": "熱的微糖"
     },
@@ -41,9 +45,20 @@
       "productName": "抹茶拿鐵",
       "imgUrl": "https://i.imgur.com/b2x0C18.jpg",
       "quantity": 5,
+      "price": 100,
       "total": 500,
-      "note": "",
+      "note": "test5",
       "id": 5
+    },
+    {
+      "productId": 1,
+      "productName": "拿鐵歐蕾",
+      "imgUrl": "https://i.imgur.com/pACQ5LJ.jpg",
+      "quantity": "5",
+      "price": 90,
+      "total": 270,
+      "note": "test6",
+      "id": 6
     }
   ],
   "products": [
@@ -51,7 +66,7 @@
       "id": 1,
       "name": "拿鐵歐蕾",
       "imgUrl": "https://i.imgur.com/pACQ5LJ.jpg",
-      "inventory": 78,
+      "inventory": 64,
       "price": 90,
       "note": ""
     },
@@ -59,7 +74,7 @@
       "id": 2,
       "name": "焦糖瑪奇朵",
       "imgUrl": "https://i.imgur.com/IY8Mla9.jpg",
-      "inventory": 189,
+      "inventory": 178,
       "price": 100,
       "note": ""
     },
@@ -67,7 +82,7 @@
       "id": 3,
       "name": "美式黑咖啡",
       "imgUrl": "https://i.imgur.com/qmi2BOB.jpg",
-      "inventory": 200,
+      "inventory": 188,
       "price": 70,
       "note": ""
     },
@@ -75,9 +90,16 @@
       "id": 4,
       "name": "抹茶拿鐵",
       "imgUrl": "https://i.imgur.com/b2x0C18.jpg",
-      "inventory": 295,
+      "inventory": 294,
       "price": "100",
       "note": ""
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "email": "",
+      "password": ""
     }
   ]
 }

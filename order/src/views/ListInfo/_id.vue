@@ -1,18 +1,25 @@
 <template lang="pug">
 div
-  el-form(:model="targetItem" 
+  el-form(:model="targetItem"  
   :rules="rules" ref="targetItem" label-width="100px" size="mini")
-    el-form-item(label="訂單編號:" prop="id")
+    el-form-item(label="訂單編號:") 
       el-input(v-model="targetItem.id" :disabled="true")
+    el-form-item(label="商品名稱:") {{ targetItem}} {{ targetItem.productName}} 
+      el-select(v-model="product" placeholder="請選擇商品")
+        el-option(
+          v-for='product in productData'
+          :key='product.id' 
+          :value="product.id"
+          :label="product.name") 
+      img( v-model='product.imgUrl' :style="imgSize" :src='targetItem.imgUrl')
 
-    el-form-item(label="商品名稱:") {{product.name}}
-      //- el-input( v-model="targetItem.name"
-      //-     placeholder="請輸入商品名稱")
-         
     el-form-item(label="購買數量:" prop="quantity")
-      el-input(v-model="targetItem.quantity")
-    el-form-item(label="商品價格:" readonly)
-        el-input(v-model="targetItem.price")  
+      el-input(v-model="targetItem.quantity") 
+      p(class="inventory") 商品庫存:{{ product.inventory }}
+    el-form-item(label='商品價格:')
+      el-input(class="readonly" v-model='targetItem.price' readonly)
+    el-form-item( label='訂單總額:')
+      el-input(class="readonly" v-model="total"  readonly)   
     el-form-item(label="訂單備註:" prop="note")
       el-input(v-model="targetItem.note" type="textarea")   
     el-form-item
@@ -25,10 +32,6 @@ div
               @click="cancelBtn"
               type="danger"
               icon="el-icon-close") 取消
-  //-       </template>
-  //-     </el-form-item>
-  //-   </el-form>
-  //- </div>
 </template>
 <script>
 import axios from "axios";
@@ -36,15 +39,14 @@ export default {
   data() {
     return {
       productData: [],
-      targetItem: {
-        // id: 0,
-        // name: "",
-        // img: null,
-        // quantity: null,
-        // price: null,
-        // note: "",
+      // selectedProduct: this.targetItem.id,
+      targetItem: {},
+      imgSize: {
+        display: "block",
+        width: "200px",
+        height: "200px",
+        margin: "20px auto",
       },
-
       rules: {
         quantity: [
           {
@@ -63,10 +65,34 @@ export default {
       },
     };
   },
+
   computed: {
     nowId() {
       return parseInt(this.$route.params.id); //表單抓到的值型態都為字串
       //若沒轉型會有錯誤訊息：Cannot read properties of undefined (reading 'id')
+    },
+    total() {
+      if (this.targetItem) {
+        return (
+          parseInt(this.targetItem.price) * parseInt(this.targetItem.quantity)
+        );
+      } else {
+        return 0;
+      }
+    },
+    product() {
+      if (this.productData.find((e) => e.id === this.selectedProduct)) {
+        return this.productData.find((e) => e.id === this.selectedProduct);
+      } else {
+        return {
+          // id: -1,
+          // name: "",
+          // imgUrl: null,
+          // quantity: 0,
+          // price: 0,
+          // note: "",
+        };
+      }
     },
   },
   methods: {
@@ -82,17 +108,16 @@ export default {
               _this.targetItem
             )
             .then(function (response) {
-              _this.$router.push("/");
+              _this.$router.push("/list");
+              this.$store.dispatch(
+                "listModule/updateTableData",
+                this.targetItem
+              );
             })
             .catch(function (error) {
               console.log(error);
               throw error;
             });
-
-          // this.$store.dispatch("updateTableData", this.targetItem)
-          // .then(() => {
-          //   this.$router.push("/"); //修改完按下儲存後，將導回根目錄
-          // });
         } else {
           alert("請確實填寫");
         }
@@ -103,7 +128,7 @@ export default {
       // };
     },
     cancelBtn() {
-      this.$router.push("/");
+      this.$router.push("/list");
     },
   },
   created() {
@@ -112,6 +137,9 @@ export default {
       .get("http://localhost:3000/products")
       .then(function (response) {
         _this.productData = response.data;
+        console.log("11111", _this.productData);
+        // _this.productData.forEach((item) => console.log(item));
+        // console.log(_this.productData);
       })
       .catch(function (error) {
         console.log(error);
@@ -139,4 +167,16 @@ export default {
   // },
 };
 </script>
-<style lang="scss" scoped></style>
+
+<style lang="scss" scoped>
+.readonly {
+  opacity: 0.5;
+}
+.inventory {
+  display: flex;
+  font-size: 12px;
+  color: gray;
+  left: 10px;
+  top: 25px;
+}
+</style>

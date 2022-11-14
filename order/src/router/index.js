@@ -15,11 +15,7 @@ const routes = [
     name: "Admin",
     component: Admin,
   },
-  {
-    path: "/product",
-    name: "AddProduct",
-    component: AddProduct,
-  },
+
   {
     path: "/list",
     name: "List",
@@ -34,6 +30,11 @@ const routes = [
     path: "/:id",
     name: "ListInfo",
     component: ListInfo,
+  },
+  {
+    path: "/product",
+    name: "AddProduct",
+    component: AddProduct,
   },
 ];
 
