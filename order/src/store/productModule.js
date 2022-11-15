@@ -15,6 +15,9 @@ export default {
     },
     //編輯 Ｕ
     //刪除 D
+    setRemoveProductData(state, index) {
+      state.productData.splice(index, 1);
+    },
   },
   //actions不會跟state裡的內容有牽扯
   actions: {
@@ -29,6 +32,9 @@ export default {
     },
     //修改 U
     //刪除 D
+    removeProductData(context, productData) {
+      context.commit("setProductData", productData);
+    },
   },
   //getters可想成資料加工，類似於computed
   getters: {},

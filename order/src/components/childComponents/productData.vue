@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     // productData() {
-    //   return this.$store.state.productModule.productData;
+    //   return this.$store.productModule.state;
     // },
   },
   methods: {
@@ -44,33 +44,21 @@ export default {
     //刪除
     removeItem() {
       let _this = this;
-      let productId = null;
-      let quantity = null;
-      _this.tableData.forEach((e) => {
-        if (e.id == this.deleteIndex) {
-          productId = e.productId;
-          quantity = e.quantity;
-        }
-      });
-      let inventory =
-        Number(quantity) + _this.productData[productId - 1].inventory;
-      console.log(inventory);
       axios
-        .delete(`http://localhost:3000/orders/${this.deleteIndex}`)
-        .then((res) => {
-          // console.log("被刪除的資料", tableData[index]);
-          // _this.$store.dispatch("listModule/removeTableData", index);
-          axios
-            .patch(`http://localhost:3000/products/${parseInt(productId)}`, {
-              inventory: inventory,
-            })
-            .then(function (response) {
-              _this.getTableData();
-            });
+        .delete(`http://localhost:3000/products/${this.deleteIndex}`)
+        .then(function (response) {
+          // axios.get("http://localhost:3000/products").then(function (response) {
+          //   _this.$store.dispatch(
+          //     "productModule/renderProductData",
+          //     response.data
+          //   );
+          // });
+
+          _this.getProductData();
         })
-        .catch((err) => {
-          console.log(err);
-          throw err;
+        .catch(function (error) {
+          console.log(error);
+          throw error;
         });
     },
     //todo 修改
@@ -83,9 +71,8 @@ export default {
         //  刪除後get新的內容
         .get("http://localhost:3000/products")
         .then(function (response) {
-          //_this.tableData = response.data;
           _this.$store.dispatch(
-            "productModule/renderproductData",
+            "productModule/renderProductData",
             response.data
           );
         })
@@ -102,15 +89,15 @@ export default {
           console.log(error);
           throw error;
         });
-      this.productData.forEach((item) => {
-        this.productData.forEach((product) => {
-          if (product.id === item.productId) {
-            item.productName = product.name;
-            item.price = product.price;
-            // item.total = product.price * item.quantity;
-          }
-        });
-      });
+      // this.productData.forEach((item) => {
+      //   this.productData.forEach((product) => {
+      //     if (product.id === item.productId) {
+      //       item.productName = product.name;
+      //       item.price = product.price;
+      //       // item.total = product.price * item.quantity;
+      //     }
+      //   });
+      // });
     },
   },
   //讀取、顯示

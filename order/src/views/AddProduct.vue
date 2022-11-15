@@ -6,11 +6,12 @@ div
   //- price: 產品價格
   //- inventory: 產品庫存
   //- note: 產品備註
-
+      <input type="file" id="images" onchange="change()" />
+      <img src="" id="imgaeP" />
   el-form(:model='productForm' :rules='rules' ref='productForm' label-width='100px' size='mini')
     el-form-item(label='產品編號:' prop='id')
         el-input(v-model='id' :disabled='true')
-    el-form-item(label='產品名稱:' prop='productName')
+    el-form-item(label='產品名稱:' prop='name')
         el-input(v-model='productForm.name' placeholder='請輸入商品名稱')
         //- ls="el-input" v-model='productForm.imgUrl' v-if='this.imgUrl'
         //- el-upload(:action='url' :on-success='handleAvatarSuccess' :on-preview="handlePreview"
@@ -19,8 +20,8 @@ div
         //-   el-button(size='mini' type='primary') 點擊上傳
         //-   .el-upload__tip(slot='tip') 只能上傳jpg/png
     el-form-item(label='產品圖片:' prop='imgUrl')
-        input(type='file' placeholder='請上傳商品圖片'  @change="imgUpload")
-        img( v-model='productForm.imgUrl'  :src='productForm.imgUrl')   
+        input(type='file' placeholder='請上傳商品圖片'  @change="change" :style="imgSize")
+        img#imgUrl( v-model='productForm.imgUrl'  :src='productForm.imgUrl')   
     el-form-item(label='產品價格:' prop='productPrice')
         el-input(v-model='productForm.price' placeholder='請輸入產品價格')
     el-form-item( label='產品庫存:' prop='inventory')
@@ -47,8 +48,8 @@ export default {
       centerDialogVisible: false, //新增的pop box
       productForm: {
         id: 0,
-        imgUrl: "",
         name: "",
+        imgUrl: "",
         inventory: 0,
         price: 0,
         note: "",
@@ -114,15 +115,45 @@ export default {
       });
   },
   methods: {
-    imgUpload(e) {
-      const file = e.target.files.item(0);
-      const fileReader = new FileReader();
-      fileReader.addEventListener("load", this.imgUploaded);
-      fileReader.readAsDataURL(file);
+    imgUpload(img, callback, err) {
+      const reader = new FileReader();
+      console.log(img);
+      console.log(img.target.files[0]);
+      // console.log(img.files[0]);
+      const file = img.target.files[0];
+      // reader.readAsDataURL(img.files[0]);
+      reader.readAsDataURL(file);
+      reader.onload = function (e) {
+        console.log(e);
+        const image = new Image();
+        image.onload = function () {
+          const imgDetail = {
+            name: file.name,
+            result: e.target.result,
+          };
+          callback(imgDetail);
+        };
+        img.src = e.target.result;
+      };
     },
-    imgUploaded(e) {
-      this.imgUrl = e.target.result;
+    change() {
+      function success(res) {
+        document.getElementById("imgUrl").src = result.result;
+      }
+      function error(err) {
+        console.log(err);
+      }
+      imgUpload(document.getElementById("imgUrl"), success, error);
     },
+    // imgUpload(e) {
+    //   const file = e.target.files.item(0);
+    //   const fileReader = new FileReader();
+    //   fileReader.addEventListener("load", this.imgUploaded);
+    //   fileReader.readAsDataURL(file);
+    // },
+    // imgUploaded(e) {
+    //   this.imgUrl = e.target.result;
+    // },
 
     //新增
     createProduct() {
@@ -139,9 +170,10 @@ export default {
           //   note: this.productForm.note,
           // };
           axios
-            .post("http://localhost:3000/products", this.productForm)
+            .post("http://localhost:3000/products", _this.productForm)
             .then(function (response) {
               console.log("新增成功");
+              console.log(response);
               let productItem = response.data;
               _this.$store.dispatch(
                 "productModule/pushProductData",
