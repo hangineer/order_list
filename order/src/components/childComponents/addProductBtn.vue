@@ -10,19 +10,10 @@ export default {
   },
   methods: {
     addProductBtn() {
-      this.$router.push("/product");
+      this.$router.push("/addProduct");
     },
   },
 };
 </script>
-data() {
-    return {};
-  },
-  methods: {
-    addListBtn() {
-      this.$router.push("/add");
-    },
-  },
-};
-</script>
+
 <style lang="scss" scoped></style>

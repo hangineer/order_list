@@ -63,7 +63,7 @@ export default {
       },
       centerDialogVisible: false, //新增按鈕的彈出視窗
       ruleForm: {
-        id: 0,
+        // id: 0,
         imgUrl: "",
         quantity: 1, //預設購買數量是1
         note: "",
@@ -161,17 +161,18 @@ export default {
               console.log("新增成功");
               // let tableItem = response.data;
               _this.$store.dispatch("listModule/pushTableData", createData);
-            });
-          //修改商品庫存
-          this.product.inventory -= parseInt(this.ruleForm.quantity);
-          axios
-            .patch(
-              `http://localhost:3000/products/${parseInt(this.product.id)}`,
-              this.product
-            )
-            .then((res) => {
-              console.log("productinfo", res);
-              console.log("庫存修改成功");
+
+              //修改商品庫存
+              this.product.inventory -= parseInt(this.ruleForm.quantity);
+              axios
+                .patch(
+                  `http://localhost:3000/products/${parseInt(this.product.id)}`,
+                  this.product
+                )
+                .then((res) => {
+                  console.log("productinfo", res);
+                  console.log("庫存修改成功");
+                });
             })
             .catch((err) => {
               console.log(err);

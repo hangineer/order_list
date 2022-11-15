@@ -126,6 +126,8 @@ export default {
               console.log(error);
               throw error;
             });
+        } else if (this.product.inventory < this.targetItem.quantity) {
+          alert("購買數量需小於商品庫存");
         } else {
           alert("請確實填寫");
         }

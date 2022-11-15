@@ -1,14 +1,13 @@
 <template lang="pug">
 #app
     listHeader
-    router-view
+    router-view(to="/:id")
     //- listFooter
 </template>
 
 <script>
 import listHeader from "@/components/mainComponents/listHeader.vue";
 // import listFooter from "@/components/mainComponents/listFooter.vue";
-
 export default {
   components: {
     listHeader,

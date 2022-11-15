@@ -38,37 +38,27 @@
       "quantity": 1,
       "price": 100,
       "total": 100,
-      "note": "熱的微糖"
+      "note": "test4"
     },
     {
-      "productId": 2,
+      "id": 5,
+      "productId": 3,
       "productName": "抹茶拿鐵",
       "imgUrl": "https://i.imgur.com/b2x0C18.jpg",
-      "quantity": "7",
+      "quantity": "2",
       "price": 100,
-      "total": 500,
-      "note": "test55555",
-      "id": 5
+      "total": 100,
+      "note": "去冰"
     },
     {
+      "id": 6,
       "productId": 1,
       "productName": "拿鐵歐蕾",
       "imgUrl": "https://i.imgur.com/pACQ5LJ.jpg",
-      "quantity": "8",
-      "price": 90,
-      "total": 270,
-      "note": "test6",
-      "id": 6
-    },
-    {
-      "productId": 2,
-      "productName": "拿鐵歐蕾",
-      "imgUrl": "https://i.imgur.com/pACQ5LJ.jpg",
-      "quantity": "6",
+      "quantity": 1,
       "price": 90,
       "total": 90,
-      "note": "test7",
-      "id": 7
+      "note": "test6"
     }
   ],
   "products": [
@@ -76,25 +66,25 @@
       "id": 1,
       "name": "拿鐵歐蕾",
       "imgUrl": "https://i.imgur.com/pACQ5LJ.jpg",
-      "inventory": 147,
+      "inventory": 157,
       "price": 90,
-      "note": ""
+      "note": "常態款，供貨穩定"
     },
     {
       "id": 2,
       "name": "焦糖瑪奇朵",
       "imgUrl": "https://i.imgur.com/IY8Mla9.jpg",
-      "inventory": 164,
+      "inventory": 177,
       "price": 100,
-      "note": ""
+      "note": "固定每個月底叫下個月的貨"
     },
     {
       "id": 3,
       "name": "美式黑咖啡",
       "imgUrl": "https://i.imgur.com/qmi2BOB.jpg",
-      "inventory": 188,
+      "inventory": 186,
       "price": 70,
-      "note": ""
+      "note": "須一同訂購奶油球，一杯咖啡配一顆奶油球"
     },
     {
       "id": 4,
@@ -102,7 +92,15 @@
       "imgUrl": "https://i.imgur.com/b2x0C18.jpg",
       "inventory": 291,
       "price": "100",
-      "note": ""
+      "note": "固定每個月初叫當月的貨"
+    },
+    {
+      "id": 5,
+      "imgUrl": "",
+      "name": "奶油球",
+      "inventory": "100",
+      "price": "5",
+      "note": "no"
     }
   ],
   "users": [

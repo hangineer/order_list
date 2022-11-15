@@ -1,4 +1,3 @@
-//todo 可以嘗試用模組的方式引入
 export default {
   namespaced: true,
   state: {
