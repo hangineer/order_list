@@ -50,7 +50,7 @@ const routes = [
     // ],
   },
   {
-    path: "/product/:productId",
+    path: "/product/:id",
     name: "productInfo",
     component: productInfo,
   },

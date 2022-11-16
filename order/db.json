@@ -82,7 +82,7 @@
       "id": 3,
       "name": "美式黑咖啡",
       "imgUrl": "https://i.imgur.com/qmi2BOB.jpg",
-      "inventory": 186,
+      "inventory": 187,
       "price": 70,
       "note": "須一同訂購奶油球，一杯咖啡配一顆奶油球"
     },
@@ -101,6 +101,14 @@
       "inventory": "5",
       "price": "5",
       "note": "5"
+    },
+    {
+      "id": 6,
+      "name": "測試6",
+      "imgUrl": "",
+      "inventory": "100000000",
+      "price": "200000",
+      "note": "test66666666"
     }
   ],
   "users": [

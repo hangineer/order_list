@@ -1,7 +1,8 @@
 <template lang="pug">
 #app
     listHeader
-    router-view(to="/:id")
+    router-view 
+    router-link(to="/product/:id")
     //- listFooter
 </template>
 

@@ -16,11 +16,6 @@ export default {
     listData,
     addListBtn,
   },
-  computed: {
-    tableData() {
-      return this.$store.state.tableData;
-    },
-  },
 };
 </script>
 

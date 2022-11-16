@@ -1,5 +1,5 @@
 <template lang="pug">
-//- todo 將資料轉成formData格式？
+//- todo 需要將資料轉成formData格式？
 div
   el-table( :data='productData'  style='width: 100%' :header-cell-style="tableHeaderColor")
     el-table-column(prop='id' label='# 產品編號' align='center' width='180')
@@ -64,7 +64,7 @@ export default {
     },
     //todo 修改
     editItem(index, rows) {
-      this.$router.push(`/product/${rows.productId}`);
+      this.$router.push(`/product/${rows.id}`);
     },
     async getProductData() {
       let _this = this;

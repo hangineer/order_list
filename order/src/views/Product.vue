@@ -13,11 +13,6 @@ export default {
     productData,
     addProductBtn,
   },
-  computed: {
-    // tableData() {
-    //   return this.$store.state.tableData;
-    // },
-  },
 };
 </script>
 
