@@ -99,7 +99,7 @@ export default {
   methods: {
     saveBtn(index, rows) {
       let _this = this;
-      this.$refs.targetItem.validate((valid) => {
+      _this.$refs.targetItem.validate((valid) => {
         //判斷表格不為空且產品庫存要大於購買數量
         if (valid && this.product.inventory > this.targetItem.quantity) {
           axios

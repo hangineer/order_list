@@ -1,4 +1,5 @@
 <template lang="pug">
+//- todo 將資料轉成formData格式？
 div
   el-table( :data='productData'  style='width: 100%' :header-cell-style="tableHeaderColor")
     el-table-column(prop='id' label='# 產品編號' align='center' width='180')
@@ -63,27 +64,19 @@ export default {
     },
     //todo 修改
     editItem(index, rows) {
-      // this.$router.push(`/list/${rows.id}`);
+      this.$router.push(`/product/${rows.productId}`);
     },
     async getProductData() {
       let _this = this;
-      axios
+      await axios
         //  刪除後get新的內容
         .get("http://localhost:3000/products")
         .then(function (response) {
+          _this.productData = response.data;
           _this.$store.dispatch(
             "productModule/renderProductData",
-            response.data
+            _this.productData
           );
-        })
-        .catch(function (error) {
-          console.log(error);
-          throw error;
-        });
-      await axios
-        .get("http://localhost:3000/products")
-        .then(function (response) {
-          _this.productData = response.data;
         })
         .catch(function (error) {
           console.log(error);

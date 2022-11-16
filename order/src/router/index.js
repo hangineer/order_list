@@ -8,6 +8,7 @@ import Admin from "../views/Admin.vue";
 import AddList from "../views/AddList.vue";
 import AddProduct from "../views/AddProduct.vue";
 import Product from "../views/Product.vue";
+import productInfo from "../views/productInfo/_id.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -47,6 +48,11 @@ const routes = [
     //     component: AddProduct,
     //   },
     // ],
+  },
+  {
+    path: "/product/:productId",
+    name: "productInfo",
+    component: productInfo,
   },
   {
     path: "/addProduct",

@@ -45,8 +45,8 @@ div
             el-button(@click='centerDialogVisible = false') 取消
             el-button(@click.native.prevent="createItem") 確定
       el-button(@click="resetForm('ruleForm')") 重置
+    
 </template>
-
 <script>
 import axios from "axios";
 export default {
@@ -54,7 +54,7 @@ export default {
     return {
       tableData: [],
       productData: [],
-      selectedProduct: 1, //select option
+      selectedProduct: 1, //select & option element
       imgSize: {
         display: "block",
         width: "200px",

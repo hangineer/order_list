@@ -58,7 +58,7 @@
       "quantity": 1,
       "price": 90,
       "total": 90,
-      "note": "test666"
+      "note": "test6"
     }
   ],
   "products": [
@@ -66,7 +66,7 @@
       "id": 1,
       "name": "拿鐵歐蕾",
       "imgUrl": "https://i.imgur.com/pACQ5LJ.jpg",
-      "inventory": 156,
+      "inventory": 155,
       "price": 90,
       "note": "常態款，供貨穩定"
     },
@@ -93,6 +93,14 @@
       "inventory": 291,
       "price": "100",
       "note": "固定每個月初叫當月的貨"
+    },
+    {
+      "id": 5,
+      "name": "5",
+      "imgUrl": "",
+      "inventory": "5",
+      "price": "5",
+      "note": "5"
     }
   ],
   "users": [
