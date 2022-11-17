@@ -13,6 +13,7 @@
     "babel-plugin-component": "^1.1.1",
     "core-js": "^3.8.3",
     "element-ui": "^2.15.10",
+    "js-base64": "^3.7.3",
     "json-server": "^0.17.1",
     "json-server-auth": "^2.1.0",
     "vee-validate": "^4.7.1",

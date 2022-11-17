@@ -7,7 +7,7 @@ div
   //- inventory: 庫存
   //- note: 訂單備註
   div.relative
-   el-button( class="fallback" @click="fallback" icon='el-icon-back' size="small") 返回列表
+   el-button( class="fallback" @click="fallback" icon='el-icon-back' size="small") 返回訂單頁
   el-form(
     :model='ruleForm'
     :rules='rules' 
@@ -176,7 +176,7 @@ export default {
             })
             .catch((err) => {
               console.log(err);
-              throw err;
+              throw error;
             });
           //清空表單
           this.ruleForm = {
@@ -223,8 +223,5 @@ export default {
   color: gray;
   left: 10px;
   top: 25px;
-}
-.createItem {
-  margin: 20px !important;
 }
 </style>

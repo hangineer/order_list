@@ -1,5 +1,8 @@
 <template lang="pug">
 div
+  div.relative
+   el-button( class="fallback" @click="fallback" icon='el-icon-back' size="small") 返回產品頁
+
   //- 欄位名稱註記
   //- name 產品名稱
   //- imgUrl 產品圖片
@@ -14,7 +17,6 @@ div
     el-form-item(label='產品圖片:' prop='imgUrl')
         input(type='file' placeholder='請上傳商品圖片'  @change="imgUpload" accept="image/*" )
         img#imgUrl(v-if="productForm.imgUrl" v-model="productForm.imgUrl" :src="productForm.imgUrl" :style="imgSize")   
-        //- img#imgUrl(v-if="productForm.imgUrl" v-model="productForm.imgUrl" :src="Base64.decode('this.imgUrl')" :style="imgSize")   
     el-form-item(label='產品價格:' prop='price')
         el-input(v-model='productForm.price' placeholder='請輸入產品價格')
     el-form-item( label='產品庫存:' prop='inventory')
@@ -71,7 +73,7 @@ export default {
         ],
         imgUrl: [
           {
-            // required: true,
+            required: true,
             message: "請上傳圖片",
             trigger: "change",
           },
@@ -112,36 +114,9 @@ export default {
       });
   },
   methods: {
-    // imgUpload(img, callback, err) {
-    //   const reader = new FileReader();
-    //   console.log(img);
-    //   console.log(img.target.files[0]);
-    //   // console.log(img.files[0]);
-    //   const file = img.target.files[0];
-    //   // reader.readAsDataURL(img.files[0]);
-    //   reader.readAsDataURL(file);
-    //   reader.onload = function (e) {
-    //     console.log(e);
-    //     const image = new Image();
-    //     image.onload = function () {
-    //       const imgDetail = {
-    //         name: file.name,
-    //         result: e.target.result,
-    //       };
-    //       callback(imgDetail);
-    //     };
-    //     img.src = e.target.result;
-    //   };
-    // },
-    // change() {
-    //   function success(res) {
-    //     document.getElementById("imgUrl").src = result.result;
-    //   }
-    //   function error(err) {
-    //     console.log(err);
-    //   }
-    // imgUpload(document.getElementById("imgUrl"), success, error);
-    // },
+    fallback() {
+      this.$router.push("/product");
+    },
     imgUpload(e) {
       const _this = this;
       const file = e.target.files[0];
@@ -179,9 +154,13 @@ export default {
             });
 
           //清空表單
-          // this.productForm = {
-          //   note: "",
-          // };
+          this.productForm = {
+            name: "",
+            price: "",
+            inventory: "",
+            imgUrl: "",
+            note: "",
+          };
           this.$router.push("/product");
         } else {
           alert("請確實填寫正確!");
@@ -196,6 +175,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.relative {
+  // position: absolute;
+  width: 100px;
+  height: 30px;
+  margin-bottom: 10px;
+  .fallback {
+    padding: 8px;
+    text-indent: 0px !important;
+    position: relative;
+    left: 20px;
+    top: 0px;
+    box-shadow: 2px 2px 2px darkgray;
+  }
+}
 .createProduct {
   margin: 20px !important;
 }

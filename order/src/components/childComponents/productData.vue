@@ -5,6 +5,8 @@ div
     el-table-column(prop='id' label='# 產品編號' align='center' width='180')
     el-table-column(prop='name' label='產品名稱' align='center')
     el-table-column(prop='imgUrl' label='產品圖片' align='center' width='180')
+      template(slot-scope='scope')
+        img(:src="scope.row.imgUrl" :style="imgSize")
     el-table-column(prop='price' label='產品價格' align ='center')
     el-table-column(prop='inventory' label='產品庫存' align='center')
     el-table-column(prop='note' label='產品備註' align='center')
@@ -26,16 +28,15 @@ export default {
       productData: [],
       // selectedProduct: null,
       deleteIndex: null,
+      imgSize: {
+        display: "block",
+        width: "100px",
+      },
     };
-  },
-  computed: {
-    // productData() {
-    //   return this.$store.productModule.state;
-    // },
   },
   methods: {
     tableHeaderColor() {
-      return "background-color: lightBlue ; color:#606266";
+      return "background-color: lightgray ; color:#606266";
     },
     //刪除 彈跳視窗
     removeShow(index, row) {
@@ -94,7 +95,7 @@ export default {
     },
   },
   //讀取、顯示
-  async created() {
+  created() {
     this.getProductData();
   },
 };

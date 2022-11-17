@@ -132,10 +132,6 @@ export default {
           alert("請確實填寫");
         }
       });
-      // let obj = {
-      //   index,
-      //   rows,
-      // };
     },
     cancelBtn() {
       this.$router.push("/list");

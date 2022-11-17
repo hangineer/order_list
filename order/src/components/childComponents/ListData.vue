@@ -12,8 +12,8 @@ div
     el-table-column(prop='note' label='訂單備註' align='center')
     el-table-column(fixed='right' width='100')
       template(slot-scope='scope')
-        el-button.data-button(size='mini' @click='editItem(scope.$index, scope.row)' icon='el-icon-edit') 編輯
-        el-button.data-button(size='mini' @click='removeShow(scope.$index, scope.row)' icon='el-icon-delete') 刪除
+        el-button.data-button(size='mini'  @click='editItem(scope.$index, scope.row)' icon='el-icon-edit') 編輯
+        el-button.data-button(size='mini'  @click='removeShow(scope.$index, scope.row)' icon='el-icon-delete') 刪除
         el-dialog(title='確定要刪除此筆訂單嗎？' :visible.sync='centerDialogVisible' :modal-append-to-body='false' :close-on-click-modal='false' width='30%' center='')
           span.dialog-footer(slot='footer')
             el-button(@click='centerDialogVisible = false') 取消
@@ -46,10 +46,13 @@ export default {
     tableData() {
       return this.$store.state.listModule.tableData;
     },
+    // isAdmin() {
+    //   return this.$store.state.userInfo.role === "user";
+    // },
   },
   methods: {
     tableHeaderColor() {
-      return "background-color: lightBlue ; color:#606266";
+      return "background-color: lightgray ; color:#606266";
     },
     // 分頁顯示
     // current_change(currentPage) {
@@ -102,7 +105,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-          throw err;
+          throw error;
         });
     },
     //修改
@@ -144,7 +147,7 @@ export default {
     },
   },
   //讀取、顯示
-  async created() {
+  created() {
     this.getTableData();
   },
 };

@@ -66,7 +66,7 @@ export default {
         ],
         imgUrl: [
           {
-            // required: true,
+            required: true,
             message: "請上傳圖片",
             trigger: "change",
           },
@@ -127,6 +127,10 @@ export default {
             });
         }
       });
+    },
+    cancelBtn() {
+      this.$router.push("/product");
+      //   this.$router.go("-1");
     },
     imgUpload(e) {
       const _this = this;

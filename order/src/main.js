@@ -20,6 +20,10 @@ Vue.use(FormItem);
 // import "element-plus/dist/index.css";
 // Vue.use(ElementPlus);
 
+//js-base64
+import { Base64 } from "js-base64";
+Vue.use(Base64);
+
 new Vue({
   render: (h) => h(App),
   router,

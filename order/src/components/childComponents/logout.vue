@@ -1,7 +1,7 @@
-<template>
-  <div>
-    <el-button @click="logout">登出</el-button>
-  </div>
+<template lang="pug">
+div
+  el-button(@click='logout') 登出
+
 </template>
 <script>
 export default {
@@ -11,6 +11,7 @@ export default {
   methods: {
     logout() {
       //todo 待完成
+      this.$store.commit("");
     },
   },
 };

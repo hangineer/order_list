@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  div(style='margin-top: 20px')
+  div(style='margin: 20px')
     el-button(@click='addProductBtn' type='primary') 新增訂單
   </template>
 <script>
