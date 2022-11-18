@@ -233,16 +233,22 @@ export default {
             role: this2.signupForm.role,
           };
           // todo 判斷是否有重複的email
-          axios
-            .post("http://localhost:3000/users", userInfo)
-            .then(function (response) {
-              alert("註冊成功，請先登入");
-              this2.$store.commit("setUserInfo", userInfo);
-            })
-            .catch(function (error) {
-              console.log(error);
-              throw error;
-            });
+          this2.getData();
+          let noDuplicateEmail = this2.userData.every((item) => {
+            return item.email != this2.signupForm.signupEmail;
+          });
+          if (noDuplicateEmail) {
+            axios
+              .post("http://localhost:3000/users", userInfo)
+              .then(function (response) {
+                alert("註冊成功，請先登入");
+              })
+              .catch(function (error) {
+                console.log(error);
+                throw error;
+              });
+          }
+
           // 清空表單;
           this.signupForm = {
             signupEmail: "",
@@ -257,8 +263,11 @@ export default {
     resetSignupForm() {
       this.$refs.signupForm.resetFields();
     },
+    resetLoginForm() {
+      this.$refs.signupForm.resetFields();
+    },
     submitLoginForm() {
-      console.log("userData", this.userData.length);
+      // console.log("userData", this.userData.length);
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           const findUser = this.userData.find((user) => {
@@ -273,7 +282,8 @@ export default {
               alert("登入成功!");
               //名稱  要存的物件
               console.log(findUser);
-              sessionStorage.setItem(userData, JSON.stringify(findUser));
+              sessionStorage.setItem("userData", JSON.stringify(findUser));
+              this.$store.commit("adminModule/setIsLogin", true);
               this.$router.push("/list");
             } else {
               alert("帳號密碼輸入錯誤!");

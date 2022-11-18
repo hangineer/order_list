@@ -2,7 +2,7 @@
 #app
     listHeader
     router-view 
-    router-link(to="/product/:id")
+    router-link(to="/:id")
     //- listFooter
 </template>
 
@@ -14,11 +14,6 @@ export default {
     listHeader,
     // listFooter,
   },
-  // mounted: {
-  //思路：
-  //1. 打API，來取得tableData內的資料
-  //2. 把get到的tableData寫入store
-  // },
 };
 </script>
 
@@ -29,5 +24,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微軟雅黑", Arial, sans-serif;
 }
 </style>

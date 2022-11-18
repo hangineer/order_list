@@ -14,6 +14,7 @@ export default {
       state.productData = productItem;
     },
     //編輯 Ｕ
+
     //刪除 D
     setRemoveProductData(state, index) {
       state.productData.splice(index, 1);
@@ -31,6 +32,7 @@ export default {
       context.commit("setRenderProductData", productData);
     },
     //修改 U
+
     //刪除 D
     removeProductData(context, productData) {
       context.commit("setProductData", productData);

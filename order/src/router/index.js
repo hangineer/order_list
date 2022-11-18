@@ -9,6 +9,8 @@ import AddList from "../views/AddList.vue";
 import AddProduct from "../views/AddProduct.vue";
 import Product from "../views/Product.vue";
 import productInfo from "../views/productInfo/_id.vue";
+import NotFound from "../views/NotFound/NotFound.vue";
+
 Vue.use(VueRouter);
 // https://juejin.cn/post/7023993296540139528
 const routes = [
@@ -16,9 +18,6 @@ const routes = [
     path: "/",
     name: "Admin",
     component: Admin,
-    // meta: {
-    //   roles: ["admin", "user"],
-    // },
   },
   //訂單相關
   {
@@ -26,7 +25,6 @@ const routes = [
     name: "List",
     component: List,
     // children: [
-
     // ],
   },
   {
@@ -34,7 +32,7 @@ const routes = [
     name: "ListInfo",
     component: ListInfo,
     beforeEnter: (to, from, next) => {
-      if (JSON.parse(sessionStorage.getItem("userData").role != "user")) {
+      if (JSON.parse(sessionStorage.getItem("userData")).role != "user") {
         alert("無法修改訂單");
         next({ name: "List" });
       } else {
@@ -52,14 +50,6 @@ const routes = [
     path: "/product",
     name: "Product",
     component: Product,
-    beforeEnter: (to, from, next) => {
-      if (JSON.parse(sessionStorage.getItem("userData").role != "admin")) {
-        alert("無造訪權限");
-        next({ name: "List" });
-      } else {
-        next();
-      }
-    },
     // children: [
     //   {
     //     path: "test",
@@ -67,32 +57,29 @@ const routes = [
     //     component: AddProduct,
     //   },
     // ],
+    beforeEnter: (to, from, next) => {
+      if (JSON.parse(sessionStorage.getItem("userData")).role == "user") {
+        console.log("無法修改訂單");
+        next({ name: "List" });
+      } else {
+        next();
+      }
+    },
   },
   {
     path: "/product/:id",
     name: "productInfo",
     component: productInfo,
-    beforeEnter: (to, from, next) => {
-      if (JSON.parse(sessionStorage.getItem("userData").role != "admin")) {
-        alert("無造訪權限");
-        next({ name: "List" });
-      } else {
-        next();
-      }
-    },
   },
   {
     path: "/addProduct",
-    name: AddProduct,
+    name: "AddProduct",
     component: AddProduct,
-    beforeEnter: (to, from, next) => {
-      if (JSON.parse(sessionStorage.getItem("userData").role != "admin")) {
-        alert("無造訪權限");
-        next({ name: "List" });
-      } else {
-        next();
-      }
-    },
+  },
+  {
+    path: "/404",
+    name: "NotFound",
+    component: NotFound,
   },
 ];
 
@@ -101,18 +88,18 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
 router.beforeEach((to, from, next) => {
-  console.log("to", to);
-  // console.log("from", from);
-  // console.log("next", next);
+  // console.log(to);
   if (to.name != "Admin") {
     if (sessionStorage.getItem("userData")) {
-      console.log("1");
       next(); //放行
+    } else {
+      // next({ name: "NotFound" });
+      next({ name: "Admin" });
     }
   } else {
-    console.log("2");
-    next({ name: "Admin" });
+    next();
   }
 });
 

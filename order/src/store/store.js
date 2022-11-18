@@ -2,13 +2,12 @@ import Vue from "vue";
 import Vuex from "vuex"; //共用參數的倉庫
 import listModule from "./listModule";
 import productModule from "./productModule";
-// import adminModule from "./adminModule";
+import adminModule from "./adminModule";
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 export default new Vuex.Store({
-  state: {
-    // tableData: [],
-  },
+  state: {},
 
   mutations: {
     //mutations可直接改變狀態(state)
@@ -20,9 +19,22 @@ export default new Vuex.Store({
   modules: {
     listModule,
     productModule,
-    // adminModule,
+    adminModule,
   },
   getters: {
     //getters可想成資料加工，類似於computed
   },
+  plugins: [
+    createPersistedState({
+      paths: ["adminModule.isLogin"],
+      storage: window.sessionStorage,
+      // reducer(val) {
+      //   console.log(val);
+      //   console.log(adminModule);
+      //   return {
+      //     isLogin: val.adminModule.isLogin, //只儲存登入狀態
+      //   };
+      // },
+    }),
+  ],
 });

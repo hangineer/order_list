@@ -1,7 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+import store from "./store/store";
 
 //element-ui
 import Element from "element-ui";
@@ -23,6 +23,11 @@ Vue.use(FormItem);
 //js-base64
 import { Base64 } from "js-base64";
 Vue.use(Base64);
+
+//vuex-persistedstate
+import { createStore } from "vuex";
+import createPersistedState from "vuex-persistedstate";
+Vue.use(createPersistedState);
 
 new Vue({
   render: (h) => h(App),

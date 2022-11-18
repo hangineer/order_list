@@ -1,7 +1,7 @@
 <template lang="pug">
 //- todo 需要將資料轉成formData格式？
 div
-  el-table( :data='productData'  style='width: 100%' :header-cell-style="tableHeaderColor")
+  el-table( :data='productData'  style='font-size:15px;' :header-cell-style="tableHeaderColor")
     el-table-column(prop='id' label='# 產品編號' align='center' width='180')
     el-table-column(prop='name' label='產品名稱' align='center')
     el-table-column(prop='imgUrl' label='產品圖片' align='center' width='180')

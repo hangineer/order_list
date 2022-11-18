@@ -1,27 +1,21 @@
 <template lang="pug">
 div
-  el-table( :data='tableData'  style='width: 100%' :header-cell-style="tableHeaderColor")
+  el-table( :data='tableData'  style='font-size:15px; width: 100% f' :header-cell-style="tableHeaderColor")
     el-table-column(prop='id' label='# 訂單編號' align='center' width='180')
     el-table-column(prop='productName' label='商品名稱' align='center' width='180')
     //- el-table-column(prop='img' label='商品圖片' align='center' width='180')
     el-table-column(prop='quantity' label='購買數量' align='center')
     el-table-column(prop='price' label='商品價格' align ='center')
-    //- el-table-column(prop='inventory' label='庫存量' align='center')
-    //- el-table-column(prop='price' label='商品價格' align='center')
     el-table-column(prop='total' label='訂單總額' align='center')
     el-table-column(prop='note' label='訂單備註' align='center')
     el-table-column(fixed='right' width='100')
       template(slot-scope='scope')
-        el-button.data-button(size='mini'  @click='editItem(scope.$index, scope.row)' icon='el-icon-edit') 編輯
-        el-button.data-button(size='mini'  @click='removeShow(scope.$index, scope.row)' icon='el-icon-delete') 刪除
+        el-button.data-button(size='mini' v-if="isAdmin"  @click='editItem(scope.$index, scope.row)' icon='el-icon-edit') 編輯
+        el-button.data-button(size='mini' v-if="isAdmin"  @click='removeShow(scope.$index, scope.row)' icon='el-icon-delete') 刪除
         el-dialog(title='確定要刪除此筆訂單嗎？' :visible.sync='centerDialogVisible' :modal-append-to-body='false' :close-on-click-modal='false' width='30%' center='')
           span.dialog-footer(slot='footer')
             el-button(@click='centerDialogVisible = false') 取消
             el-button(type='primary'  @click.native.prevent='removeItem()' @click='centerDialogVisible = false') 確定
-
-
-         
-
   //- el-pagination(:page-size="pagesize" layout='prev, pager, next,total' @current-change="current_change"  :total='total' hide-on-single)
 
    </el-pagination>
@@ -46,9 +40,9 @@ export default {
     tableData() {
       return this.$store.state.listModule.tableData;
     },
-    // isAdmin() {
-    //   return this.$store.state.userInfo.role === "user";
-    // },
+    isAdmin() {
+      return JSON.parse(sessionStorage.getItem("userData")).role === "user";
+    },
   },
   methods: {
     tableHeaderColor() {

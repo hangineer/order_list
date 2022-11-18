@@ -3,8 +3,14 @@
     {
       "email": "hannah@test.com",
       "password": "MTExMTEx",
-      "role": "admin",
+      "role": "user",
       "id": 1
+    },
+    {
+      "email": "hannah@admin.com",
+      "password": "MTExMTEx",
+      "role": "admin",
+      "id": 2
     }
   ],
   "orders": [
