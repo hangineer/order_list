@@ -2,12 +2,12 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 //views內的page
-import List from "../views/List.vue";
+import List from "../views/ListInfo/List.vue";
 import ListInfo from "../views/ListInfo/_id.vue";
 import Admin from "../views/Admin.vue";
-import AddList from "../views/AddList.vue";
-import AddProduct from "../views/AddProduct.vue";
-import Product from "../views/Product.vue";
+import AddList from "../views/ListInfo/AddList.vue";
+import AddProduct from "../views/productInfo/AddProduct.vue";
+import Product from "../views/productInfo/Product.vue";
 import productInfo from "../views/productInfo/_id.vue";
 import NotFound from "../views/NotFound/NotFound.vue";
 
@@ -24,8 +24,6 @@ const routes = [
     path: "/list",
     name: "List",
     component: List,
-    // children: [
-    // ],
   },
   {
     path: "/list/:id",
@@ -33,7 +31,6 @@ const routes = [
     component: ListInfo,
     beforeEnter: (to, from, next) => {
       if (JSON.parse(sessionStorage.getItem("userData")).role != "user") {
-        alert("無法修改訂單");
         next({ name: "List" });
       } else {
         next();
@@ -81,6 +78,12 @@ const routes = [
     name: "NotFound",
     component: NotFound,
   },
+  {
+    path: "*",
+    redirect: {
+      name: "NotFound",
+    },
+  },
 ];
 
 const router = new VueRouter({
@@ -95,7 +98,6 @@ router.beforeEach((to, from, next) => {
     if (sessionStorage.getItem("userData")) {
       next(); //放行
     } else {
-      // next({ name: "NotFound" });
       next({ name: "Admin" });
     }
   } else {

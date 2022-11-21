@@ -1,39 +1,33 @@
 <template lang="pug">
 div
-  el-table( :data='tableData'  style='font-size:15px; width: 100% f' :header-cell-style="tableHeaderColor")
-    el-table-column(prop='id' label='# 訂單編號' align='center' width='180')
-    el-table-column(prop='productName' label='商品名稱' align='center' width='180')
-    //- el-table-column(prop='img' label='商品圖片' align='center' width='180')
-    el-table-column(prop='quantity' label='購買數量' align='center')
-    el-table-column(prop='price' label='商品價格' align ='center')
-    el-table-column(prop='total' label='訂單總額' align='center')
-    el-table-column(prop='note' label='訂單備註' align='center')
-    el-table-column(fixed='right' width='100')
+  el-table( :data='tableData'  style='font-size:15px; width: 100%' :header-cell-style="tableHeaderColor" height="600")
+    el-table-column(prop='id' label='# 訂單編號' fixed align='center' width='180')
+    el-table-column(prop='productName' label='商品名稱' fixed align='center' width='180')
+    //- el-table-column( label='時間' align='center' width='180') {{formatTime}}
+    el-table-column(prop='quantity' label='購買數量' fixed align='center')
+    el-table-column(prop='price' label='商品價格' fixed align ='center')
+    el-table-column(prop='total' label='訂單總額' fixed align='center')
+    el-table-column(prop='note' label='訂單備註' fixed align='center')
+    el-table-column(fixed='right' width='100') 
       template(slot-scope='scope')
         el-button.data-button(size='mini' v-if="isAdmin"  @click='editItem(scope.$index, scope.row)' icon='el-icon-edit') 編輯
         el-button.data-button(size='mini' v-if="isAdmin"  @click='removeShow(scope.$index, scope.row)' icon='el-icon-delete') 刪除
         el-dialog(title='確定要刪除此筆訂單嗎？' :visible.sync='centerDialogVisible' :modal-append-to-body='false' :close-on-click-modal='false' width='30%' center='')
           span.dialog-footer(slot='footer')
-            el-button(@click='centerDialogVisible = false') 取消
+            el-button(@click='centerDialogVisible = false') 取消 
             el-button(type='primary'  @click.native.prevent='removeItem()' @click='centerDialogVisible = false') 確定
-  //- el-pagination(:page-size="pagesize" layout='prev, pager, next,total' @current-change="current_change"  :total='total' hide-on-single)
 
-   </el-pagination>
 </template>
 <script>
 import axios from "axios";
 export default {
   data() {
     return {
+      newDate: 0,
       centerDialogVisible: false, //彈跳視窗
       productData: [],
       selectedProduct: null,
       deleteIndex: null,
-      //以下為分頁相關
-      // loading: false,
-      // total: 0,
-      // currentPage: 1,
-      // pageSize: 5, //指定要展示多少筆訂單
     };
   },
   computed: {
@@ -43,6 +37,19 @@ export default {
     isAdmin() {
       return JSON.parse(sessionStorage.getItem("userData")).role === "user";
     },
+    //可以嘗試做時間戳記
+    // formatTime() {
+    //   var dates = new Date();
+    //   var year = dates.getFullYear();
+    //   var month = dates.getMonth() + 1; //會比現在少一個月
+    //   var date = dates.getDate();
+    //   var hours = dates.getHours();
+    //   var minutes = dates.getMinutes();
+    //   return `${year}-${month}-${date}${hours}:${minutes}`;
+    // },
+  },
+  mounted() {
+    this.newDate = Math.floor(Date.now() / 1000);
   },
   methods: {
     tableHeaderColor() {
@@ -79,11 +86,16 @@ export default {
         if (e.id == this.deleteIndex) {
           productId = e.productId;
           quantity = e.quantity;
+          console.log(quantity);
         }
       });
       let inventory =
-        Number(quantity) + _this.productData[productId - 1].inventory;
-      console.log(inventory);
+        Number(quantity) + this.productData[productId - 1].inventory;
+      // console.log(
+      //   "你好像是問題",
+      //   Number(quantity) + this.productData[productId - 1].inventory
+      // );
+      console.log("刪除訂單後的庫存", inventory);
       axios
         .delete(`http://localhost:3000/orders/${this.deleteIndex}`)
         .then((res) => {
@@ -99,7 +111,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-          throw error;
+          throw err;
         });
     },
     //修改
@@ -108,7 +120,7 @@ export default {
     },
     async getTableData() {
       let _this = this;
-      axios
+      await axios
         //  刪除後get新的內容
         .get("http://localhost:3000/orders")
         .then(function (response) {
@@ -119,7 +131,7 @@ export default {
           console.log(error);
           throw error;
         });
-      await axios
+      axios
         .get("http://localhost:3000/products")
         .then(function (response) {
           _this.productData = response.data;
@@ -129,7 +141,6 @@ export default {
           throw error;
         });
       this.tableData.forEach((list) => {
-        console.log("tableData.productName", list.productId);
         this.productData.forEach((product) => {
           if (product.id === list.productId) {
             list.productName = product.name;

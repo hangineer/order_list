@@ -16,13 +16,14 @@ export default {
     },
 
     //編輯 Ｕ
-    setUpdateTableData(state, targetItem) {
+    setUpdateTableData(state, obj) {
       // let { index, rows } = obj;
       // state.tableData.splice(index, 1, rows);
       // let updateIndex = state.tableData.findIndex(
       //   (item) => item.id === targetItem.id
       // );
       // state.tableData.splice(updateIndex, 1, targetItem);
+      state.tableData = obj;
     },
 
     //刪除 D

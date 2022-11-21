@@ -1,15 +1,14 @@
 <template lang="pug">
-//- todo 需要將資料轉成formData格式？
 div
-  el-table( :data='productData'  style='font-size:15px;' :header-cell-style="tableHeaderColor")
-    el-table-column(prop='id' label='# 產品編號' align='center' width='180')
-    el-table-column(prop='name' label='產品名稱' align='center')
-    el-table-column(prop='imgUrl' label='產品圖片' align='center' width='180')
+  el-table( :data='productData'  style='font-size:15px;'  height="600" :header-cell-style="tableHeaderColor")
+    el-table-column(prop='id' label='# 產品編號' fixed align='center' width='180')
+    el-table-column(prop='name' label='產品名稱' fixed align='center')
+    el-table-column(prop='imgUrl' label='產品圖片' fixed align='center' width='180')
       template(slot-scope='scope')
         img(:src="scope.row.imgUrl" :style="imgSize")
-    el-table-column(prop='price' label='產品價格' align ='center')
-    el-table-column(prop='inventory' label='產品庫存' align='center')
-    el-table-column(prop='note' label='產品備註' align='center')
+    el-table-column(prop='price' label='產品價格' fixed align ='center')
+    el-table-column(prop='inventory' label='產品庫存' fixed align='center')
+    el-table-column(prop='note' label='產品備註' fixed align='center')
     el-table-column(fixed='right' width='100')
       template(slot-scope='scope')
         el-button.data-button(size='mini' @click='editItem(scope.$index, scope.row)' icon='el-icon-edit') 編輯

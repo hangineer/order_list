@@ -1,4 +1,4 @@
-# File's detail
+## File's detail 資料夾結構
 
 ```
 |- src/
@@ -7,34 +7,40 @@
             |- addListBtn.vue
             |- addProductBtn.vue
             |- listData.vue(存放訂單資訊)
-            |- logout.vue（未完成!!!!!!!!!!!!!!）
+            |- logoutBtn.vue
         |- mainComponents
             |- listFooter.vue（未完成!!!!!!!!!!!!!!）
             |- listHeader.vue
     |- router/
         |- index.js
     |- store/
-        |- index.js
-        |- productModule.js(存放產品狀態，未完成!!!!!!!!!!!!!!)
+        |- store.js
+        |- productModule.js(存放產品狀態)
         |- listModule.js(存放訂單狀態)
+        |- adminModule.js(存放權限狀態)
 
     |- views/
         |- ListInfo/
             |- _id.vue(編輯訂單)
         |- ProductInfo/
-            |- _id.vue(編輯產品，未完成!!!!!!!!!!!!!!)
+            |- _id.vue(編輯產品)
         |- AddList.vue(新增訂單)
         |- AddProduct.vue(新增產品)
-        |- Admin.vue(根目錄，未完成!!!!!!!!!!!!!!)
+        |- Admin.vue(根目錄)
         |- List.vue(顯示訂單，渲染listData元件的內容)
         |- product.vue(顯示產品，渲染productData元件的內容)
 |- db.json(API)
 
 ```
 
----
+## User flow 用戶操作流程
 
-## Project setup
+```
+- 一般使用者：根目錄(登入及註冊) => 查看訂單 => 編輯或刪除訂單
+- 管理者：根目錄(登入及註冊) => 查看訂單 or 查看產品列表 => 編輯或刪除產品列表
+```
+
+## Project setup 如何在您的電腦建立專案
 
 ```
 yarn install

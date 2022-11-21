@@ -1,116 +1,44 @@
-<template>
-  <!-- todo 存到session storage -->
-  <div class="container">
-    <a @click="centerDialogVisible = true"
-      ><img
-        class="joinBtn"
-        src="../assets/image/btn_join.png"
-        alt="join button"
-    /></a>
-    <el-dialog
-      :visible.sync="centerDialogVisible"
-      :close-on-click-modal="false"
-      width="30%"
-      center
-    >
-      <span slot="footer" class="dialog-footer">
-        <el-tabs v-model="activeName" type="card">
-          <!-- 登入 -->
-          <el-tab-pane label="登入" name="first">
-            <el-form
-              label-position="left"
-              :model="loginForm"
-              status-icon
-              :rules="rules"
-              ref="loginForm"
-              label-width="100px"
-              class="demo-ruleForm"
-            >
-              <el-form-item label="電子郵件" prop="loginEmail">
-                <el-input
-                  type="email"
-                  v-model="loginForm.loginEmail"
-                  autocomplete="on"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="密碼" prop="loginPassword">
-                <el-input
-                  type="password"
-                  v-model="loginForm.loginPassword"
-                  autocomplete="off"
-                ></el-input>
-              </el-form-item>
+<template lang="pug">
+.container
+  a(@click='centerDialogVisible = true')
+    img.joinBtn(src='../assets/image/pressBtn.png' alt='press button')
+  el-dialog(:visible.sync='centerDialogVisible' :close-on-click-modal='false' width='30%' center='')
+    span.dialog-footer(slot='footer')
+      el-tabs(v-model='activeName' type='card')
+        // 登入
+        el-tab-pane(label='登入' name='first')
+          el-form(label-position='left' :model='loginForm' status-icon='' :rules='rules' ref='loginForm' label-width='100px')
+            el-form-item(label='電子郵件' prop='loginEmail')
+              el-input(type='email' v-model='loginForm.loginEmail' autocomplete='off')
+            el-form-item(label='密碼' prop='loginPassword')
+              el-input(type='password' v-model='loginForm.loginPassword' autocomplete='off')
+              el-button(type='primary'  @click="dialogVisible = true") 登入
+              el-button(@click="resetLoginForm") 重置
+              el-dialog(
+              :append-to-body='true'
+              :visible.sync="dialogVisible" 
+              :close-on-click-modal="false"
+              width="30%" center)
+                span 確定登入嗎?
+                span.dialog-footers(slot="footer")
+                  el-button(@click="dialogVisible = false") 取消
+                  el-button(type="primary" @click="dialogVisible = false ;submitLoginForm()" plan) 確定
+        // 註冊
+        el-tab-pane(label='註冊' name='second')
+          el-form(label-position='left' :model='signupForm' status-icon='' :rules='rules' ref='signupForm' label-width='100px')
+            el-form-item(label='電子郵件' prop='signupEmail')
+              el-input(type='email' v-model='signupForm.signupEmail'  autocomplete='on')
+            el-form-item(label='密碼' prop='signupPassword')
+              el-input(type='password' v-model='signupForm.signupPassword' autocomplete='off')
+            el-form-item(label='確認密碼' prop='checkPassword')
+              el-input(type='password' v-model='signupForm.checkPassword' autocomplete='off')
+            el-form-item(label='選擇身份' prop='role')
+              el-radio.role(v-model='signupForm.role' label='user') 買家
+              el-radio.role(v-model='signupForm.role' label='admin') 管理者
+            el-button(type='primary' @click='submitSignupForm') 註冊
+            el-button(@click='resetSignupForm') 重置
+  img.fingerPoint(src='../assets/image/btn_joinHand.gif' alt='finger point')
 
-              <el-button type="primary" @click="submitLoginForm"
-                >登入</el-button
-              >
-              <el-button @click="resetLoginForm('ruleForm')">重置</el-button>
-            </el-form>
-          </el-tab-pane>
-          <!-- 註冊 -->
-          <el-tab-pane label="註冊" name="second">
-            <el-form
-              label-position="left"
-              :model="signupForm"
-              status-icon
-              :rules="rules"
-              ref="signupForm"
-              label-width="100px"
-              class="demo-ruleForm"
-            >
-              <el-form-item label="電子郵件" prop="signupEmail">
-                <el-input
-                  type="email"
-                  v-model="signupForm.signupEmail"
-                  autocomplete="on"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="密碼" prop="signupPassword">
-                <el-input
-                  type="password"
-                  v-model="signupForm.signupPassword"
-                  autocomplete="off"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="確認密碼" prop="checkPassword">
-                <el-input
-                  type="password"
-                  v-model="signupForm.checkPassword"
-                  autocomplete="off"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="選擇身份" prop="role">
-                <el-radio class="role" v-model="signupForm.role" label="user"
-                  >買家</el-radio
-                >
-                <el-radio class="role" v-model="signupForm.role" label="admin"
-                  >管理者</el-radio
-                >
-              </el-form-item>
-
-              <el-button type="primary" @click="submitSignupForm"
-                >註冊</el-button
-              >
-
-              <el-button @click="resetSignupForm">重置</el-button>
-            </el-form>
-          </el-tab-pane>
-        </el-tabs>
-
-        <!-- 
-        <el-button type="primary"  @click="centerDialogVisible = false"
-          >登入</el-button
-        > -->
-        <!-- <el-button @click="centerDialogVisible = false">取消</el-button> -->
-      </span>
-    </el-dialog>
-
-    <img
-      class="fingerPoint"
-      src="../assets/image/btn_joinHand.gif"
-      alt="finger point"
-    />
-  </div>
 </template>
 <script>
 import axios from "axios";
@@ -139,6 +67,8 @@ export default {
       }
     };
     return {
+      //登入彈出視窗
+      dialogVisible: false,
       activeName: "first", //預設要顯示哪個tab
       userData: [],
       centerDialogVisible: false, //彈出視窗
@@ -223,6 +153,7 @@ export default {
           throw error;
         });
     },
+
     submitSignupForm() {
       this.$refs.signupForm.validate((valid) => {
         if (valid) {
@@ -232,31 +163,49 @@ export default {
             password: Base64.encode(this2.signupForm.signupPassword),
             role: this2.signupForm.role,
           };
-          // todo 判斷是否有重複的email
+          // 判斷是否有重複的email
           this2.getData();
           let noDuplicateEmail = this2.userData.every((item) => {
-            return item.email != this2.signupForm.signupEmail;
+            if (item.email == this2.signupForm.signupEmail) {
+              this2.$notify.error({
+                title: "錯誤",
+                duration: 1500,
+                message: "此電子郵件已被註冊",
+              });
+            } else {
+              return true;
+            }
           });
           if (noDuplicateEmail) {
             axios
               .post("http://localhost:3000/users", userInfo)
               .then(function (response) {
-                alert("註冊成功，請先登入");
+                this2.$notify({
+                  message: "註冊成功，請先登入",
+                  type: "success",
+                });
+                // 清空表單;
+                this2.signupForm = {
+                  signupEmail: "",
+                  signupPassword: "",
+                  checkPassword: "",
+                  role: "user",
+                };
+                this2.activeName = "first";
               })
               .catch(function (error) {
                 console.log(error);
                 throw error;
               });
           }
-
-          // 清空表單;
-          this.signupForm = {
-            signupEmail: "",
-            signupPassword: "",
-            checkPassword: "",
-          };
-        } else {
-          alert("請確實填寫");
+          // else {
+          //   this.$notify({
+          //     title: "注意",
+          //     message: "請填寫完整",
+          //     duration: 1500,
+          //     type: "warning",
+          //   });
+          // }
         }
       });
     },
@@ -264,7 +213,7 @@ export default {
       this.$refs.signupForm.resetFields();
     },
     resetLoginForm() {
-      this.$refs.signupForm.resetFields();
+      this.$refs.loginForm.resetFields();
     },
     submitLoginForm() {
       // console.log("userData", this.userData.length);
@@ -274,23 +223,45 @@ export default {
             return user.email === this.loginForm.loginEmail;
           });
           if (!findUser) {
-            alert("查無此帳號");
+            this.$notify.error({
+              title: "錯誤",
+              duration: 1500,
+              message: "查無此帳號，請先註冊",
+            });
+            this.loginForm = {
+              loginEmail: "",
+              loginPassword: "",
+            };
+            this.activeName = "second";
           } else {
             if (
               Base64.decode(findUser.password) === this.loginForm.loginPassword
             ) {
-              alert("登入成功!");
+              this.$notify({
+                message: "登入成功!",
+                type: "success",
+              });
+
               //名稱  要存的物件
               console.log(findUser);
               sessionStorage.setItem("userData", JSON.stringify(findUser));
               this.$store.commit("adminModule/setIsLogin", true);
               this.$router.push("/list");
             } else {
-              alert("帳號密碼輸入錯誤!");
+              this.$notify.error({
+                title: "錯誤",
+                duration: 1500,
+                message: "帳號密碼輸入錯誤!",
+              });
             }
           }
         } else {
-          alert("請確實填寫正確!");
+          this.$notify({
+            title: "注意",
+            message: "請填寫完整",
+            duration: 1500,
+            type: "warning",
+          });
         }
       });
     },
@@ -305,11 +276,11 @@ export default {
   .joinBtn {
     cursor: pointer;
     position: absolute;
-    top: 70%;
+    top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-width: 180px;
-    max-height: 150px;
+    width: 550px;
+    height: 450px;
     // object-fit: contain;
   }
   .fingerPoint {

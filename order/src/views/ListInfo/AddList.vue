@@ -23,11 +23,6 @@ div
           :key='product.id' 
           :value="product.id"
           :label="product.name") 
-      //- el-radio(
-      //-   v-for='product in productData'
-      //-   :key='product.id' 
-      //-   v-model='selectedProduct' 
-      //-   :label="product.id") {{product.name}}
       img( v-model='product.imgUrl' :style="imgSize" :src='product.imgUrl')
     el-form-item( label='購買數量:' prop='quantity')
       el-input(v-model='ruleForm.quantity' placeholder='請輸入購買數量')
@@ -39,7 +34,7 @@ div
     el-form-item(label='訂單備註:' prop='note')
       el-input(type='textarea' v-model='ruleForm.note')
     el-form-item
-      el-button(class="createItem" type='primary' @click='centerDialogVisible = true' ) 新增
+      el-button.createItem(type='primary' @click='centerDialogVisible = true' ) 新增
       el-dialog(title='確定新增此筆訂單？' :visible.sync='centerDialogVisible' :modal-append-to-body='false' :close-on-click-modal='false' width='30%' center='')
           span.dialog-footer(slot='footer')
             el-button(@click='centerDialogVisible = false') 取消
@@ -88,7 +83,9 @@ export default {
   },
   computed: {
     id() {
-      return this.tableData.length + 1;
+      // console.log(this.tableData[this.tableData.length - 1]?.id);
+      return this.tableData[this.tableData.length - 1]?.id + 1;
+      // return this.tableData.length + 1;
       // return this.$store.state.tableData.length + 1;
     },
     total() {
@@ -155,6 +152,9 @@ export default {
             total: this.total,
             note: this.ruleForm.note,
           };
+
+          //修改商品庫存
+          this.product.inventory -= parseInt(this.ruleForm.quantity);
           axios
             .post("http://localhost:3000/orders", createData)
             .then(function (response) {
@@ -162,21 +162,21 @@ export default {
               // let tableItem = response.data;
               _this.$store.dispatch("listModule/pushTableData", createData);
 
-              //修改商品庫存
-              this.product.inventory -= parseInt(this.ruleForm.quantity);
               axios
                 .patch(
-                  `http://localhost:3000/products/${parseInt(this.product.id)}`,
-                  this.product
+                  `http://localhost:3000/products/${parseInt(
+                    _this.product.id
+                  )}`,
+                  _this.product
                 )
                 .then((res) => {
-                  console.log("productinfo", res);
                   console.log("庫存修改成功");
+                  console.log("目前庫存", _this.product.inventory);
                 });
             })
             .catch((err) => {
               console.log(err);
-              throw error;
+              throw err;
             });
           //清空表單
           this.ruleForm = {
@@ -186,9 +186,19 @@ export default {
           };
           this.$router.push("/list");
         } else if (this.product.inventory < this.ruleForm.quantity) {
-          alert("購買數量需小於商品庫存");
+          this.$notify({
+            title: "錯誤",
+            message: "購買數量需小於商品庫存",
+            duration: 1500,
+            type: "error",
+          });
         } else {
-          alert("請確實填寫正確!");
+          this.$notify({
+            title: "注意",
+            message: "請確實填寫",
+            duration: 1500,
+            type: "warning",
+          });
         }
       });
     },
@@ -223,5 +233,8 @@ export default {
   color: gray;
   left: 10px;
   top: 25px;
+}
+.createItem {
+  margin: 20px;
 }
 </style>

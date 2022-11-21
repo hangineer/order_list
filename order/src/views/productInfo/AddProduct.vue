@@ -2,7 +2,6 @@
 div
   div.relative
    el-button( class="fallback" @click="fallback" icon='el-icon-back' size="small") 返回產品頁
-
   //- 欄位名稱註記
   //- name 產品名稱
   //- imgUrl 產品圖片
@@ -24,7 +23,7 @@ div
     el-form-item(label='產品備註:' prop='note')
         el-input(type='textarea' v-model='productForm.note')
     el-form-item
-        el-button(class="createProduct" type='primary' @click="dialogVisible = true") 新增
+        el-button.createProduct( type='primary' @click="dialogVisible = true") 新增
         el-dialog(title="確定新增此筆訂單？" :close-on-click-modal='false' :visible.sync="dialogVisible" width="30%" center="") 
           span.dialog-footer(slot='footer')    
             el-button(@click="dialogVisible = false") 取消
@@ -49,8 +48,8 @@ export default {
         id: 0,
         name: "",
         imgUrl: "",
-        inventory: 0,
-        price: 0,
+        inventory: null,
+        price: null,
         note: "",
       },
       rules: {
@@ -73,7 +72,7 @@ export default {
         ],
         imgUrl: [
           {
-            required: true,
+            // required: true,
             message: "請上傳圖片",
             trigger: "change",
           },
@@ -97,7 +96,8 @@ export default {
   },
   computed: {
     id() {
-      return this.productData.length + 1;
+      return this.productData[this.productData.length - 1]?.id + 1;
+      // return this.productData.length + 1;
       // return this.$store.productModule.productData.length + 1;
     },
   },
@@ -163,7 +163,12 @@ export default {
           };
           this.$router.push("/product");
         } else {
-          alert("請確實填寫正確!");
+          this.$notify({
+            title: "注意",
+            message: "請確實填寫",
+            duration: 1500,
+            type: "warning",
+          });
         }
       });
     },

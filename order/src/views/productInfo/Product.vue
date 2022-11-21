@@ -17,4 +17,3 @@ export default {
 </script>
 
 <style lang="scss"></style>
-<style src="../../public/reset.css"></style>

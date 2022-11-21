@@ -22,7 +22,6 @@ export default {
   methods: {
     logout() {
       this.$notify({
-        title: "Success",
         message: "登出成功",
         type: "success",
       });
