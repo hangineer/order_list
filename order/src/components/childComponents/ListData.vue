@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  el-table( :data='tableData'  style='font-size:15px; width: 100%' :header-cell-style="tableHeaderColor" height="600")
+  el-table(:data='tableData'  style='font-size:15px; width: 100%' :header-cell-style="tableHeaderColor" height="600")
     el-table-column(prop='id' label='# 訂單編號' fixed align='center' width='180')
     el-table-column(prop='productName' label='商品名稱' fixed align='center' width='180')
     //- el-table-column( label='時間' align='center' width='180') {{formatTime}}

@@ -1,4 +1,4 @@
-## File's detail 資料夾結構
+## File details 資料夾結構和內容
 
 ```
 |- src/
@@ -8,8 +8,9 @@
             |- addProductBtn.vue
             |- listData.vue(存放訂單資訊)
             |- logoutBtn.vue
+            |- productData.vue(存放產品資訊)
         |- mainComponents
-            |- listFooter.vue（未完成!!!!!!!!!!!!!!）
+            |- listFooter.vue
             |- listHeader.vue
     |- router/
         |- index.js

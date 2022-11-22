@@ -1,5 +1,6 @@
-<template>
-  <el-footer>{{ footer }}</el-footer>
+<template lang="pug">
+div
+  el-footer.footer {{ footer }}
 </template>
 
 <script>
@@ -14,16 +15,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 50px;
+.footer {
+  height: 200px;
   background: lightblue;
   color: #000000;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // text-align: center;
+  vertical-align: middle;
+  line-height: 60px;
 }
 </style>

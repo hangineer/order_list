@@ -1,24 +1,31 @@
 <template lang="pug">
 #app
     listHeader
-    router-view 
+    router-view(:style="contentHeight")
     router-link(to="/:id")
-    //- listFooter
+    listFooter
 </template>
 
 <script>
 import listHeader from "@/components/mainComponents/listHeader.vue";
-// import listFooter from "@/components/mainComponents/listFooter.vue";
+import listFooter from "@/components/mainComponents/listFooter.vue";
 export default {
+  data() {
+    return {
+      contentHeight: { height: "calc(100vh - 100px - 60px)" },
+    };
+  },
   components: {
     listHeader,
-    // listFooter,
+    listFooter,
   },
 };
 </script>
 <style lang="scss">
 @import "../public/reset.css";
 #app {
+  margin: 0;
+  height: 100%;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
