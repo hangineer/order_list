@@ -1,3 +1,4 @@
+<!-- todo 要讓 註冊的暱稱顯示在畫面上 -->
 <template lang="pug">
 div.listHeader
   el-menu(mode='horizontal' :router="true" background-color='lightblue' text-color='black')
@@ -14,7 +15,9 @@ div.listHeader
       template(slot='title' ) 
         span(style="font-size:18px") 產品相關
       el-menu-item( v-for="item in productNav" :index="item.route") {{item.name}}
+   
     logoutBtn
+    p.userName(v-if="") Welcome! {{userName}}
       //- el-menu-item(index='2-1' route="/addProduct") 建立產品
       //- el-menu-item(index='2-2' route="/product") 查看產品
     //- el-menu-item(index='3' disabled='') Info
@@ -27,6 +30,7 @@ export default {
   },
   data() {
     return {
+      userName: "",
       header: "Order List",
       logoSize: [
         {
@@ -50,19 +54,25 @@ export default {
       }
     },
   },
-  // methods: {
-  //   test() {
-  //     return this.$store.state.isLogin;
-  //   },
-  // },
-  // created() {
-  //   this.$set(this.$store.commit(setIsLogin), "penguin", 0);
-  // },
+  methods: {
+    // userName() {
+    //   if (this.$store.state.adminModule.isLogin === true) {
+    //     return JSON.parse(sessionStorage.getItem("userData")).signupName;
+    //   }
+    // },
+  },
+  mounted() {
+    // userName() {
+    this.userName = JSON.parse(sessionStorage.getItem("userData")).signupName;
+    return this.userName;
+    // },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .listHeader {
+  position: relative;
   box-sizing: border-box;
   height: 80px;
   margin-bottom: 20px;
@@ -71,6 +81,13 @@ export default {
   .header {
     color: #000000;
     font-size: 32px !important;
+  }
+  .userName {
+    position: absolute;
+    right: 90px;
+    top: 25px;
+    font-size: 18px;
+    font-weight: bold;
   }
 }
 </style>

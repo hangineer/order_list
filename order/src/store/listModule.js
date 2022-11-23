@@ -1,3 +1,4 @@
+import axios from "axios";
 export default {
   namespaced: true,
   state: {
@@ -35,13 +36,41 @@ export default {
   actions: {
     //新增 C
     pushTableData(context, tableItem) {
-      //提交一個mutation
-      context.commit("setPushTableData", tableItem);
+      //1123新增
+      axios
+        .post("http://localhost:3000/orders", tableItem)
+        .then(function (response) {
+          console.log("新增成功");
+          //提交一個mutation
+          context.commit("setPushTableData", tableItem);
+          // axios
+          //   .patch(
+          //     `http://localhost:3000/products/${parseInt(_this.product.id)}`,
+          //     _this.product
+          //   )
+          //   .then((res) => {
+          //     console.log("庫存修改成功");
+          //     console.log("目前庫存", _this.product.inventory);
+          //   });
+        })
+        .catch((err) => {
+          console.log(err);
+          throw err;
+        });
     },
 
-    //讀取 R
-    renderTableData(context, tableData) {
-      context.commit("setRenderTableData", tableData);
+    //讀取 R 1123新增
+    renderTableData(context) {
+      // renderTableData(context, tableData) {
+      axios
+        .get("http://localhost:3000/orders")
+        .then(function (response) {
+          context.commit("setRenderTableData", response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+          throw error;
+        });
     },
 
     //修改 U
@@ -49,10 +78,23 @@ export default {
       context.commit("setUpdateTableData", obj);
     },
     //刪除 D
-    removeTableData(context, tableData) {
-      context.commit("setRemoveTableData", tableData);
+    removeTableData(context, deleteIndex) {
+      axios
+        .delete(`http://localhost:3000/orders/${deleteIndex}`)
+        .then(function (response) {
+          context.commit("setRemoveTableData", deleteIndex);
+          console.log("刪除成功", response);
+        })
+        .catch((err) => {
+          console.log(err);
+          throw err;
+        });
     },
   },
   //getters可想成資料加工，類似於computed
-  getters: {},
+  getters: {
+    id(state) {
+      return state.tableData[state.tableData.length - 1]?.id + 1;
+    },
+  },
 };

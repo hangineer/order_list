@@ -12,7 +12,7 @@ import listFooter from "@/components/mainComponents/listFooter.vue";
 export default {
   data() {
     return {
-      contentHeight: { height: "calc(100vh - 100px - 60px)" },
+      contentHeight: { minHeight: "calc(100vh - 100px - 60px)" },
     };
   },
   components: {

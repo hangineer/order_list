@@ -4,6 +4,7 @@ import listModule from "./listModule";
 import productModule from "./productModule";
 import adminModule from "./adminModule";
 import createPersistedState from "vuex-persistedstate";
+import axios from "axios";
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -14,7 +15,7 @@ export default new Vuex.Store({
   },
 
   actions: {
-    //actions不會跟state裡的內容有牽扯
+    //actions不會跟state裡的內容有牽扯 (commit)
   },
   modules: {
     listModule,
@@ -28,13 +29,10 @@ export default new Vuex.Store({
     createPersistedState({
       paths: ["adminModule.isLogin"],
       storage: window.sessionStorage,
-      // reducer(val) {
-      //   console.log(val);
-      //   console.log(adminModule);
-      //   return {
-      //     isLogin: val.adminModule.isLogin, //只儲存登入狀態
-      //   };
-      // },
     }),
+    // createPersistedState({
+    //   paths: ["listModule.getters"],
+    //   storage: window.sessionStorage,
+    // }),
   ],
 });

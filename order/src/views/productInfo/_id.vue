@@ -34,12 +34,12 @@ div
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
   data() {
     return {
-      targetProduct: {},
-      productData: [],
+      // targetProduct: {},
+      // productData: [],
       imgSize: {
         display: "block",
         width: "300px",
@@ -66,7 +66,7 @@ export default {
         ],
         imgUrl: [
           {
-            required: true,
+            // required: true,
             message: "請上傳圖片",
             trigger: "change",
           },
@@ -92,39 +92,52 @@ export default {
     id() {
       return parseInt(this.$route.params.id); //表單抓到的值型態都為字串
     },
+    productData() {
+      return this.$store.state.productModule.productData;
+    },
+    targetProduct() {
+      return this.$store.state.productModule.targetProduct;
+    },
   },
   created() {
-    let _this = this;
-    axios
-      .get(`http://localhost:3000/products/${parseInt(this.$route.params.id)}`)
-      .then(function (response) {
-        _this.targetProduct = response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-        throw error;
-      });
+    let productID = this.$route.params.id; //抓到目前產品的id
+    this.$store.dispatch("productModule/getTargetProduct", productID);
+    // let _this = this;
+    // axios
+    //   .get(`http://localhost:3000/products/${parseInt(this.$route.params.id)}`)
+    //   .then(function (response) {
+    //     _this.targetProduct = response.data;
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //     throw error;
+    //   });
   },
   methods: {
     saveBtn(index, rows) {
-      let _this = this;
-      _this.$refs.targetProduct.validate((valid) => {
+      this.$refs.targetProduct.validate((valid) => {
         if (valid) {
-          axios
-            .patch(
-              `http://localhost:3000/products/${parseInt(
-                this.$route.params.id
-              )}`,
-              this.targetProduct
-            )
-            .then(function (response) {
-              _this.$router.push("/product");
-              console.log("修改成功");
-            })
-            .catch(function (error) {
-              console.log(error);
-              throw error;
-            });
+          this.$store.dispatch(
+            "productModule/updateProductData",
+            this.targetProduct
+          );
+          this.$router.push("/product");
+          // let _this = this;
+          // axios
+          //   .patch(
+          //     `http://localhost:3000/products/${parseInt(
+          //       this.$route.params.id
+          //     )}`,
+          //     this.targetProduct
+          //   )
+          //   .then(function (response) {
+          //     _this.$router.push("/product");
+          //     console.log("修改成功");
+          //   })
+          //   .catch(function (error) {
+          //     console.log(error);
+          //     throw error;
+          //   });
         }
       });
     },

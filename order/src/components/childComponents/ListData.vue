@@ -19,13 +19,11 @@ div
 
 </template>
 <script>
-import axios from "axios";
 export default {
   data() {
     return {
       newDate: 0,
       centerDialogVisible: false, //彈跳視窗
-      productData: [],
       selectedProduct: null,
       deleteIndex: null,
     };
@@ -33,6 +31,10 @@ export default {
   computed: {
     tableData() {
       return this.$store.state.listModule.tableData;
+    },
+    //1123新增
+    productData() {
+      return this.$store.state.productModule.productData;
     },
     isAdmin() {
       return JSON.parse(sessionStorage.getItem("userData")).role === "user";
@@ -48,99 +50,74 @@ export default {
     //   return `${year}-${month}-${date}${hours}:${minutes}`;
     // },
   },
-  mounted() {
-    this.newDate = Math.floor(Date.now() / 1000);
-  },
+  // mounted() {
+  //   this.newDate = Math.floor(Date.now() / 1000);
+  // },
   methods: {
     tableHeaderColor() {
       return "background-color: lightgray ; color:#606266";
     },
-    // 分頁顯示
-    // current_change(currentPage) {
-    //   this.currentPage = currentPage;
-    // },
-    // getList() {
-    //   this.loading = true;
-    //   const param = {
-    //     note: this.tableData.note,
-    //     Message: this.tableData.quantity,
-    //   };
-    //   http.get("http://localhost:3000/orders", param, function (res) {
-    //     this.loading = false;
-    //     this.tableData = res.data.orders;
-    //     this.total = res.data.total;
-    //   });
-    // },
 
     //刪除 彈跳視窗
     removeShow(index, row) {
       this.centerDialogVisible = true;
-      this.deleteIndex = row.id;
+      this.deleteIndex = row.id; //抓取訂單id
     },
     //刪除
-    removeItem() {
-      let _this = this;
+    async removeItem() {
+      // let _this = this;
       let productId = null;
       let quantity = null;
-      _this.tableData.forEach((e) => {
+      this.tableData.forEach((e) => {
         if (e.id == this.deleteIndex) {
           productId = e.productId;
           quantity = e.quantity;
           console.log(quantity);
         }
       });
+      //1123 新增
       let inventory =
         Number(quantity) + this.productData[productId - 1].inventory;
-      // console.log(
-      //   "你好像是問題",
-      //   Number(quantity) + this.productData[productId - 1].inventory
-      // );
-      console.log("刪除訂單後的庫存", inventory);
-      axios
-        .delete(`http://localhost:3000/orders/${this.deleteIndex}`)
-        .then((res) => {
-          // console.log("被刪除的資料", tableData[index]);
-          // _this.$store.dispatch("listModule/removeTableData", index);
-          axios
-            .patch(`http://localhost:3000/products/${parseInt(productId)}`, {
-              inventory: inventory,
-            })
-            .then(function (response) {
-              _this.getTableData();
-            });
-        })
-        .catch((err) => {
-          console.log(err);
-          throw err;
-        });
+      const productInfo = { productId, inventory };
+      await this.$store.dispatch(
+        "listModule/removeTableData",
+        this.deleteIndex
+      );
+      await this.$store.dispatch(
+        "productModule/updateProductInventory",
+        productInfo
+      );
+      await this.$store.dispatch("listModule/renderTableData");
+      // console.log("刪除訂單後的庫存", inventory);
+      // axios
+      //   .delete(`http://localhost:3000/orders/${this.deleteIndex}`)
+      //   .then((res) => {
+      //     // console.log("被刪除的資料", tableData[index]);
+      //     // _this.$store.dispatch("listModule/removeTableData", index);
+      //     axios
+      //       .patch(`http://localhost:3000/products/${parseInt(productId)}`, {
+      //         inventory: inventory,
+      //       })
+      //       .then(function (response) {
+      //         _this.getTableData();
+      //       });
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     throw err;
+      //   });
     },
     //修改
     editItem(index, rows) {
       this.$router.push(`/list/${rows.id}`);
     },
+    //取得訂單列表資訊
     async getTableData() {
-      let _this = this;
-      await axios
-        //  刪除後get新的內容
-        .get("http://localhost:3000/orders")
-        .then(function (response) {
-          //_this.tableData = response.data;
-          _this.$store.dispatch("listModule/renderTableData", response.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-          throw error;
-        });
-      axios
-        .get("http://localhost:3000/products")
-        .then(function (response) {
-          _this.productData = response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-          throw error;
-        });
-      this.tableData.forEach((list) => {
+      //1123 新增
+      await this.$store.dispatch("listModule/renderTableData");
+      await this.$store.dispatch("productModule/renderProductData");
+      await this.tableData.forEach((list) => {
+        //todo
         this.productData.forEach((product) => {
           if (product.id === list.productId) {
             list.productName = product.name;

@@ -9,7 +9,7 @@ div
   //- inventory: 產品庫存
   //- note: 產品備註
   el-form(:model='productForm' :rules='rules' ref='productForm' label-width='100px' size='mini')
-    el-form-item(label='產品編號:' prop='id')
+    el-form-item(label='產品編號:')
         el-input(v-model='id' :disabled='true')
     el-form-item(label='產品名稱:' prop='name')
         el-input(v-model='productForm.name' placeholder='請輸入商品名稱')
@@ -32,12 +32,12 @@ div
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
   data() {
     return {
       dialogVisible: false, //新增的pop box
-      productData: [],
+      // productData: [],
       imgSize: {
         display: "block",
         width: "300px",
@@ -45,7 +45,7 @@ export default {
         margin: "20px auto",
       },
       productForm: {
-        id: 0,
+        id: null,
         name: "",
         imgUrl: "",
         inventory: null,
@@ -95,23 +95,30 @@ export default {
     };
   },
   computed: {
+    //1123 新增
+    //todo id在store裏面印出來的會是null
     id() {
-      return this.productData[this.productData.length - 1]?.id + 1;
-      // return this.productData.length + 1;
-      // return this.$store.productModule.productData.length + 1;
+      return this.$store.getters["productModule/id"];
+      // return this.productData[this.productData.length - 1]?.id + 1;
     },
+
+    // productData() {
+    //   return this.$store.state.productModule.productData;
+    // },
   },
+  //1123 新增
   created() {
-    let _this = this;
-    axios
-      .get("http://localhost:3000/products")
-      .then(function (response) {
-        _this.productData = response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-        throw error;
-      });
+    this.$store.dispatch("productModule/renderProductData");
+    // let _this = this;
+    // axios
+    //   .get("http://localhost:3000/products")
+    //   .then(function (response) {
+    //     _this.productData = response.data;
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //     throw error;
+    //   });
   },
   methods: {
     fallback() {
@@ -131,27 +138,32 @@ export default {
       console.log("圖片編碼", this.productForm.imgUrl);
     },
     //新增
-    createProduct() {
+    async createProduct() {
+      // let _this = this;
       // this.productForm.id = this.id;
-      this.$refs.productForm.validate((valid) => {
+      await this.$refs.productForm.validate((valid) => {
         if (valid) {
-          let _this = this; //在axios不能順利抓到this
-
-          axios
-            .post("http://localhost:3000/products", _this.productForm)
-            .then(function (response) {
-              console.log("新增成功");
-              console.log(response);
-              let productItem = response.data;
-              _this.$store.dispatch(
-                "productModule/pushProductData",
-                productItem
-              );
-            })
-            .catch(function (error) {
-              console.log(error);
-              throw error;
-            });
+          //1122 新增
+          this.$store.dispatch(
+            "productModule/pushProductData",
+            this.productForm
+          );
+          // let _this = this; //在axios不能順利抓到this
+          // axios
+          //   .post("http://localhost:3000/products", _this.productForm)
+          //   .then(function (response) {
+          //     console.log("新增成功");
+          //     console.log(response);
+          //     let productItem = response.data;
+          //     _this.$store.dispatch(
+          //       "productModule/pushProductData",
+          //       productItem
+          //     );
+          //   })
+          //   .catch(function (error) {
+          //     console.log(error);
+          //     throw error;
+          //   });
 
           //清空表單
           this.productForm = {

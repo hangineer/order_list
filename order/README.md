@@ -70,3 +70,10 @@ yarn test:e2e
 ```
 yarn lint
 ```
+
+### Run Json-server
+
+```
+json-server --watch db.json
+json-server --watch db.json -p 3001
+```

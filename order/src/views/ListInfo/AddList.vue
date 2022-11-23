@@ -1,3 +1,4 @@
+<!-- todo 若沒重整頁面，連續刪除庫存會沒扣到!!!!!!!!!!!!!!!!!!!!!!! -->
 <template lang="pug">
 div
   //- 欄位名稱註記
@@ -43,12 +44,13 @@ div
     
 </template>
 <script>
-import axios from "axios";
+// import listModule from "@/store/listModule.js";
+// import axios from "axios";
 export default {
   data() {
     return {
-      tableData: [],
-      productData: [],
+      // tableData: [],
+      // productData: [],
       selectedProduct: 1, //select & option element
       imgSize: {
         display: "block",
@@ -83,10 +85,8 @@ export default {
   },
   computed: {
     id() {
-      // console.log(this.tableData[this.tableData.length - 1]?.id);
-      return this.tableData[this.tableData.length - 1]?.id + 1;
-      // return this.tableData.length + 1;
-      // return this.$store.state.tableData.length + 1;
+      return this.$store.getters["listModule/id"];
+      // return this.tableData[this.tableData.length - 1]?.id + 1;
     },
     total() {
       if (this.product) {
@@ -94,6 +94,14 @@ export default {
       } else {
         return 0;
       }
+    },
+    //產品資訊
+    productData() {
+      return this.$store.state.productModule.productData;
+    },
+    //訂單資訊  需要用它來抓id
+    tableData() {
+      return this.$store.state.listModule.tableData;
     },
     product() {
       if (this.productData.find((e) => e.id === this.selectedProduct)) {
@@ -111,25 +119,27 @@ export default {
     },
   },
   created() {
-    let _this = this;
-    axios
-      .get("http://localhost:3000/products")
-      .then(function (response) {
-        _this.productData = response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-        throw error;
-      });
-    axios
-      .get("http://localhost:3000/orders")
-      .then(function (response) {
-        _this.tableData = response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-        throw error;
-      });
+    this.$store.dispatch("productModule/renderProductData");
+    this.$store.dispatch("listModule/renderTableData");
+    // let _this = this;
+    // axios
+    //   .get("http://localhost:3000/products")
+    //   .then(function (response) {
+    //     _this.productData = response.data;
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //     throw error;
+    //   });
+    // axios
+    //   .get("http://localhost:3000/orders")
+    //   .then(function (response) {
+    //     _this.tableData = response.data;
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //     throw error;
+    //   });
   },
   methods: {
     //返回列表
@@ -153,31 +163,38 @@ export default {
             note: this.ruleForm.note,
           };
 
-          //修改商品庫存
+          //先針對選到的產品減去庫存
           this.product.inventory -= parseInt(this.ruleForm.quantity);
-          axios
-            .post("http://localhost:3000/orders", createData)
-            .then(function (response) {
-              console.log("新增成功");
-              // let tableItem = response.data;
-              _this.$store.dispatch("listModule/pushTableData", createData);
+          const productId = this.product.id; //選到的產品的id
+          const inventory = this.product.inventory;
+          const productInfo = { productId, inventory };
+          this.$store.dispatch("listModule/pushTableData", createData);
+          this.$store.dispatch(
+            "productModule/updateProductInventory",
+            productInfo
+          );
+          // axios
+          //   .post("http://localhost:3000/orders", createData)
+          //   .then(function (response) {
+          //     console.log("新增成功");
+          //     // let tableItem = response.data;
 
-              axios
-                .patch(
-                  `http://localhost:3000/products/${parseInt(
-                    _this.product.id
-                  )}`,
-                  _this.product
-                )
-                .then((res) => {
-                  console.log("庫存修改成功");
-                  console.log("目前庫存", _this.product.inventory);
-                });
-            })
-            .catch((err) => {
-              console.log(err);
-              throw err;
-            });
+          //     axios
+          //       .patch(
+          //         `http://localhost:3000/products/${parseInt(
+          //           _this.product.id
+          //         )}`,
+          //         _this.product
+          //       )
+          //       .then((res) => {
+          //         console.log("庫存修改成功");
+          //         console.log("目前庫存", _this.product.inventory);
+          //       });
+          //   })
+          //   .catch((err) => {
+          //     console.log(err);
+          //     throw err;
+          //   });
           //清空表單
           this.ruleForm = {
             selectedProduct: 1,

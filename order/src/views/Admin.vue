@@ -2,7 +2,7 @@
 .container
   a(@click='centerDialogVisible = true')
     img.joinBtn(src='../assets/image/pressBtn.png' alt='press button')
-  el-dialog(:visible.sync='centerDialogVisible' :close-on-click-modal='false' width='30%' center='')
+  el-dialog(:visible.sync='centerDialogVisible' :close-on-click-modal='false' width='30%' center="")
     span.dialog-footer(slot='footer')
       el-tabs(v-model='activeName' type='card')
         // 登入
@@ -11,9 +11,9 @@
             el-form-item(label='電子郵件' prop='loginEmail')
               el-input(type='email' v-model='loginForm.loginEmail' autocomplete='off')
             el-form-item(label='密碼' prop='loginPassword')
-              el-input(type='password' v-model='loginForm.loginPassword' autocomplete='off')
-              el-button(type='primary'  @click="dialogVisible = true") 登入
-              el-button(@click="resetLoginForm") 重置
+              el-input( type='password' v-model='loginForm.loginPassword' autocomplete='off')
+            el-button( type='primary'  @click="dialogVisible = true") 登入
+            el-button( @click="resetLoginForm") 重置
               el-dialog(
               :append-to-body='true'
               :visible.sync="dialogVisible" 
@@ -28,6 +28,8 @@
           el-form(label-position='left' :model='signupForm' status-icon='' :rules='rules' ref='signupForm' label-width='100px')
             el-form-item(label='電子郵件' prop='signupEmail')
               el-input(type='email' v-model='signupForm.signupEmail'  autocomplete='on')
+            el-form-item(label='暱稱' prop='signupName')
+              el-input(type='text' v-model='signupForm.signupName'  autocomplete='on')
             el-form-item(label='密碼' prop='signupPassword')
               el-input(type='password' v-model='signupForm.signupPassword' autocomplete='off')
             el-form-item(label='確認密碼' prop='checkPassword')
@@ -35,13 +37,22 @@
             el-form-item(label='選擇身份' prop='role')
               el-radio.role(v-model='signupForm.role' label='user') 買家
               el-radio.role(v-model='signupForm.role' label='admin') 管理者
-            el-button(type='primary' @click='submitSignupForm') 註冊
+            el-button(type='primary'  @click="signupDialogVisible = true") 註冊
             el-button(@click='resetSignupForm') 重置
+              el-dialog(
+                :append-to-body='true'
+                :visible.sync="signupDialogVisible" 
+                :close-on-click-modal="false"
+                width="30%" center)
+                  span 確定註冊嗎?
+                  span.dialog-footers(slot="footer")
+                    el-button(@click="signupDialogVisible = false") 取消
+                    el-button(type="primary" @click="signupDialogVisible = false ;submitSignupForm()" plan) 確定
   img.fingerPoint(src='../assets/image/btn_joinHand.gif' alt='finger point')
 
 </template>
 <script>
-import axios from "axios";
+// import axios from "axios";
 import { Base64 } from "js-base64";
 
 export default {
@@ -67,10 +78,12 @@ export default {
       }
     };
     return {
-      //登入彈出視窗
+      //登入的彈出視窗
       dialogVisible: false,
+      //註冊的彈出視窗
+      signupDialogVisible: false,
       activeName: "first", //預設要顯示哪個tab
-      userData: [],
+      // userData: [],
       centerDialogVisible: false, //彈出視窗
       loginForm: {
         loginEmail: "",
@@ -78,6 +91,7 @@ export default {
       },
       signupForm: {
         signupEmail: "",
+        signupName: "",
         signupPassword: "",
         checkPassword: "",
         role: "user",
@@ -92,6 +106,25 @@ export default {
             trigger: "blur",
           },
         ],
+        signupEmail: [
+          {
+            required: true,
+            pattern:
+              /^\w+((\-\w+)|(\.\w+))*\@[A-Za-z\d]+((\.|\-)[A-Za-z\d]+)*\.[A-Za-z]+$/g,
+            message: "須包含英文字母及＠符號",
+            trigger: "blur",
+          },
+        ],
+        signupName: [
+          {
+            // \u4e00-\u9fa5 指中文範圍
+            required: true,
+            pattern: /^[\u4e00-\u9fa5]{2,6}$|^[a-zA-z]{2,}$/g,
+            message: "暱稱需兩個字以上",
+            trigger: "blur",
+          },
+        ],
+
         checkPassword: [
           {
             required: true,
@@ -117,15 +150,6 @@ export default {
             trigger: "blur",
           },
         ],
-        signupEmail: [
-          {
-            required: true,
-            pattern:
-              /^\w+((\-\w+)|(\.\w+))*\@[A-Za-z\d]+((\.|\-)[A-Za-z\d]+)*\.[A-Za-z]+$/g,
-            message: "須包含英文字母及＠符號",
-            trigger: "blur",
-          },
-        ],
 
         role: [
           {
@@ -137,34 +161,44 @@ export default {
     };
   },
   created() {
+    //1122 新增
     this.getData();
   },
-  methods: {
-    getData() {
-      let _this = this;
-      axios
-        .get("http://localhost:3000/users")
-        .then(function (response) {
-          _this.userData = response.data;
-          console.log(_this.userData);
-        })
-        .catch(function (error) {
-          console.log(error);
-          throw error;
-        });
+  computed: {
+    userData() {
+      return this.$store.state.adminModule.userData;
     },
-
+  },
+  methods: {
+    //1122 新增
+    getData() {
+      this.$store.dispatch("adminModule/getUserData");
+      // let _this = this;
+      // axios
+      //   .get("http://localhost:3000/users")
+      //   .then(function (response) {
+      //     _this.userData = response.data;
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //     throw error;
+      //   });
+    },
     submitSignupForm() {
       this.$refs.signupForm.validate((valid) => {
         if (valid) {
           let this2 = this;
           const userInfo = {
             email: this2.signupForm.signupEmail,
+            signupName: this2.signupForm.signupName,
             password: Base64.encode(this2.signupForm.signupPassword),
             role: this2.signupForm.role,
           };
           // 判斷是否有重複的email
           this2.getData();
+          //1122改的
+          // this.$store.dispatch("adminModule/getData");
+
           let noDuplicateEmail = this2.userData.every((item) => {
             if (item.email == this2.signupForm.signupEmail) {
               this2.$notify.error({
@@ -177,35 +211,41 @@ export default {
             }
           });
           if (noDuplicateEmail) {
-            axios
-              .post("http://localhost:3000/users", userInfo)
-              .then(function (response) {
-                this2.$notify({
-                  message: "註冊成功，請先登入",
-                  type: "success",
-                });
-                // 清空表單;
-                this2.signupForm = {
-                  signupEmail: "",
-                  signupPassword: "",
-                  checkPassword: "",
-                  role: "user",
-                };
-                this2.activeName = "first";
-              })
-              .catch(function (error) {
-                console.log(error);
-                throw error;
-              });
+            this.$store.dispatch("adminModule/signupUserData", userInfo);
+            this2.$notify({
+              message: "註冊成功，請先登入",
+              type: "success",
+            });
+            // 清空表單;
+            this2.signupForm = {
+              signupEmail: "",
+              signupName: "",
+              signupPassword: "",
+              checkPassword: "",
+              role: "user",
+            };
+            this2.activeName = "first";
+            // axios
+            //   .post("http://localhost:3000/users", userInfo)
+            //   .then(function (response) {
+            //     this2.$notify({
+            //       message: "註冊成功，請先登入",
+            //       type: "success",
+            //     });
+            //     // 清空表單;
+            //     this2.signupForm = {
+            //       signupEmail: "",
+            //       signupPassword: "",
+            //       checkPassword: "",
+            //       role: "user",
+            //     };
+            //     this2.activeName = "first";
+            //   })
+            //   .catch(function (error) {
+            //     console.log(error);
+            //     throw error;
+            //   });
           }
-          // else {
-          //   this.$notify({
-          //     title: "注意",
-          //     message: "請填寫完整",
-          //     duration: 1500,
-          //     type: "warning",
-          //   });
-          // }
         }
       });
     },
@@ -239,6 +279,7 @@ export default {
             ) {
               this.$notify({
                 message: "登入成功!",
+                duration: 1500,
                 type: "success",
               });
 
@@ -290,7 +331,6 @@ export default {
     transform: translate(-50%, -50%);
   }
   .role {
-    // display: flex;
     display: block;
     text-align: left !important;
     margin: 7px 0;

@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  el-table( :data='productData'  style='font-size:15px;'  height="600" :header-cell-style="tableHeaderColor")
+  el-table(:data='productData'  style='font-size:15px;'  height="600" :header-cell-style="tableHeaderColor")
     el-table-column(prop='id' label='# 產品編號' fixed align='center' width='180')
     el-table-column(prop='name' label='產品名稱' fixed align='center')
     el-table-column(prop='imgUrl' label='產品圖片' fixed align='center' width='180')
@@ -19,12 +19,11 @@ div
             el-button(type='primary'  @click.native.prevent='removeItem()' @click='centerDialogVisible = false') 確定
 </template>
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
   data() {
     return {
       centerDialogVisible: false, //彈跳視窗
-      productData: [],
       // selectedProduct: null,
       deleteIndex: null,
       imgSize: {
@@ -32,6 +31,11 @@ export default {
         width: "100px",
       },
     };
+  },
+  computed: {
+    productData() {
+      return this.$store.state.productModule.productData;
+    },
   },
   methods: {
     tableHeaderColor() {
@@ -43,45 +47,46 @@ export default {
       this.deleteIndex = row.id;
     },
     //刪除
-    removeItem() {
-      let _this = this;
-      axios
-        .delete(`http://localhost:3000/products/${this.deleteIndex}`)
-        .then(function (response) {
-          // axios.get("http://localhost:3000/products").then(function (response) {
-          //   _this.$store.dispatch(
-          //     "productModule/renderProductData",
-          //     response.data
-          //   );
-          // });
+    async removeItem() {
+      await this.$store.dispatch(
+        "productModule/removeProductData",
+        this.deleteIndex
+      );
+      await this.$store.dispatch("productModule/renderProductData");
+      // axios
+      //   .delete(`http://localhost:3000/products/${this.deleteIndex}`)
+      //   .then(function (response) {
+      //     // axios.get("http://localhost:3000/products").then(function (response) {
+      //     //   _this.$store.dispatch(
+      //     //     "productModule/renderProductData",
+      //     //     response.data
+      //     //   );
+      //     // });
 
-          _this.getProductData();
-        })
-        .catch(function (error) {
-          console.log(error);
-          throw error;
-        });
+      //     _this.getProductData();
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //     throw error;
+      //   });
     },
     //todo 修改
     editItem(index, rows) {
       this.$router.push(`/product/${rows.id}`);
     },
     async getProductData() {
-      let _this = this;
-      await axios
-        //  刪除後get新的內容
-        .get("http://localhost:3000/products")
-        .then(function (response) {
-          _this.productData = response.data;
-          _this.$store.dispatch(
-            "productModule/renderProductData",
-            _this.productData
-          );
-        })
-        .catch(function (error) {
-          console.log(error);
-          throw error;
-        });
+      // let _this = this;
+      await this.$store.dispatch("productModule/renderProductData");
+      // axios
+      //   .get("http://localhost:3000/products")
+      //   .then(function (response) {
+      //     _this.productData = response.data;
+      //     _this.$store.dispatch("productModule/renderProductData");
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //     throw error;
+      //   });
       // this.productData.forEach((item) => {
       //   this.productData.forEach((product) => {
       //     if (product.id === item.productId) {
