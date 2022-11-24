@@ -32,11 +32,11 @@ div
 </template>
 
 <script>
-// import axios from "axios";
 export default {
   data() {
     return {
-      dialogVisible: false, //新增的pop box
+      //新增的彈出視窗
+      dialogVisible: false,
       // productData: [],
       imgSize: {
         display: "block",
@@ -72,7 +72,7 @@ export default {
         ],
         imgUrl: [
           {
-            // required: true,
+            required: true,
             message: "請上傳圖片",
             trigger: "change",
           },
@@ -95,7 +95,6 @@ export default {
     };
   },
   computed: {
-    //1123 新增
     //todo id在store裏面印出來的會是null
     id() {
       return this.$store.getters["productModule/id"];
@@ -106,7 +105,6 @@ export default {
     //   return this.$store.state.productModule.productData;
     // },
   },
-  //1123 新增
   created() {
     this.$store.dispatch("productModule/renderProductData");
     // let _this = this;
@@ -139,11 +137,9 @@ export default {
     },
     //新增
     async createProduct() {
-      // let _this = this;
       // this.productForm.id = this.id;
       await this.$refs.productForm.validate((valid) => {
         if (valid) {
-          //1122 新增
           this.$store.dispatch(
             "productModule/pushProductData",
             this.productForm

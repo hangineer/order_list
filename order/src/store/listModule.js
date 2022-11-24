@@ -3,6 +3,7 @@ export default {
   namespaced: true,
   state: {
     tableData: [],
+    targetItem: {}, //訂單資訊
   },
   //mutations可直接改變狀態(state)
   mutations: {
@@ -15,16 +16,13 @@ export default {
     setRenderTableData(state, tableItem) {
       state.tableData = tableItem;
     },
-
+    //用於讀取編輯頁面的訂單資訊
+    setOrderInfo(state, targetItem) {
+      state.targetItem = targetItem;
+    },
     //編輯 Ｕ
-    setUpdateTableData(state, obj) {
-      // let { index, rows } = obj;
-      // state.tableData.splice(index, 1, rows);
-      // let updateIndex = state.tableData.findIndex(
-      //   (item) => item.id === targetItem.id
-      // );
-      // state.tableData.splice(updateIndex, 1, targetItem);
-      state.tableData = obj;
+    setUpdateTableData(state, targetItem) {
+      state.targetItem = targetItem;
     },
 
     //刪除 D
@@ -36,32 +34,20 @@ export default {
   actions: {
     //新增 C
     pushTableData(context, tableItem) {
-      //1123新增
       axios
         .post("http://localhost:3000/orders", tableItem)
         .then(function (response) {
           console.log("新增成功");
           //提交一個mutation
           context.commit("setPushTableData", tableItem);
-          // axios
-          //   .patch(
-          //     `http://localhost:3000/products/${parseInt(_this.product.id)}`,
-          //     _this.product
-          //   )
-          //   .then((res) => {
-          //     console.log("庫存修改成功");
-          //     console.log("目前庫存", _this.product.inventory);
-          //   });
         })
         .catch((err) => {
           console.log(err);
           throw err;
         });
     },
-
-    //讀取 R 1123新增
+    //讀取 R
     renderTableData(context) {
-      // renderTableData(context, tableData) {
       axios
         .get("http://localhost:3000/orders")
         .then(function (response) {
@@ -72,11 +58,39 @@ export default {
           throw error;
         });
     },
-
-    //修改 U
-    updateTableData(context, obj) {
-      context.commit("setUpdateTableData", obj);
+    //讀取特定訂單資訊
+    getOrderById(context, nowId) {
+      return axios
+        .get(`http://localhost:3000/orders/${parseInt(nowId)}`)
+        .then(function (response) {
+          context.commit("setOrderInfo", response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+          throw error;
+        });
     },
+    //修改 U
+    // updateTableData(context, obj) {
+    //   context.commit("setUpdateTableData", obj);
+    // },
+    updateTableData(context, targetItem) {
+      axios
+        .patch(
+          `http://localhost:3000/orders/${targetItem.id}`,
+          targetItem //舊Data
+        )
+        .then(function (response) {
+          context.commit("setUpdateTableData", response.data);
+          console.log("修改成功");
+        })
+        .catch(function (error) {
+          console.log(error);
+          throw error;
+        });
+      // context.commit("setUpdateTableData", newContent);
+    },
+
     //刪除 D
     removeTableData(context, deleteIndex) {
       axios

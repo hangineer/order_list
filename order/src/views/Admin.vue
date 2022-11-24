@@ -82,9 +82,10 @@ export default {
       dialogVisible: false,
       //註冊的彈出視窗
       signupDialogVisible: false,
-      activeName: "first", //預設要顯示哪個tab
-      // userData: [],
-      centerDialogVisible: false, //彈出視窗
+      //預設要顯示哪個tab
+      activeName: "first",
+      //JoinBtn的彈出視窗
+      centerDialogVisible: false,
       loginForm: {
         loginEmail: "",
         loginPassword: "",
@@ -161,7 +162,6 @@ export default {
     };
   },
   created() {
-    //1122 新增
     this.getData();
   },
   computed: {
@@ -170,7 +170,6 @@ export default {
     },
   },
   methods: {
-    //1122 新增
     getData() {
       this.$store.dispatch("adminModule/getUserData");
       // let _this = this;
@@ -196,9 +195,6 @@ export default {
           };
           // 判斷是否有重複的email
           this2.getData();
-          //1122改的
-          // this.$store.dispatch("adminModule/getData");
-
           let noDuplicateEmail = this2.userData.every((item) => {
             if (item.email == this2.signupForm.signupEmail) {
               this2.$notify.error({
@@ -256,7 +252,6 @@ export default {
       this.$refs.loginForm.resetFields();
     },
     submitLoginForm() {
-      // console.log("userData", this.userData.length);
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           const findUser = this.userData.find((user) => {

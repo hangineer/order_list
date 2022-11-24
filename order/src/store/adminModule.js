@@ -29,7 +29,7 @@ export default {
           throw error;
         });
     },
-    //取得使用者資訊
+    //取得使用者資訊(登入)
     getUserData(context) {
       axios
         .get("http://localhost:3000/users")

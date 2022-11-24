@@ -1,4 +1,3 @@
-<!-- todo 要讓 註冊的暱稱顯示在畫面上 -->
 <template lang="pug">
 div.listHeader
   el-menu(mode='horizontal' :router="true" background-color='lightblue' text-color='black')
@@ -9,18 +8,14 @@ div.listHeader
       template(slot='title' ) 
         span(style="font-size:18px") 訂單相關
       el-menu-item( v-for="item in listNav" :index="item.route") {{item.name}}
-      //- el-menu-item(index='2-1' route="/add") 建立訂單
-      //- el-menu-item(index='2-2' route="/list") 查看訂單
     el-submenu(index='3'  v-if="this.$store.state.adminModule.isLogin"  :disabled="show") 
       template(slot='title' ) 
         span(style="font-size:18px") 產品相關
       el-menu-item( v-for="item in productNav" :index="item.route") {{item.name}}
    
     logoutBtn
-    p.userName(v-if="") Welcome! {{userName}}
-      //- el-menu-item(index='2-1' route="/addProduct") 建立產品
-      //- el-menu-item(index='2-2' route="/product") 查看產品
-    //- el-menu-item(index='3' disabled='') Info
+    p.userName(v-if="showUserName") Welcome! {{ userName }}
+    //- el-menu-item(index='3' disabled='') Info 不可點按狀態 官方寫法
 </template>
 <script>
 import logoutBtn from "@/components/childComponents/logoutBtn.vue";
@@ -30,6 +25,8 @@ export default {
   },
   data() {
     return {
+      showUserName: false,
+      // activatedFlag: false,
       userName: "",
       header: "Order List",
       logoSize: [
@@ -54,18 +51,24 @@ export default {
       }
     },
   },
-  methods: {
-    // userName() {
-    //   if (this.$store.state.adminModule.isLogin === true) {
-    //     return JSON.parse(sessionStorage.getItem("userData")).signupName;
-    //   }
-    // },
-  },
-  mounted() {
-    // userName() {
-    this.userName = JSON.parse(sessionStorage.getItem("userData")).signupName;
-    return this.userName;
-    // },
+  watch: {
+    "$store.state.adminModule.isLogin": {
+      handler(val) {
+        if (val) {
+          this.showUserName = true;
+          this.userName = JSON.parse(
+            sessionStorage.getItem("userData") //提醒：session/local storage裡的東西不可以掛在created
+          ).signupName;
+        } else {
+          this.showUserName = false;
+        }
+      },
+      immediate: true, //要在最初綁定值的時候也執行watch()，就需要用到immediate屬性
+      deep: true,
+    },
+    // https://vuejs.org/guide/essentials/watchers.html#basic-example 官方文件 vue watcher
+    // https://ithelp.ithome.com.tw/articles/10241694 vue watcher
+    // https://segmentfault.com/q/1010000020634645 activated deactivated Hooks
   },
 };
 </script>

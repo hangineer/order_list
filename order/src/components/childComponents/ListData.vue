@@ -32,7 +32,6 @@ export default {
     tableData() {
       return this.$store.state.listModule.tableData;
     },
-    //1123新增
     productData() {
       return this.$store.state.productModule.productData;
     },
@@ -65,7 +64,6 @@ export default {
     },
     //刪除
     async removeItem() {
-      // let _this = this;
       let productId = null;
       let quantity = null;
       this.tableData.forEach((e) => {
@@ -75,7 +73,6 @@ export default {
           console.log(quantity);
         }
       });
-      //1123 新增
       let inventory =
         Number(quantity) + this.productData[productId - 1].inventory;
       const productInfo = { productId, inventory };
@@ -113,11 +110,9 @@ export default {
     },
     //取得訂單列表資訊
     async getTableData() {
-      //1123 新增
       await this.$store.dispatch("listModule/renderTableData");
       await this.$store.dispatch("productModule/renderProductData");
       await this.tableData.forEach((list) => {
-        //todo
         this.productData.forEach((product) => {
           if (product.id === list.productId) {
             list.productName = product.name;

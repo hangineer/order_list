@@ -34,7 +34,6 @@ div
 </template>
 
 <script>
-// import axios from "axios";
 export default {
   data() {
     return {
@@ -66,7 +65,7 @@ export default {
         ],
         imgUrl: [
           {
-            // required: true,
+            required: true,
             message: "請上傳圖片",
             trigger: "change",
           },

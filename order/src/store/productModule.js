@@ -6,7 +6,6 @@ export default {
     productData: [],
     targetProduct: {},
   },
-  //mutations可直接改變狀態(state)
   mutations: {
     //新增 c
     setPushProductData(state, productItem) {
@@ -29,7 +28,6 @@ export default {
       state.productData.splice(index, 1);
     },
   },
-  //actions不會跟state裡的內容有牽扯
   actions: {
     //新增 C
     pushProductData(context, productItem) {
@@ -48,7 +46,7 @@ export default {
 
     //讀取 R
     renderProductData(context) {
-      axios
+      return axios
         .get("http://localhost:3000/products")
         .then(function (response) {
           context.commit("setRenderProductData", response.data);
@@ -58,12 +56,34 @@ export default {
           throw error;
         });
     },
+    getProductById(context, id) {
+      axios
+        .get(`http://localhost:3000/products/${parseInt(id)}`)
+        .then(function (response) {
+          return response;
+        })
+        .catch(function (error) {
+          console.log(error);
+          throw error;
+        });
+    },
+    // getProductData(context) {
+    //   return axios
+    //     .get("http://localhost:3000/products")
+    //     .then(function (response) {
+    //       context.commit("setRenderProductData", response.data);
+    //       return response;
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error);
+    //       throw error;
+    //     });
+    // },
     //讀取目標產品，用於編輯頁
     getTargetProduct(context, productID) {
       axios
         .get(`http://localhost:3000/products/${parseInt(productID)}`)
         .then(function (response) {
-          // _this.targetProduct = response.data;
           context.commit("setTargetProduct", response.data);
         })
         .catch(function (error) {
@@ -118,7 +138,6 @@ export default {
         });
     },
   },
-  //getters可想成資料加工，類似於computed
   getters: {
     id(state) {
       return state.productData[state.productData.length - 1]?.id + 1;

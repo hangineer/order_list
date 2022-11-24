@@ -70,13 +70,12 @@ export default {
       //     throw error;
       //   });
     },
-    //todo 修改
     editItem(index, rows) {
       this.$router.push(`/product/${rows.id}`);
     },
     async getProductData() {
-      // let _this = this;
       await this.$store.dispatch("productModule/renderProductData");
+      // let _this = this;
       // axios
       //   .get("http://localhost:3000/products")
       //   .then(function (response) {

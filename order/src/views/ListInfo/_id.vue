@@ -1,50 +1,62 @@
 <template lang="pug">
 div
-  el-form(:model="targetItem"  
-  :rules="rules" ref="targetItem" label-width="100px" size="mini")
+  el-form(
+    :model="targetItem",
+    :rules="rules",
+    ref="targetItem",
+    label-width="100px",
+    size="mini"
+  )
     el-form-item(label="訂單編號:") 
-      el-input(v-model="targetItem.id" :disabled="true")
+      el-input(v-model="targetItem.id", :disabled="true")
     el-form-item(label="商品名稱:") 
-      el-select(v-model="targetItem.productId" placeholder="請選擇商品")
+      el-select(v-model="targetItem.productId", placeholder="請選擇商品")
         el-option(
-          v-for='product in productData'
-          :key='product.id' 
-          :value="product.id"
-          :label="product.name") 
-      img( v-model='product.imgUrl' :style="imgSize" :src='product.imgUrl')
+          v-for="product in productData",
+          :key="product.id",
+          :value="product.id",
+          :label="product.name"
+        ) 
+      img(v-model="product.imgUrl", :style="imgSize", :src="product.imgUrl")
 
-    el-form-item(label="購買數量:" prop="quantity")
+    el-form-item(label="購買數量:", prop="quantity")
       el-input(v-model="targetItem.quantity") 
-      p(class="inventory") 商品庫存:{{ product.inventory }}
-    el-form-item(label='商品價格:')
-      el-input(class="readonly" v-model='product.price' readonly)
-    el-form-item( label='訂單總額:')
-      el-input(class="readonly" v-model="total"  readonly)   
-    el-form-item(label="訂單備註:" prop="note")
-      el-input(v-model="targetItem.note" type="textarea")   
+      p.inventory 商品庫存:{{ product.inventory }}
+    el-form-item(label="商品價格:")
+      el-input.readonly(v-model="product.price", readonly)
+    el-form-item(label="訂單總額:")
+      el-input.readonly(v-model="total", readonly) 
+    el-form-item(label="訂單備註:", prop="note")
+      el-input(v-model="targetItem.note", type="textarea") 
     el-form-item
       template(slot-scope="scope")
-        el-button( size="mini"
-              @click="saveBtn(scope.$index, scope.row)"
-              type="success"
-              icon="el-icon-check") 儲存
-        el-button(size="mini"
-              @click="cancelBtn"
-              type="danger"
-              icon="el-icon-close") 取消
+        el-button(
+          size="mini",
+          @click="saveBtn(scope.$index, scope.row)",
+          type="success",
+          icon="el-icon-check"
+        ) 儲存
+        el-button(
+          size="mini",
+          @click="cancelBtn",
+          type="danger",
+          icon="el-icon-close"
+        ) 取消
 </template>
 <script>
 import axios from "axios";
 export default {
   data() {
     return {
-      product: [],
-      productData: [],
+      //被選產品（動態的）
+      product: {},
+      //舊的購買數量
       oldQuantity: 0,
+      //targetItem的深拷貝，原本的訂單資訊
       oldData: null,
+      // productData的深拷貝，產品陣列
       oldProductData: null,
-      // selectedProduct: this.targetItem.id,
-      targetItem: {},
+      newContent: null, //拉出來後開始報錯
       imgSize: {
         display: "block",
         width: "200px",
@@ -84,16 +96,43 @@ export default {
         return 0;
       }
     },
+    productData() {
+      return this.$store.state.productModule.productData;
+    },
+    targetItem() {
+      return this.$store.state.listModule.targetItem;
+    },
   },
   methods: {
+    updateOrderInfo(targetItem) {
+      this.$store.dispatch("listModule/updateTableData", this.newContent);
+      // axios
+      //   .patch(
+      //     `http://localhost:3000/orders/${this.nowId}`,
+      //     targetItem //舊Data
+      //   )
+      //   .then()
+      //   .catch((error) => console.log("error", error));
+    },
+    updateProductInventory(productId, info) {
+      // this.$store.dispatch("productModule/updateProductInventory", {
+      //   productId,
+      //   info,
+      // });
+      // console.log("updateProductInventory", productId, info);
+      axios
+        .patch(`http://localhost:3000/products/${productId}`, info)
+        .then(function (response) {})
+        .catch((error) => console.log("error", error));
+    },
     saveBtn(index, rows) {
-      console.log(index, rows);
-      let _this = this;
-      _this.$refs.targetItem.validate((valid) => {
+      // console.log(index, rows);
+      // let _this = this;
+      this.$refs.targetItem.validate((valid) => {
         //判斷表格不為空且產品庫存要大於購買數量
         if (valid && this.product.inventory > this.targetItem.quantity) {
-          const newContent = {
-            id: this.id,
+          this.newContent = {
+            id: this.nowId,
             productName: this.product.name,
             quantity: this.targetItem.quantity,
             productId: this.product.id,
@@ -101,101 +140,58 @@ export default {
             total: this.total,
             note: this.targetItem.note,
           };
-          console.log(this.product.name);
-          console.log(newContent);
-          if (_this.oldData.productId == _this.targetItem.productId) {
+          console.log(
+            "變化",
+            this.oldData.productId, //舊
+            this.targetItem.productId //新
+          );
+
+          if (this.oldData.productId == this.targetItem.productId) {
+            this.updateOrderInfo(this.newContent);
             //商品相同時
-            axios
-              .patch(
-                `http://localhost:3000/orders/${parseInt(
-                  _this.$route.params.id
-                )}`,
-                newContent
-              )
-              .then(function (response) {
-                // _this.$store.commit("listModule/setUpdateTableData", newContent);
-                //修改產品庫存
-                _this.product.inventory =
-                  _this.product.inventory +
-                  parseInt(_this.oldQuantity) -
-                  parseInt(_this.targetItem.quantity);
-                axios
-                  .patch(
-                    `http://localhost:3000/products/${parseInt(
-                      _this.targetItem.productId
-                    )}`,
-                    _this.product
-                  )
-                  .then(function (response) {
-                    _this.$router.push("/list");
-                  });
-              })
-              .catch(function (error) {
-                console.log(error);
-                throw error;
-              });
+            console.log("商品相同時");
+            this.product.inventory =
+              this.product.inventory +
+              parseInt(this.oldQuantity) -
+              parseInt(this.targetItem.quantity);
+            this.updateProductInventory(
+              this.targetItem.productId,
+              this.product
+            );
+            this.$router.push("/list");
           } else {
+            this.updateOrderInfo(this.newContent);
+            console.log("商品不同時");
             //商品不同時 先把舊的商品庫存+回去↓
             //舊的商品庫存 [_this.oldData.productId - 1]是為了算出是商品陣列中的第幾個
-            _this.oldProductData[_this.oldData.productId - 1].inventory =
+            this.oldProductData[this.oldData.productId - 1].inventory =
               parseInt(
-                _this.oldProductData[_this.oldData.productId - 1].inventory
-              ) + parseInt(_this.oldQuantity);
-            axios
-              .patch(
-                `http://localhost:3000/orders/${parseInt(
-                  _this.$route.params.id
-                )}`,
-                _this.oldData //舊Data
-              )
-              .then(function (response) {
-                axios
-                  .patch(
-                    `http://localhost:3000/products/${parseInt(
-                      _this.oldData.productId //舊Data
-                    )}`,
-                    {
-                      inventory:
-                        _this.oldProductData[_this.oldData.productId - 1]
-                          .inventory,
-                    }
-                  )
-                  .then(function (response) {
-                    //再扣新的商品庫存 ↓
-                    axios
-                      .patch(
-                        `http://localhost:3000/orders/${parseInt(
-                          _this.$route.params.id
-                        )}`,
-                        newContent // 表單上的Data
-                      )
-                      .then(function (response) {
-                        console.log(_this.product);
-                        //修改產品庫存
-                        _this.product.inventory =
-                          parseInt(_this.product.inventory) -
-                          parseInt(_this.targetItem.quantity); //新的商品庫存-表單上的數量
-                        axios
-                          .patch(
-                            `http://localhost:3000/products/${parseInt(
-                              _this.targetItem.productId
-                            )}`,
-                            _this.product
-                          )
-                          .then(function (response) {
-                            _this.$router.push("/list");
-                          });
-                      })
-                      .catch(function (error) {
-                        console.log(error);
-                        throw error;
-                      });
-                  });
-              })
-              .catch(function (error) {
-                console.log(error);
-                throw error;
-              });
+                this.oldProductData[this.oldData.productId - 1].inventory
+              ) + parseInt(this.oldQuantity);
+            // console.log(
+            //   "更新原本購買的商品庫存",
+            //   _this.oldData.productId,
+            //   "庫存",
+            //   _this.oldProductData[_this.oldData.productId - 1].inventory
+            // );
+            this.updateProductInventory(this.oldData.productId, {
+              inventory:
+                this.oldProductData[this.oldData.productId - 1].inventory,
+            });
+            this.product.inventory =
+              parseInt(this.product.inventory) -
+              parseInt(this.targetItem.quantity);
+            // console.log(
+            //   "更新修改購買的商品庫存",
+            //   _this.targetItem.productId,
+            //   "物件",
+            //   _this.product
+            // );
+            this.updateProductInventory(
+              this.targetItem.productId,
+              this.product
+            );
+            this.$router.push("/list");
           }
         } else if (this.product.inventory < this.targetItem.quantity) {
           this.$notify({
@@ -218,40 +214,78 @@ export default {
       this.$router.push("/list");
     },
   },
-  created() {
+  async created() {
     let _this = this;
-    axios
-      .get("http://localhost:3000/products")
-      .then(function (response) {
-        _this.productData = response.data;
-        _this.oldProductData = JSON.parse(JSON.stringify(response.data)); //舊商品Data
-        // _this.productData.forEach((item) => console.log(item));
-        console.log(_this.productData);
+    await this.$store
+      .dispatch("productModule/renderProductData")
+      .then(function () {
+        _this.oldProductData = JSON.parse(JSON.stringify(_this.productData)); //舊商品Data
+        console.log("productData", _this.productData);
       })
       .catch(function (error) {
         console.log(error);
         throw error;
       });
+
+    // axios
+    // .get("http://localhost:3000/products")
+    // .then(function (response) {
+    //   _this.productData = response.data;
+    //   _this.oldProductData = JSON.parse(JSON.stringify(response.data)); //舊商品Data
+    //   // _this.productData.forEach((item) => console.log(item));
+    //   console.log(_this.productData);
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    //   throw error;
+    // });
     //訂單明細
-    axios
-      .get(`http://localhost:3000/orders/${parseInt(_this.$route.params.id)}`)
-      .then(function (response) {
-        _this.targetItem = response.data;
-        //特別抓取舊的購買數量，要用於之後的庫存計算
-        _this.oldQuantity = parseInt(response.data.quantity);
-        console.log("舊的", _this.oldQuantity);
-        _this.oldData = JSON.parse(JSON.stringify(response.data)); //舊Data
-        console.log(_this.oldData);
+    await this.$store
+      .dispatch("listModule/getOrderById", parseInt(_this.nowId))
+      .then(function () {
+        _this.oldQuantity = parseInt(_this.targetItem.quantity);
+        console.log("oldQuantity", _this.oldQuantity);
+        _this.oldData = JSON.parse(JSON.stringify(_this.targetItem)); //舊Data
+        console.log("oldData", _this.oldData);
         _this.productData.forEach((e) => {
           if (e.id == _this.targetItem.productId) {
             _this.product = e;
           }
         });
+        console.log("targetItem", _this.targetItem);
       })
       .catch(function (error) {
         console.log(error);
         throw error;
       });
+
+    // await this.$store
+    //   .dispatch("productModule/getProductById", this.targetItem.productId)
+    //   .then((response) => {
+    //     _this.product = response.data;
+    //     console.log("getProductById", response.data);
+    //   });
+
+    //  axios
+    //   .get(`http://localhost:3000/orders/${parseInt(_this.$route.params.id)}`)
+    //   .then(function (response) {
+    //     _this.targetItem = response.data;
+    //     //特別抓取舊的購買數量，要用於之後的庫存計算
+    //     _this.oldQuantity = response.data.quantity;
+    //     _this.oldQuantity = parseInt(response.data.quantity);
+    //     console.log("舊的", _this.oldQuantity);
+    //     _this.oldData = JSON.parse(JSON.stringify(response.data)); //舊Data
+    //     console.log(_this.oldData);
+    //     _this.productData.forEach((e) => {
+    //       if (e.id == _this.targetItem.productId) {
+    //         _this.product = e;
+    //       }
+    //     });
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //     throw error;
+    //   });
   },
   watch: {
     "targetItem.productId": function () {

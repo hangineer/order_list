@@ -29,6 +29,10 @@ import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 Vue.use(createPersistedState);
 
+// Object.assign(Vue.prototype, {
+//   $http: axios,
+// });
+//this.axios
 new Vue({
   render: (h) => h(App),
   router,

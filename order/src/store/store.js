@@ -30,9 +30,5 @@ export default new Vuex.Store({
       paths: ["adminModule.isLogin"],
       storage: window.sessionStorage,
     }),
-    // createPersistedState({
-    //   paths: ["listModule.getters"],
-    //   storage: window.sessionStorage,
-    // }),
   ],
 });
