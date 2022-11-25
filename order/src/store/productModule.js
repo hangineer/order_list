@@ -1,6 +1,5 @@
 //集中管理 易於維護
-// import axios from "axios";
-import { apiCollect } from "./Axios.js";
+import { apiCollect } from "./myAxios.js";
 export default {
   namespaced: true,
   state: {
