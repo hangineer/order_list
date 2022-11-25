@@ -1,17 +1,17 @@
 <template lang="pug">
 div
     listData
-    //- addListBtn
+    addListBtn
 </template>
 
 <script>
 import listData from "@/components/childComponents/ListData.vue";
-// import addListBtn from "@/components/childComponents/addListBtn.vue";
+import addListBtn from "@/components/childComponents/addListBtn.vue";
 
 export default {
   components: {
     listData,
-    // addListBtn,
+    addListBtn,
   },
 };
 </script>

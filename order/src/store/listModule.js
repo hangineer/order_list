@@ -1,4 +1,4 @@
-import axios from "axios";
+import { apiCollect } from "./Axios.js";
 export default {
   namespaced: true,
   state: {
@@ -17,9 +17,9 @@ export default {
       state.tableData = tableItem;
     },
     //用於讀取編輯頁面的訂單資訊
-    setOrderInfo(state, targetItem) {
-      state.targetItem = targetItem;
-    },
+    // setOrderInfo(state, targetItem) {
+    //   state.targetItem = targetItem;
+    // },
     //編輯 Ｕ
     setUpdateTableData(state, targetItem) {
       state.targetItem = targetItem;
@@ -34,8 +34,9 @@ export default {
   actions: {
     //新增 C
     pushTableData(context, tableItem) {
-      axios
-        .post("http://localhost:3000/orders", tableItem)
+      apiCollect
+        .post("/orders", tableItem)
+        // .post("http://localhost:3000/orders", tableItem)
         .then(function (response) {
           console.log("新增成功");
           //提交一個mutation
@@ -48,8 +49,9 @@ export default {
     },
     //讀取 R
     renderTableData(context) {
-      axios
-        .get("http://localhost:3000/orders")
+      apiCollect
+        .get("/orders")
+        // .get("http://localhost:3000/orders")
         .then(function (response) {
           context.commit("setRenderTableData", response.data);
         })
@@ -60,26 +62,33 @@ export default {
     },
     //讀取特定訂單資訊
     getOrderById(context, nowId) {
-      return axios
-        .get(`http://localhost:3000/orders/${parseInt(nowId)}`)
-        .then(function (response) {
-          context.commit("setOrderInfo", response.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-          throw error;
-        });
+      return (
+        apiCollect
+          .get(`/orders/${parseInt(nowId)}`)
+          // .get(`http://localhost:3000/orders/${parseInt(nowId)}`)
+          .then(function (response) {
+            context.commit("setOrderInfo", response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+            throw error;
+          })
+      );
     },
     //修改 U
     // updateTableData(context, obj) {
     //   context.commit("setUpdateTableData", obj);
     // },
     updateTableData(context, targetItem) {
-      axios
+      apiCollect
         .patch(
-          `http://localhost:3000/orders/${targetItem.id}`,
+          `/orders/${targetItem.id}`,
           targetItem //舊Data
         )
+        // .patch(
+        //   `http://localhost:3000/orders/${targetItem.id}`,
+        //   targetItem //舊Data
+        // )
         .then(function (response) {
           context.commit("setUpdateTableData", response.data);
           console.log("修改成功");
@@ -93,8 +102,9 @@ export default {
 
     //刪除 D
     removeTableData(context, deleteIndex) {
-      axios
-        .delete(`http://localhost:3000/orders/${deleteIndex}`)
+      apiCollect
+        .delete(`/orders/${deleteIndex}`)
+        // .delete(`http://localhost:3000/orders/${deleteIndex}`)
         .then(function (response) {
           context.commit("setRemoveTableData", deleteIndex);
           console.log("刪除成功", response);

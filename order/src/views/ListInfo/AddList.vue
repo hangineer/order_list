@@ -43,8 +43,6 @@ div
     
 </template>
 <script>
-// import listModule from "@/store/listModule.js";
-// import axios from "axios";
 export default {
   data() {
     return {
@@ -165,8 +163,8 @@ export default {
           //先針對選到的產品減去庫存
           this.product.inventory -= parseInt(this.ruleForm.quantity);
           const productId = this.product.id; //選到的產品的id
-          const inventory = this.product.inventory;
-          const productInfo = { productId, inventory };
+          const info = this.product;
+          const productInfo = { productId, info };
           this.$store.dispatch("listModule/pushTableData", createData);
           this.$store.dispatch(
             "productModule/updateProductInventory",

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { apiCollect } from "./Axios.js";
 export default {
   namespaced: true,
   state: {
@@ -19,8 +19,10 @@ export default {
   actions: {
     //新增使用者（註冊）
     signupUserData(context, userInfo) {
-      axios
-        .post("http://localhost:3000/users", userInfo)
+      // signUpApi(userInfo)
+      apiCollect
+        .post("/users", userInfo)
+        // .post("http://localhost:3000/users", userInfo)
         .then(function (response) {
           context.commit("signupUserData", userInfo);
         })
@@ -31,8 +33,10 @@ export default {
     },
     //取得使用者資訊(登入)
     getUserData(context) {
-      axios
-        .get("http://localhost:3000/users")
+      // loginApi()
+      apiCollect
+        .get("/users")
+        // .get("http://localhost:3000/users")
         .then(function (response) {
           context.commit("setGetUserData", response.data);
         })

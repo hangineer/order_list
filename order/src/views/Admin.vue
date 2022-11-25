@@ -52,7 +52,6 @@
 
 </template>
 <script>
-// import axios from "axios";
 import { Base64 } from "js-base64";
 
 export default {

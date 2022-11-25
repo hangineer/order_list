@@ -1,5 +1,6 @@
 //集中管理 易於維護
-import axios from "axios";
+// import axios from "axios";
+import { apiCollect } from "./Axios.js";
 export default {
   namespaced: true,
   state: {
@@ -23,6 +24,9 @@ export default {
     setUpdateProductData(state, targetProduct) {
       state.targetProduct = targetProduct;
     },
+    // setUpdateProductInventory(state,inventory){
+    //   state.productData.inventory = inventory
+    // }
     //刪除 D
     setRemoveProductData(state, index) {
       state.productData.splice(index, 1);
@@ -31,8 +35,9 @@ export default {
   actions: {
     //新增 C
     pushProductData(context, productItem) {
-      axios
-        .post("http://localhost:3000/products", productItem)
+      apiCollect
+        .post("/products", productItem)
+        // .post("http://localhost:3000/products", productItem)
         .then(function (response) {
           console.log(productItem);
           context.commit("setPushProductData", productItem);
@@ -46,8 +51,9 @@ export default {
 
     //讀取 R
     renderProductData(context) {
-      return axios
-        .get("http://localhost:3000/products")
+      apiCollect
+        .get("/products")
+        // .get("http://localhost:3000/products")
         .then(function (response) {
           context.commit("setRenderProductData", response.data);
         })
@@ -57,8 +63,9 @@ export default {
         });
     },
     getProductById(context, id) {
-      axios
-        .get(`http://localhost:3000/products/${parseInt(id)}`)
+      apiCollect
+        .get(`/products/${parseInt(id)}`)
+        // .get(`http://localhost:3000/products/${parseInt(id)}`)
         .then(function (response) {
           return response;
         })
@@ -81,8 +88,9 @@ export default {
     // },
     //讀取目標產品，用於編輯頁
     getTargetProduct(context, productID) {
-      axios
-        .get(`http://localhost:3000/products/${parseInt(productID)}`)
+      apiCollect
+        .get(`/products/${parseInt(productID)}`)
+        // .get(`http://localhost:3000/products/${parseInt(productID)}`)
         .then(function (response) {
           context.commit("setTargetProduct", response.data);
         })
@@ -93,11 +101,12 @@ export default {
     },
     //修改 U
     updateProductData(context, targetProduct) {
-      axios
-        .patch(
-          `http://localhost:3000/products/${parseInt(targetProduct.id)}`,
-          targetProduct
-        )
+      apiCollect
+        .patch(`/products/${parseInt(targetProduct.id)}`, targetProduct)
+        // .patch(
+        //   `http://localhost:3000/products/${parseInt(targetProduct.id)}`,
+        //   targetProduct
+        // )
         .then(function (response) {
           context.commit("setUpdateProductData", response.data);
           console.log("修改成功");
@@ -109,15 +118,18 @@ export default {
     },
     //修改產品庫存
     updateProductInventory(context, productInfo) {
-      axios
-        .patch(
-          `http://localhost:3000/products/${parseInt(productInfo.productId)}`,
-          {
-            inventory: productInfo.inventory,
-          }
-        )
+      apiCollect
+        .patch(`/products/${parseInt(productInfo.productId)}`, {
+          inventory: productInfo.info.inventory,
+        })
+        // .patch(
+        //   `http://localhost:3000/products/${parseInt(productInfo.productId)}`,
+        //   {
+        //     inventory: productInfo.info.inventory,
+        //   }
+        // )
         .then(function (response) {
-          console.log(response);
+          console.log("庫存修改成功");
         })
         .catch(function (error) {
           console.log(error);
@@ -126,8 +138,9 @@ export default {
     },
     //刪除 D
     removeProductData(context, deleteIndex) {
-      axios
-        .delete(`http://localhost:3000/products/${deleteIndex}`)
+      apiCollect
+        .delete(`products/${deleteIndex}`)
+        // .delete(`http://localhost:3000/products/${deleteIndex}`)
         .then(function (response) {
           context.commit("setRemoveProductData", deleteIndex);
           console.log("刪除成功", response);

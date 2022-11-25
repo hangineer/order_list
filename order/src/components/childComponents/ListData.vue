@@ -62,6 +62,13 @@ export default {
       this.centerDialogVisible = true;
       this.deleteIndex = row.id; //抓取訂單id
     },
+    updateProductInventory(productId, info) {
+      this.$store.dispatch("productModule/updateProductInventory", {
+        productId,
+        info,
+      });
+      console.log("updateProductInventory", productId, info);
+    },
     //刪除
     async removeItem() {
       let productId = null;
@@ -73,19 +80,17 @@ export default {
           console.log(quantity);
         }
       });
-      let inventory =
-        Number(quantity) + this.productData[productId - 1].inventory;
-      const productInfo = { productId, inventory };
+      // let inventory =
+      //   Number(quantity) + this.productData[productId - 1].inventory;
       await this.$store.dispatch(
         "listModule/removeTableData",
         this.deleteIndex
       );
-      await this.$store.dispatch(
-        "productModule/updateProductInventory",
-        productInfo
-      );
+      //刪除訂單後要更新庫存
+      this.updateProductInventory(productId, {
+        inventory: Number(quantity) + this.productData[productId - 1].inventory,
+      });
       await this.$store.dispatch("listModule/renderTableData");
-      // console.log("刪除訂單後的庫存", inventory);
       // axios
       //   .delete(`http://localhost:3000/orders/${this.deleteIndex}`)
       //   .then((res) => {

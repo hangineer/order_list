@@ -44,7 +44,6 @@ div
         ) 取消
 </template>
 <script>
-import axios from "axios";
 export default {
   data() {
     return {
@@ -115,15 +114,15 @@ export default {
       //   .catch((error) => console.log("error", error));
     },
     updateProductInventory(productId, info) {
-      // this.$store.dispatch("productModule/updateProductInventory", {
-      //   productId,
-      //   info,
-      // });
-      // console.log("updateProductInventory", productId, info);
-      axios
-        .patch(`http://localhost:3000/products/${productId}`, info)
-        .then(function (response) {})
-        .catch((error) => console.log("error", error));
+      this.$store.dispatch("productModule/updateProductInventory", {
+        productId,
+        info,
+      });
+      console.log("updateProductInventory", productId, info);
+      // axios
+      //   .patch(`http://localhost:3000/products/${productId}`, info)
+      //   .then(function (response) {})
+      //   .catch((error) => console.log("error", error));
     },
     saveBtn(index, rows) {
       // console.log(index, rows);

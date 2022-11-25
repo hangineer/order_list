@@ -19,7 +19,6 @@ div
             el-button(type='primary'  @click.native.prevent='removeItem()' @click='centerDialogVisible = false') 確定
 </template>
 <script>
-// import axios from "axios";
 export default {
   data() {
     return {

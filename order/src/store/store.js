@@ -4,8 +4,7 @@ import listModule from "./listModule";
 import productModule from "./productModule";
 import adminModule from "./adminModule";
 import createPersistedState from "vuex-persistedstate";
-import axios from "axios";
-
+// import axios from "axios";
 Vue.use(Vuex);
 export default new Vuex.Store({
   state: {},
