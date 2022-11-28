@@ -3,7 +3,7 @@ version: "3.8"
 # 定義想要作為應用程式一部分執行的容器
 services:
   order:
-    image: "traning101-105"
+    image: "hannahtw/traning101-105"
     build: 
       context: order
       dockerfile: Dockerfile
