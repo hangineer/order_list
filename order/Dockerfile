@@ -13,4 +13,4 @@ CMD [ "yarn", "run","serve" ]
 
 
 #啟動json server指令
-# docker run -d -p 3000:3000 -v /Users/hanwang/Desktop/traning101-105/order/db.json:/data/db.json clue/json-server
+# docker run -d -p 3000:80 -v /Users/hanwang/Desktop/traning101-105/order/db.json:/data/db.json clue/json-server
