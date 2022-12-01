@@ -9,14 +9,16 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-  # Json=server 
+    depends_on:
+      - json-server
+  # Json-server 
   json-server:
     image: "clue/json-server"
     ports: 
       - "3000:80"
     # 指定工作目錄
     volumes:
-      - /Users/hanwang/Desktop/traning101-105/order/db.json:/data/db.json
+      - ~/Desktop/traning101-105/order/db.json:/data/db.json
 
 # docker-compose up -d
 # docker-compose down
