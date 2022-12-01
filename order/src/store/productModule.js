@@ -34,18 +34,20 @@ export default {
   actions: {
     //新增 C
     pushProductData(context, productItem) {
-      apiCollect
-        .post("/products", productItem)
-        // .post("http://localhost:3000/products", productItem)
-        .then(function (response) {
-          console.log(productItem);
-          context.commit("setPushProductData", productItem);
-          console.log("新增成功");
-        })
-        .catch(function (error) {
-          console.log(error);
-          throw error;
-        });
+      return (
+        apiCollect
+          .post("/products", productItem)
+          // .post("http://localhost:3000/products", productItem)
+          .then(function (response) {
+            console.log(productItem);
+            context.commit("setPushProductData", productItem);
+            console.log("新增成功");
+          })
+          .catch(function (error) {
+            console.log(error);
+            throw error;
+          })
+      );
     },
 
     //讀取 R
