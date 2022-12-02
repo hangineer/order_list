@@ -5612,6 +5612,7 @@ playwright-core@1.28.1:
   resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.28.1.tgz#8400be9f4a8d1c0489abdb9e75a4cc0ffc3c00cb"
   integrity sha512-3PixLnGPno0E8rSBJjtwqTwJe3Yw72QwBBBxNoukIj3lEeBNXwbNiKrNuB1oyQgTBw5QHUhNO3SteEtHaMK6ag==
 
+<<<<<<< HEAD
 playwright@^1.20.2:
   version "1.28.1"
   resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.28.1.tgz#f23247f1de466ff73d7230d94df96271e5da6583"
@@ -5619,6 +5620,8 @@ playwright@^1.20.2:
   dependencies:
     playwright-core "1.28.1"
 
+=======
+>>>>>>> b46d59804e2f4745e20247a3ba171369d2cfa1f6
 please-upgrade-node@^3.2.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/please-upgrade-node/-/please-upgrade-node-3.2.0.tgz"

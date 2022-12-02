@@ -17,9 +17,9 @@ export default {
       state.tableData = tableItem;
     },
     //用於讀取編輯頁面的訂單資訊
-    // setOrderInfo(state, targetItem) {
-    //   state.targetItem = targetItem;
-    // },
+    setOrderInfo(state, targetItem) {
+      state.targetItem = targetItem;
+    },
     //編輯 Ｕ
     setUpdateTableData(state, targetItem) {
       state.targetItem = targetItem;

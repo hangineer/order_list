@@ -1,0 +1,26 @@
+# 定義架構版本 2.12.2
+version: "3.8"
+# 定義想要作為應用程式一部分執行的容器
+services:
+  order:
+    image: "hannahtw/traning101-105"
+    build: 
+      context: order
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - json-server
+  # Json-server 
+  json-server:
+    image: "clue/json-server"
+    ports: 
+      - "3000:80"
+    # 指定工作目錄
+    volumes:
+      - ~/Desktop/traning101-105/order/db.json:/data/db.json
+
+# docker-compose up -d
+# docker-compose down
+# docker-compose start
+# docker-compose stop
