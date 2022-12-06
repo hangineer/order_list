@@ -23,3 +23,5 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+import "cypress-file-upload";
+Cypress.config("waitAfterEachCommand", 2000); //延遲每個測試指令間的時間

@@ -11,12 +11,12 @@ div
     el-table-column(prop='note' label='產品備註' fixed align='center')
     el-table-column(fixed='right' width='100')
       template(slot-scope='scope')
-        el-button.data-button(size='mini' @click='editItem(scope.$index, scope.row)' icon='el-icon-edit') 編輯
-        el-button.data-button(size='mini' @click='removeShow(scope.$index, scope.row)' icon='el-icon-delete') 刪除
+        el-button.data-button(size='mini' @click='editItem(scope.$index, scope.row)' icon='el-icon-edit' :data-editId="scope.row.id") 編輯
+        el-button.data-button(size='mini' @click='removeShow(scope.$index, scope.row)' icon='el-icon-delete' :data-removeId="scope.row.id") 刪除
         el-dialog(title='確定要刪除此筆訂單嗎？' :visible.sync='centerDialogVisible' :modal-append-to-body='false' :close-on-click-modal='false' width='30%' center='')
           span.dialog-footer(slot='footer')
             el-button(@click='centerDialogVisible = false') 取消
-            el-button(type='primary'  @click.native.prevent='removeItem()' @click='centerDialogVisible = false') 確定
+            el-button#removeSure(type='primary'  @click.native.prevent='removeItem()' @click='centerDialogVisible = false') 確定
 </template>
 <script>
 export default {

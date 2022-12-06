@@ -20,7 +20,7 @@ div
       img(v-model="product.imgUrl", :style="imgSize", :src="product.imgUrl")
 
     el-form-item(label="購買數量:", prop="quantity")
-      el-input(v-model="targetItem.quantity") 
+      el-input#editQuantity(v-model="targetItem.quantity") 
       p.inventory 商品庫存:{{ product.inventory }}
     el-form-item(label="商品價格:")
       el-input.readonly(v-model="product.price", readonly)

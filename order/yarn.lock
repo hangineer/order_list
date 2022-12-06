@@ -2931,6 +2931,11 @@ csstype@^3.1.0:
   resolved "https://registry.npmmirror.com/csstype/-/csstype-3.1.1.tgz"
   integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
 
+cypress-file-upload@^5.0.8:
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/cypress-file-upload/-/cypress-file-upload-5.0.8.tgz#d8824cbeaab798e44be8009769f9a6c9daa1b4a1"
+  integrity sha512-+8VzNabRk3zG6x8f8BWArF/xA/W0VK4IZNx3MV0jFWrJS/qKn8eHfa5nU73P9fOQAgwHFJx7zjg4lwOnljMO8g==
+
 cypress@^9.7.0:
   version "9.7.0"
   resolved "https://registry.npmmirror.com/cypress/-/cypress-9.7.0.tgz"
@@ -5612,7 +5617,6 @@ playwright-core@1.28.1:
   resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.28.1.tgz#8400be9f4a8d1c0489abdb9e75a4cc0ffc3c00cb"
   integrity sha512-3PixLnGPno0E8rSBJjtwqTwJe3Yw72QwBBBxNoukIj3lEeBNXwbNiKrNuB1oyQgTBw5QHUhNO3SteEtHaMK6ag==
 
-<<<<<<< HEAD
 playwright@^1.20.2:
   version "1.28.1"
   resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.28.1.tgz#f23247f1de466ff73d7230d94df96271e5da6583"
@@ -5620,8 +5624,6 @@ playwright@^1.20.2:
   dependencies:
     playwright-core "1.28.1"
 
-=======
->>>>>>> b46d59804e2f4745e20247a3ba171369d2cfa1f6
 please-upgrade-node@^3.2.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/please-upgrade-node/-/please-upgrade-node-3.2.0.tgz"

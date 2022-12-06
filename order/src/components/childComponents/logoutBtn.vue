@@ -9,7 +9,7 @@ div
     span 確定要登出嗎?
     span(slot="footer" class="dialog-footer")
       el-button(@click="centerDialogVisible = false") 取消
-      el-button(type="primary" @click="centerDialogVisible = false; logout()" plan) 確定
+      el-button#logoutSure(type="primary" @click="centerDialogVisible = false; logout()" plan) 確定
   //- @click='logout' 
 </template>
 <script>
