@@ -32,10 +32,11 @@ describe("My User Test", () => {
     cy.get(".el-menu>li").contains("建立訂單").click();
 
     //todo下拉選單
-    cy.get("div[data-key]") //自定義元素，存放選到產品的id，預設為1
-      .click({ force: true })
-      .invoke("attr", "data-key", "6") //改為6
-      .should("have.attr", "data-key", "6");
+    // cy.get("input[placeholder='請選擇商品']").click();
+    // cy.get("div[data-key]") //自定義元素，存放選到產品的id，預設為1
+    //   .click({ force: true })
+    //   .invoke("attr", "data-key", "6") //改為6
+    //   .should("have.attr", "data-key", "6");
 
     // .click()
     // .then(($input) => {
@@ -70,6 +71,8 @@ describe("My User Test", () => {
       .click({ force: true });
 
     //編輯頁面
+    cy.get("input[placeholder='請選擇商品']").click();
+    cy.get("li:last-child span").contains("薄荷摩卡").click();
     cy.get(".el-form .el-input #editQuantity").clear().type("10"); //購買數量
     cy.get(".el-form textarea").clear().type("熱的,糖漿2下");
 
