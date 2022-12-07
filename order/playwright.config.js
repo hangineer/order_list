@@ -11,7 +11,24 @@ const { devices } = require("@playwright/test");
  *type {import('@playwright/test').PlaywrightTestConfig}
  */
 const config = {
-  testDir: "./tests",
+  /* Run your local dev server before starting the tests */
+  webServer: [
+    //前台
+    {
+      command: "yarn run serve",
+      url: "http://localhost:8080/",
+      timeout: 120 * 1000,
+      reuseExistingServer: !process.env.CI,
+    },
+    //後台
+    {
+      command: "json-server --watch db.json",
+      url: "http://localhost:3000/",
+      timeout: 100 * 1000,
+      reuseExistingServer: !process.env.CI,
+    },
+  ],
+  testDir: "./tests/playwright",
   /* Maximum time one test can run for. */
   // timeout: 30 * 1000,
   timeout: 30 * 1000,
@@ -34,14 +51,15 @@ const config = {
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+
   use: {
-    /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
+    /*imeout for each Playwright action in milliseconds. Defaults to 0*/
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://localhost:3000',
-
+    baseURL: "http://localhost:8080/",
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+    headless: true,
   },
 
   /* Configure projects for major browsers */
@@ -97,13 +115,7 @@ const config = {
   ],
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
-  // outputDir: 'test-results/',
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   port: 3000,
-  // },
+  // outputDir: "test-results/",
 };
 
 module.exports = config;

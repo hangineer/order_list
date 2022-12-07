@@ -26,9 +26,9 @@ describe("My admin Test", () => {
       .should("have.value", "111111"); //比對
     cy.get("div#pane-first button").contains("登入").click(); //透過內容去選取元素就使用contains
     cy.get("#loginFooter span").contains("確定").click();
+    //新增產品
     cy.get(".el-submenu__title span").contains("產品相關").click();
     cy.get(".el-menu>li").contains("建立產品").click();
-    //新增產品
     cy.get(".el-form input[placeholder='請輸入產品名稱']").type("薄荷摩卡");
     //圖片上傳:使用 cypress-file-upload
     cy.get(".el-form input[placeholder='請上傳產品圖片']").attachFile(

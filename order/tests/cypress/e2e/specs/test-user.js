@@ -31,26 +31,6 @@ describe("My User Test", () => {
     cy.get(".el-submenu__title span").contains("訂單相關").click();
     cy.get(".el-menu>li").contains("建立訂單").click();
 
-    //todo下拉選單
-    // cy.get("input[placeholder='請選擇商品']").click();
-    // cy.get("div[data-key]") //自定義元素，存放選到產品的id，預設為1
-    //   .click({ force: true })
-    //   .invoke("attr", "data-key", "6") //改為6
-    //   .should("have.attr", "data-key", "6");
-
-    // .click()
-    // .then(($input) => {
-    //   $input[0].setAttribute("data-key", "6");
-    // })
-    // .invoke("attr", "data-key", "6") //= jQuery attr()
-
-    // ----------------------
-    //  .trigger("change");
-    // cy.get("@dataKey")
-    //   .then(($input) => {
-    //     $input[0].setAttribute("data-key", "6");
-    //   })
-    //   .should("have.attr", "data-key", "6");
     cy.get(".el-form input[placeholder='請輸入購買數量']").clear().type("5");
     cy.get(".el-form textarea").type("無");
     cy.get("button.createItem").click();
@@ -63,7 +43,7 @@ describe("My User Test", () => {
       .find("td:last-child>div.cell button[data-editId]")
       .first()
       // To invoke a function on a current subject,
-      .invoke("attr", "data-editId") //= jQuery attr()
+      .invoke("attr", "data-editId") // jQuery attr()
       .then(parseFloat);
 
     cy.get(".el-table__row:last-child td:last-child div.cell button span")
@@ -71,6 +51,12 @@ describe("My User Test", () => {
       .click({ force: true });
 
     //編輯頁面
+    //下拉選單
+    // cy.get("input[placeholder='請選擇商品']").click();
+    // cy.get("div[data-key]") //自定義元素，存放選到產品的id，預設為1
+    //   .click({ force: true })
+    //   .invoke("attr", "data-key", "6") //改為6
+    //   .should("have.attr", "data-key", "6");
     cy.get("input[placeholder='請選擇商品']").click();
     cy.get("li:last-child span").contains("薄荷摩卡").click();
     cy.get(".el-form .el-input #editQuantity").clear().type("10"); //購買數量

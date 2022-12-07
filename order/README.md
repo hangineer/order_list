@@ -65,8 +65,9 @@ yarn build
 - playwright :
 
 ```
-npx playwright test	測試所有spec.js檔案
+npx playwright test/yarn run test	測試所有spec.js檔案
 npx playwright test [檔案名稱] --headed 使用headed模式測試
+npx playwright test --debug debug模式
 ```
 
 ### Lints and fixes files
