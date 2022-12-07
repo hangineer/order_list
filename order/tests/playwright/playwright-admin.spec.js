@@ -13,7 +13,7 @@ test("My Admin Test", async ({ page, baseURL }) => {
   await page.locator("div#pane-first input[type = 'password']").fill("111111");
   await page.locator("div#pane-first button:has-text('登入')").click();
   await page.locator("#loginFooter span:has-text('確定')").click();
-  //建立訂單
+  //建立產品
   await page
     .locator(
       //:right-of layout selector
@@ -22,10 +22,6 @@ test("My Admin Test", async ({ page, baseURL }) => {
     .click();
   await page.getByRole("menuitem", { name: "建立產品" }).click();
   await page.getByPlaceholder("請輸入產品名稱").fill("氮氣咖啡");
-  await page
-    .getByPlaceholder("請上傳產品圖片")
-    // .click()
-    .setInputFiles("tests/playwright/氮氣咖啡.jpeg");
 
   await page.getByPlaceholder("請輸入產品價格").fill("150");
   await page.getByPlaceholder("請輸入產品庫存").fill("200");
@@ -34,7 +30,15 @@ test("My Admin Test", async ({ page, baseURL }) => {
     .fill("氮氣注入低溫慢速萃取的冷萃咖啡中，可創造出綿密的泡沫");
   await page.locator("button.createProduct").click();
   await page.locator("button#createProductSure:has-text('確定')").click();
+  await page.getByRole("button", { name: "Close" }).click();
+  //反向測試 補上產品圖片
+  await page
+    .getByPlaceholder("請上傳產品圖片")
+    // .click()
+    .setInputFiles("tests/playwright/氮氣咖啡.jpeg");
 
+  await page.locator("button.createProduct").click();
+  await page.locator("button#createProductSure:has-text('確定')").click();
   //編輯按鈕
   await page
     .locator(".el-table__row >> nth=-1") //get the last element
@@ -72,12 +76,4 @@ test("My Admin Test", async ({ page, baseURL }) => {
   await page
     .locator(".el-dialog__footer button#logoutSure:has-text('確定')")
     .click();
-
-  //   await page
-  //     .getByRole("row", { name: " 編輯  刪除 確定要刪除此筆訂單嗎？" })
-  //     // .filter({ hasText: "770707070編輯刪除確定要刪除此筆訂單嗎?取消確定" })
-  //     .getByRole("button", { name: "確定" })
-  //     .click();
-  //   await page.getByRole("button", { name: "登出" }).click();
-  //   await page.getByRole("button", { name: "確定" }).click();
 });

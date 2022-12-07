@@ -7,7 +7,7 @@ test("My User Test", async ({ page, baseURL }) => {
   //輸入電子郵件
   await page
     .locator("div#pane-first input[type = 'email']")
-    .fill("hannah@playwright.com");
+    .fill("hannah@test.com");
   //輸入密碼
   await page.locator("div#pane-first input[type = 'password']").fill("111111");
   await page.locator("div#pane-first button:has-text('登入')").click();
@@ -18,13 +18,22 @@ test("My User Test", async ({ page, baseURL }) => {
     .click();
   await page.getByRole("menuitem", { name: "建立訂單" }).click();
   await page.getByPlaceholder("請選擇商品").click();
-  await page.getByRole("listItem").filter({ hasText: "焦糖瑪奇朵" }).click();
-
-  await page.getByPlaceholder("請輸入購買數量").fill("5");
+  //WAI-ARIA 較少用到
+  // await page.getByRole("listItem").filter({ hasText: "焦糖瑪奇朵" }).click();
+  await page
+    .locator(".el-select-dropdown__item:has-text('焦糖瑪奇朵')")
+    .click();
+  //反向測試
+  await page.getByPlaceholder("請輸入購買數量").fill("1000");
   await page.locator(".el-form textarea").fill("新增成功");
   await page.locator("button.createItem").click();
   await page.locator("button#createListSure").click();
-
+  //正常情況
+  await page.getByPlaceholder("請輸入購買數量").fill("5");
+  await page.getByRole("button", { name: "Close" }).click();
+  // await page.locator("button i.el-icon-close").click();
+  await page.locator("button.createItem").click();
+  await page.locator("button#createListSure").click();
   //編輯按鈕
   await page
     .locator(".el-table__row >> nth=-1") //get the last element

@@ -21,7 +21,18 @@ test("My Signup Test", async ({ page, baseURL }) => {
     )
     .fill("111111");
 
-  //確認密碼
+  //反向測試
+  await page
+    .locator(
+      'div#pane-second label[for="checkPassword"] + div .el-input input[type="password"]'
+    )
+    .fill("11115");
+
+  //註冊按鈕
+  await page.locator(".el-button span:has-text('註冊')").click();
+  await page.locator("#signupFooter button:nth-child(2)").click();
+
+  //正常情況
   await page
     .locator(
       'div#pane-second label[for="checkPassword"] + div .el-input input[type="password"]'
@@ -42,7 +53,7 @@ test("My Signup Test", async ({ page, baseURL }) => {
       .inputValue()
   );
   //亦可使用 getAttribute("value")
-
+  //註冊按鈕
   await page.locator(".el-button span:has-text('註冊')").click();
   await page.locator("#signupFooter button:nth-child(2)").click();
 });
