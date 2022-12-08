@@ -17,7 +17,7 @@ div
     el-form-item(label='訂單編號:')
       el-input(v-model='id' :disabled='true')
     el-form-item(label='商品名稱:' )
-      el-select(v-model="selectedProduct" placeholder="請選擇商品")
+      el-select(v-model="selectedProduct" :data-key="product.id" placeholder="請選擇商品")
         el-option(
           v-for='product in productData'
           :key='product.id' 
@@ -38,7 +38,7 @@ div
       el-dialog(title='確定新增此筆訂單？' :visible.sync='centerDialogVisible' :modal-append-to-body='false' :close-on-click-modal='false' width='30%' center='')
           span.dialog-footer(slot='footer')
             el-button(@click='centerDialogVisible = false') 取消
-            el-button(@click.native.prevent="createItem") 確定
+            el-button#createListSure(@click.native.prevent="createItem") 確定
       el-button(@click="resetForm('ruleForm')") 重置
     
 </template>
