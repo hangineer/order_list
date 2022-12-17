@@ -79,15 +79,20 @@ npx json-server --watch db.json -p 3001(指定port)
 
 [step3] npx playwright show-report   
 
-
 逐步查看各環節的測試
-1.npx playwright test --debug 或 npx playwright test --headed
+[step1]  git checkout feature/e2e-testing
+
+[step2]  npx playwright test --debug 或 npx playwright test --headed 
+```
+
 
 #### If you want to run cypress:
 ```
 [step1] yarn run serve
+
 [step2] yarn run cypress open
 ```
+
 
 ### docker hub
 https://hub.docker.com/repository/docker/hannahtw/traning101-105/general
