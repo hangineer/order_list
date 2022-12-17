@@ -12,9 +12,9 @@ div
     el-form-item(label='產品編號:')
         el-input(v-model='id' :disabled='true')
     el-form-item(label='產品名稱:' prop='name')
-        el-input(v-model='productForm.name' placeholder='請輸入商品名稱')
+        el-input(v-model='productForm.name' placeholder='請輸入產品名稱')
     el-form-item(label='產品圖片:' prop='imgUrl')
-        input(type='file' placeholder='請上傳商品圖片'  @change="imgUpload" accept="image/*" )
+        input(type='file' placeholder='請上傳產品圖片'  @change="imgUpload" accept="image/*" )
         img#imgUrl(v-if="productForm.imgUrl" v-model="productForm.imgUrl" :src="productForm.imgUrl" :style="imgSize")   
     el-form-item(label='產品價格:' prop='price')
         el-input(v-model='productForm.price' placeholder='請輸入產品價格')
@@ -27,7 +27,7 @@ div
         el-dialog(title="確定新增此筆訂單？" :close-on-click-modal='false' :visible.sync="dialogVisible" width="30%" center="") 
           span.dialog-footer(slot='footer')    
             el-button(@click="dialogVisible = false") 取消
-            el-button(type="primary" @click="createProduct") 確定
+            el-button#createProductSure(type="primary" @click="createProduct") 確定
         el-button(@click="resetForm('productForm')") 重置
 </template>
 

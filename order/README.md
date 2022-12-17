@@ -61,14 +61,11 @@ yarn install
 yarn run serve
 ```
 ### Run Json-server
-
 ```
 json-server --watch db.json
 json-server --watch db.json -p 3001(指定port)
 ```
-
 ### Run end-to-end tests
-
 ```
 1.git checkout feature/OT-105
 
@@ -85,7 +82,5 @@ json-server --watch db.json -p 3001(指定port)
 yarn run serve
 yarn run cypress open
 ```
-
-
 ### docker hub
 https://hub.docker.com/repository/docker/hannahtw/traning101-105/general

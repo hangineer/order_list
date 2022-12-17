@@ -45,7 +45,7 @@
                 :close-on-click-modal="false"
                 width="30%" center)
                   span 確定註冊嗎?
-                  span.dialog-footers#signUpFooter(slot="footer")
+                  span.dialog-footers#signupFooter(slot="footer")
                     el-button(@click="signupDialogVisible = false") 取消
                     el-button(type="primary" @click="signupDialogVisible = false ;submitSignupForm()" plan) 確定
   img.fingerPoint(src='../assets/image/btn_joinHand.gif' alt='finger point')

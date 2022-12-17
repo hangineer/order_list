@@ -10,7 +10,7 @@ div
     el-form-item(label='產品編號:' prop='id')
         el-input(v-model='id' :disabled='true')
     el-form-item(label='產品名稱:' prop='name')
-        el-input(v-model='targetProduct.name' placeholder='請輸入商品名稱')
+        el-input#productName(v-model='targetProduct.name' placeholder='請輸入商品名稱')
     el-form-item(label='產品圖片:' prop='imgUrl')
         input(type='file' placeholder='請上傳商品圖片'  @change="imgUpload" accept="image/*" )
         img#imgUrl(v-if="targetProduct.imgUrl" v-model="targetProduct.imgUrl" :src="targetProduct.imgUrl" :style="imgSize")   
