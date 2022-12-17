@@ -11,9 +11,9 @@
             el-form-item(label='電子郵件' prop='loginEmail')
               el-input(type='email' v-model='loginForm.loginEmail' autocomplete='off')
             el-form-item(label='密碼' prop='loginPassword')
-              el-input( type='password' v-model='loginForm.loginPassword' autocomplete='off')
-            el-button( type='primary'  @click="dialogVisible = true") 登入
-            el-button( @click="resetLoginForm") 重置
+              el-input(type='password' v-model='loginForm.loginPassword' autocomplete='off')
+            el-button(type='primary'  @click="dialogVisible = true") 登入
+            el-button(@click="resetLoginForm") 重置
               el-dialog(
               :append-to-body='true'
               :visible.sync="dialogVisible" 
@@ -34,7 +34,7 @@
               el-input(type='password' v-model='signupForm.signupPassword' autocomplete='off')
             el-form-item(label='確認密碼' prop='checkPassword')
               el-input(type='password' v-model='signupForm.checkPassword' autocomplete='off')
-            el-form-item(label='選擇身份' prop='role')
+            el-form-item.displayNone(label='選擇身份' prop='role')
               el-radio.role(v-model='signupForm.role' label='user') 買家
               el-radio.role(v-model='signupForm.role' label='admin') 管理者
             el-button(type='primary'  @click="signupDialogVisible = true") 註冊
@@ -119,8 +119,8 @@ export default {
           {
             // \u4e00-\u9fa5 指中文範圍
             required: true,
-            pattern: /^[\u4e00-\u9fa5]{2,6}$|^[a-zA-z]{2,}$/g,
-            message: "暱稱需兩個字以上",
+            pattern: /^[\u4e00-\u9fa5a-zA-z]{1,}$/g,
+            message: "暱稱僅能是中英文",
             trigger: "blur",
           },
         ],
@@ -151,17 +151,21 @@ export default {
           },
         ],
 
-        role: [
-          {
-            required: true,
-            trigger: "blur",
-          },
-        ],
+        // role: [
+        //   {
+        //     required: true,
+        //     trigger: "blur",
+        //   },
+        // ],
       },
     };
   },
   created() {
     this.getData();
+    if (this.$store.state.adminModule.isLogin) {
+      // alert("您已登入 視窗關閉後將跳轉至訂單頁面");
+      this.$router.push("/list");
+    }
   },
   computed: {
     userData() {
@@ -183,9 +187,9 @@ export default {
       //   });
     },
     submitSignupForm() {
+      const this2 = this;
       this.$refs.signupForm.validate((valid) => {
         if (valid) {
-          let this2 = this;
           const userInfo = {
             email: this2.signupForm.signupEmail,
             signupName: this2.signupForm.signupName,
@@ -217,7 +221,7 @@ export default {
               signupName: "",
               signupPassword: "",
               checkPassword: "",
-              role: "user",
+              // role: "user",
             };
             this2.activeName = "first";
             // axios
@@ -276,9 +280,7 @@ export default {
                 duration: 1500,
                 type: "success",
               });
-
               //名稱  要存的物件
-              console.log(findUser);
               sessionStorage.setItem("userData", JSON.stringify(findUser));
               this.$store.commit("adminModule/setIsLogin", true);
               this.$router.push("/list");
@@ -286,18 +288,19 @@ export default {
               this.$notify.error({
                 title: "錯誤",
                 duration: 1500,
-                message: "帳號密碼輸入錯誤!",
+                message: "帳號或密碼輸入錯誤!",
               });
             }
           }
-        } else {
-          this.$notify({
-            title: "注意",
-            message: "請填寫完整",
-            duration: 1500,
-            type: "warning",
-          });
         }
+        // else {
+        //   this.$notify({
+        //     title: "注意",
+        //     message: "請填寫完整",
+        //     duration: 1500,
+        //     type: "warning",
+        //   });
+        // }
       });
     },
   },
@@ -324,10 +327,13 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  .role {
-    display: block;
-    text-align: left !important;
-    margin: 7px 0;
+  // .role {
+  //   display: block;
+  //   text-align: left !important;
+  //   margin: 7px 0;
+  // }
+  .displayNone{
+    display: none;
   }
 }
 </style>
