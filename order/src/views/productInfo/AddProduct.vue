@@ -37,7 +37,6 @@ export default {
     return {
       //新增的彈出視窗
       dialogVisible: false,
-      // productData: [],
       imgSize: {
         display: "block",
         width: "300px",
@@ -45,7 +44,7 @@ export default {
         margin: "20px auto",
       },
       productForm: {
-        id: null,
+        // id: null,
         name: "",
         imgUrl: "",
         inventory: null,
@@ -66,14 +65,14 @@ export default {
           {
             required: true,
             pattern: /^\d+$/g,
-            message: "請輸入數字(需正數)",
+            message: "請輸入數字(可是正整數或0)",
             trigger: "blur",
           },
         ],
         imgUrl: [
           {
             required: true,
-            message: "請上傳圖片",
+            message: "圖片為必填",
             trigger: "change",
           },
         ],
@@ -81,7 +80,7 @@ export default {
           {
             required: true,
             pattern: /^\d+$/g,
-            message: "請輸入數字(需正數)",
+            message: "請輸入數字(可是正整數或0)",
             trigger: "blur",
           },
         ],

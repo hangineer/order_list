@@ -214,7 +214,7 @@ export default {
     },
   },
   async created() {
-    let _this = this;
+    const _this = this;
     await this.$store
       .dispatch("productModule/renderProductData")
       .then(function () {
