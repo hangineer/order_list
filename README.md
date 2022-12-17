@@ -1,4 +1,4 @@
-## File details 資料夾結構和內容
+## File details 資料夾結構
 ```
 |- src/
     |- components/
@@ -34,13 +34,13 @@
 ```
 ## Branch detail 分支說明
 ```
-OT-101: 訂單和產品相關
+1. feature/order: 訂單和產品相關
 
-feature/OT-104: Dockerfile & docker-compose
+2. feature/docker: Dockerfile & docker-compose
 
-feature/OT-105: e2e testing(playwright & cypress)
+3. feature/e2e-testing: playwright & cypress tests
 
-master
+4. master
 ```
 
 ## User flow 用戶操作流程
@@ -52,35 +52,47 @@ master
 根目錄(登入及註冊) => 查看訂單 or 查看產品列表 => 編輯或刪除產品列表
 ```
 
-## Project setup 如何在您的電腦建立專案
-```
+## Project setup 如何啟動專案
+
+### Install project with yarn
+``` 
+cd order
 yarn install
 ```
-### Compiles and hot-reloads for development
+### Run front desk
 ```
 yarn run serve
 ```
 ### Run Json-server
 ```
-json-server --watch db.json
-json-server --watch db.json -p 3001(指定port)
+npx json-server --watch db.json
+npx json-server --watch db.json -p 3001(指定port)
 ```
-### Run end-to-end tests
+### Run e2e tests
+
+#### If you want to run playwright:
 ```
-1.git checkout feature/OT-105
+直接查看檢測報告
+[step1] git checkout feature/e2e-testing
 
-2.Playwright 啟動步驟
+[step2] yarn run test
 
-查看整個檢測報告 
-1.yarn run test
-2.npx playwright show-report
+[step3] npx playwright show-report   
 
 逐步查看各環節的測試
-1.npx playwright test --debug 或 npx playwright test --headed
+[step1]  git checkout feature/e2e-testing
 
-3.Cypress 啟動步驟
-yarn run serve
-yarn run cypress open
+[step2]  npx playwright test --debug 或 npx playwright test --headed 
 ```
+
+
+#### If you want to run cypress:
+```
+[step1] yarn run serve
+
+[step2] yarn run cypress open
+```
+
+
 ### docker hub
 https://hub.docker.com/repository/docker/hannahtw/traning101-105/general
