@@ -50,6 +50,10 @@
 
 管理者：
 根目錄(登入及註冊) => 查看訂單 or 查看產品列表 => 編輯或刪除產品列表
+
+管理者帳密：
+email: hannah@admin.com
+password: 111111
 ```
 
 ## Project setup 如何啟動專案
