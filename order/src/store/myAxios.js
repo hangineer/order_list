@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://planet-showy-flower.glitch.me/",
   headers: { "X-Requested-With": "XMLHttpRequest" },
 });
 export const apiCollect = instance;
