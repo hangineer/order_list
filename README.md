@@ -1,3 +1,5 @@
+## 本專案使用到的技術：Vue2 + element UI + SCSS + Docker + playwright + cypress
+## 部署：前台（Netlify） + 後台 (Render)
 ## File details 資料夾結構
 ```
 |- src/
@@ -100,3 +102,4 @@ npx json-server --watch db.json -p 3001(指定port)
 
 ### docker hub
 https://hub.docker.com/repository/docker/hannahtw/traning101-105/general
+
