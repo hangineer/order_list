@@ -1,5 +1,9 @@
-## 本專案使用到的技術：Vue2 + element UI + SCSS + Docker + playwright + cypress
-## 部署：前台（Netlify） + 後台 (Render)
+## 本專案使用到的技術
+* 畫面：Vue2 + element UI + SCSS
+* DB： 以 json-server 模擬 DB 環境
+* 測試：playwright + cypress
+* 部署：前台（Netlify） + 後台 (Render) / Docker
+  
 ## File details 資料夾結構
 ```
 |- src/
