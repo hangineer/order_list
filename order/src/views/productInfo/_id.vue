@@ -13,8 +13,8 @@ div
         el-input#productName(v-model='targetProduct.name' placeholder='請輸入商品名稱')
     el-form-item(label='產品圖片:' prop='imgUrl')
         input(type='file' placeholder='請上傳商品圖片'  @change="imgUpload" accept="image/*" )
-        img#imgUrl(v-if="targetProduct.imgUrl" v-model="targetProduct.imgUrl" :src="targetProduct.imgUrl" :style="imgSize")   
-        //- img#imgUrl(v-if="targetProduct.imgUrl" v-model="targetProduct.imgUrl" :src="Base64.decode('this.imgUrl')" :style="imgSize")   
+        img#imgUrl(v-if="targetProduct.imgUrl" v-model="targetProduct.imgUrl" :src="targetProduct.imgUrl" :style="imgSize")
+        //- img#imgUrl(v-if="targetProduct.imgUrl" v-model="targetProduct.imgUrl" :src="Base64.decode('this.imgUrl')" :style="imgSize")
     el-form-item(label='產品價格:' prop='price')
         el-input(v-model='targetProduct.price' placeholder='請輸入產品價格')
     el-form-item( label='產品庫存:' prop='inventory')
@@ -101,16 +101,6 @@ export default {
   created() {
     let productID = this.$route.params.id; //抓到目前產品的id
     this.$store.dispatch("productModule/getTargetProduct", productID);
-    // let _this = this;
-    // axios
-    //   .get(`http://localhost:3000/products/${parseInt(this.$route.params.id)}`)
-    //   .then(function (response) {
-    //     _this.targetProduct = response.data;
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //     throw error;
-    //   });
   },
   methods: {
     saveBtn(index, rows) {
@@ -121,41 +111,21 @@ export default {
             this.targetProduct
           );
           this.$router.push("/product");
-          // let _this = this;
-          // axios
-          //   .patch(
-          //     `http://localhost:3000/products/${parseInt(
-          //       this.$route.params.id
-          //     )}`,
-          //     this.targetProduct
-          //   )
-          //   .then(function (response) {
-          //     _this.$router.push("/product");
-          //     console.log("修改成功");
-          //   })
-          //   .catch(function (error) {
-          //     console.log(error);
-          //     throw error;
-          //   });
         }
       });
     },
     cancelBtn() {
       this.$router.push("/product");
-      //   this.$router.go("-1");
     },
     imgUpload(e) {
       const _this = this;
       const file = e.target.files[0];
-      // this.file = e.target.files[0];
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
       fileReader.addEventListener("load", () => {
         _this.targetProduct.imgUrl = fileReader.result;
-        console.log(fileReader.result);
         console.warn(_this.targetProduct.imgUrl);
       });
-      console.log("圖片編碼", this.targetProduct.imgUrl);
     },
   },
 };

@@ -23,7 +23,6 @@ export default {
   data() {
     return {
       centerDialogVisible: false, //彈跳視窗
-      // selectedProduct: null,
       deleteIndex: null,
       imgSize: {
         display: "block",
@@ -52,48 +51,12 @@ export default {
         this.deleteIndex
       );
       await this.$store.dispatch("productModule/renderProductData");
-      // axios
-      //   .delete(`http://localhost:3000/products/${this.deleteIndex}`)
-      //   .then(function (response) {
-      //     // axios.get("http://localhost:3000/products").then(function (response) {
-      //     //   _this.$store.dispatch(
-      //     //     "productModule/renderProductData",
-      //     //     response.data
-      //     //   );
-      //     // });
-
-      //     _this.getProductData();
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //     throw error;
-      //   });
     },
     editItem(index, rows) {
       this.$router.push(`/product/${rows.id}`);
     },
     async getProductData() {
       await this.$store.dispatch("productModule/renderProductData");
-      // let _this = this;
-      // axios
-      //   .get("http://localhost:3000/products")
-      //   .then(function (response) {
-      //     _this.productData = response.data;
-      //     _this.$store.dispatch("productModule/renderProductData");
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //     throw error;
-      //   });
-      // this.productData.forEach((item) => {
-      //   this.productData.forEach((product) => {
-      //     if (product.id === item.productId) {
-      //       item.productName = product.name;
-      //       item.price = product.price;
-      //       // item.total = product.price * item.quantity;
-      //     }
-      //   });
-      // });
     },
   },
   //讀取、顯示

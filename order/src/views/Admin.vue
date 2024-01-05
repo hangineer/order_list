@@ -16,7 +16,7 @@
             el-button(@click="resetLoginForm") 重置
               el-dialog(
               :append-to-body='true'
-              :visible.sync="dialogVisible" 
+              :visible.sync="dialogVisible"
               :close-on-click-modal="false"
               width="30%" center)
                 span 確定登入嗎?
@@ -41,7 +41,7 @@
             el-button(@click='resetSignupForm') 重置
               el-dialog(
                 :append-to-body='true'
-                :visible.sync="signupDialogVisible" 
+                :visible.sync="signupDialogVisible"
                 :close-on-click-modal="false"
                 width="30%" center)
                   span 確定註冊嗎?
@@ -175,16 +175,6 @@ export default {
   methods: {
     getData() {
       this.$store.dispatch("adminModule/getUserData");
-      // let _this = this;
-      // axios
-      //   .get("http://localhost:3000/users")
-      //   .then(function (response) {
-      //     _this.userData = response.data;
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //     throw error;
-      //   });
     },
     submitSignupForm() {
       const this2 = this;
@@ -221,29 +211,8 @@ export default {
               signupName: "",
               signupPassword: "",
               checkPassword: "",
-              // role: "user",
             };
             this2.activeName = "first";
-            // axios
-            //   .post("http://localhost:3000/users", userInfo)
-            //   .then(function (response) {
-            //     this2.$notify({
-            //       message: "註冊成功，請先登入",
-            //       type: "success",
-            //     });
-            //     // 清空表單;
-            //     this2.signupForm = {
-            //       signupEmail: "",
-            //       signupPassword: "",
-            //       checkPassword: "",
-            //       role: "user",
-            //     };
-            //     this2.activeName = "first";
-            //   })
-            //   .catch(function (error) {
-            //     console.log(error);
-            //     throw error;
-            //   });
           }
         }
       });

@@ -10,9 +10,9 @@ div
    el-button( class="fallback" @click="fallback" icon='el-icon-back' size="small") 返回訂單頁
   el-form(
     :model='ruleForm'
-    :rules='rules' 
-    ref='ruleForm' 
-    label-width='100px' 
+    :rules='rules'
+    ref='ruleForm'
+    label-width='100px'
     size='mini')
     el-form-item(label='訂單編號:')
       el-input(v-model='id' :disabled='true')
@@ -20,9 +20,9 @@ div
       el-select(v-model="selectedProduct" :data-key="product.id" placeholder="請選擇商品")
         el-option(
           v-for='product in productData'
-          :key='product.id' 
+          :key='product.id'
           :value="product.id"
-          :label="product.name") 
+          :label="product.name")
       img( v-model='product.imgUrl' :style="imgSize" :src='product.imgUrl')
     el-form-item( label='購買數量:' prop='quantity')
       el-input(v-model='ruleForm.quantity' placeholder='請輸入購買數量')
@@ -30,7 +30,7 @@ div
     el-form-item(label='商品價格:')
       el-input(class="readonly" v-model='product.price' readonly)
     el-form-item( label='訂單總額:')
-      el-input(class="readonly" v-model='total' readonly)   
+      el-input(class="readonly" v-model='total' readonly)
     el-form-item(label='訂單備註:' prop='note')
       el-input(type='textarea' v-model='ruleForm.note')
     el-form-item
@@ -40,7 +40,7 @@ div
             el-button(@click='centerDialogVisible = false') 取消
             el-button#createListSure(@click.native.prevent="createItem") 確定
       el-button(@click="resetForm('ruleForm')") 重置
-    
+
 </template>
 <script>
 export default {
@@ -118,25 +118,6 @@ export default {
   created() {
     this.$store.dispatch("productModule/renderProductData");
     this.$store.dispatch("listModule/renderTableData");
-    // let _this = this;
-    // axios
-    //   .get("http://localhost:3000/products")
-    //   .then(function (response) {
-    //     _this.productData = response.data;
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //     throw error;
-    //   });
-    // axios
-    //   .get("http://localhost:3000/orders")
-    //   .then(function (response) {
-    //     _this.tableData = response.data;
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //     throw error;
-    //   });
   },
   methods: {
     //返回列表
@@ -170,28 +151,6 @@ export default {
             "productModule/updateProductInventory",
             productInfo
           );
-          // axios
-          //   .post("http://localhost:3000/orders", createData)
-          //   .then(function (response) {
-          //     console.log("新增成功");
-          //     // let tableItem = response.data;
-
-          //     axios
-          //       .patch(
-          //         `http://localhost:3000/products/${parseInt(
-          //           _this.product.id
-          //         )}`,
-          //         _this.product
-          //       )
-          //       .then((res) => {
-          //         console.log("庫存修改成功");
-          //         console.log("目前庫存", _this.product.inventory);
-          //       });
-          //   })
-          //   .catch((err) => {
-          //     console.log(err);
-          //     throw err;
-          //   });
           //清空表單
           this.ruleForm = {
             selectedProduct: 1,

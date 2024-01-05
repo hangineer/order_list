@@ -22,7 +22,6 @@ export default {
       // signUpApi(userInfo)
       apiCollect
         .post("/users", userInfo)
-        // .post("http://localhost:3000/users", userInfo)
         .then(function (response) {
           context.commit("signupUserData", userInfo);
         })
@@ -36,7 +35,6 @@ export default {
       // loginApi()
       apiCollect
         .get("/users")
-        // .get("http://localhost:3000/users")
         .then(function (response) {
           context.commit("setGetUserData", response.data);
         })

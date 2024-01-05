@@ -15,7 +15,7 @@ div
         el-input(v-model='productForm.name' placeholder='請輸入產品名稱')
     el-form-item(label='產品圖片:' prop='imgUrl')
         input(type='file' placeholder='請上傳產品圖片'  @change="imgUpload" accept="image/*" )
-        img#imgUrl(v-if="productForm.imgUrl" v-model="productForm.imgUrl" :src="productForm.imgUrl" :style="imgSize")   
+        img#imgUrl(v-if="productForm.imgUrl" v-model="productForm.imgUrl" :src="productForm.imgUrl" :style="imgSize")
     el-form-item(label='產品價格:' prop='price')
         el-input(v-model='productForm.price' placeholder='請輸入產品價格')
     el-form-item( label='產品庫存:' prop='inventory')
@@ -24,8 +24,8 @@ div
         el-input(type='textarea' v-model='productForm.note')
     el-form-item
         el-button.createProduct( type='primary' @click="dialogVisible = true") 新增
-        el-dialog(title="確定新增此筆訂單？" :close-on-click-modal='false' :visible.sync="dialogVisible" width="30%" center="") 
-          span.dialog-footer(slot='footer')    
+        el-dialog(title="確定新增此筆訂單？" :close-on-click-modal='false' :visible.sync="dialogVisible" width="30%" center="")
+          span.dialog-footer(slot='footer')
             el-button(@click="dialogVisible = false") 取消
             el-button#createProductSure(type="primary" @click="createProduct") 確定
         el-button(@click="resetForm('productForm')") 重置
@@ -97,25 +97,10 @@ export default {
     //todo id在store裏面印出來的會是null
     id() {
       return this.$store.getters["productModule/id"];
-      // return this.productData[this.productData.length - 1]?.id + 1;
     },
-
-    // productData() {
-    //   return this.$store.state.productModule.productData;
-    // },
   },
   created() {
     this.$store.dispatch("productModule/renderProductData");
-    // let _this = this;
-    // axios
-    //   .get("http://localhost:3000/products")
-    //   .then(function (response) {
-    //     _this.productData = response.data;
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //     throw error;
-    //   });
   },
   methods: {
     fallback() {
@@ -129,37 +114,17 @@ export default {
       fileReader.readAsDataURL(file);
       fileReader.addEventListener("load", () => {
         _this.productForm.imgUrl = fileReader.result;
-        console.log(fileReader.result);
         console.warn(_this.productForm.imgUrl);
       });
-      console.log("圖片編碼", this.productForm.imgUrl);
     },
     //新增
     async createProduct() {
-      // this.productForm.id = this.id;
       await this.$refs.productForm.validate((valid) => {
         if (valid) {
           this.$store.dispatch(
             "productModule/pushProductData",
             this.productForm
           );
-          // let _this = this; //在axios不能順利抓到this
-          // axios
-          //   .post("http://localhost:3000/products", _this.productForm)
-          //   .then(function (response) {
-          //     console.log("新增成功");
-          //     console.log(response);
-          //     let productItem = response.data;
-          //     _this.$store.dispatch(
-          //       "productModule/pushProductData",
-          //       productItem
-          //     );
-          //   })
-          //   .catch(function (error) {
-          //     console.log(error);
-          //     throw error;
-          //   });
-
           //清空表單
           this.productForm = {
             name: "",
@@ -188,7 +153,6 @@ export default {
 
 <style lang="scss" scoped>
 .relative {
-  // position: absolute;
   width: 100px;
   height: 30px;
   margin-bottom: 10px;

@@ -56,7 +56,6 @@ const routes = [
     // ],
     beforeEnter: (to, from, next) => {
       if (JSON.parse(sessionStorage.getItem("userData")).role == "user") {
-        console.log("無法修改訂單");
         next({ name: "List" });
       } else {
         next();
@@ -93,7 +92,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // console.log(to);
   if (to.name != "Admin") {
     if (sessionStorage.getItem("userData")) {
       next(); //放行

@@ -36,10 +36,7 @@ export default {
     pushTableData(context, tableItem) {
       apiCollect
         .post("/orders", tableItem)
-        // .post("http://localhost:3000/orders", tableItem)
         .then(function (response) {
-          console.log("新增成功");
-          //提交一個mutation
           context.commit("setPushTableData", tableItem);
         })
         .catch((err) => {
@@ -51,7 +48,6 @@ export default {
     renderTableData(context) {
       apiCollect
         .get("/orders")
-        // .get("http://localhost:3000/orders")
         .then(function (response) {
           context.commit("setRenderTableData", response.data);
         })
@@ -65,7 +61,6 @@ export default {
       return (
         apiCollect
           .get(`/orders/${parseInt(nowId)}`)
-          // .get(`http://localhost:3000/orders/${parseInt(nowId)}`)
           .then(function (response) {
             context.commit("setOrderInfo", response.data);
           })
@@ -76,38 +71,27 @@ export default {
       );
     },
     //修改 U
-    // updateTableData(context, obj) {
-    //   context.commit("setUpdateTableData", obj);
-    // },
     updateTableData(context, targetItem) {
       apiCollect
         .patch(
           `/orders/${targetItem.id}`,
-          targetItem //舊Data
+          targetItem //舊 Data
         )
-        // .patch(
-        //   `http://localhost:3000/orders/${targetItem.id}`,
-        //   targetItem //舊Data
-        // )
         .then(function (response) {
           context.commit("setUpdateTableData", response.data);
-          console.log("修改成功");
         })
         .catch(function (error) {
           console.log(error);
           throw error;
         });
-      // context.commit("setUpdateTableData", newContent);
     },
 
     //刪除 D
     removeTableData(context, deleteIndex) {
       apiCollect
         .delete(`/orders/${deleteIndex}`)
-        // .delete(`http://localhost:3000/orders/${deleteIndex}`)
         .then(function (response) {
           context.commit("setRemoveTableData", deleteIndex);
-          console.log("刪除成功", response);
         })
         .catch((err) => {
           console.log(err);
@@ -115,10 +99,15 @@ export default {
         });
     },
   },
-  //getters可想成資料加工，類似於computed
+  //getters 可想成資料加工，類似於 computed
   getters: {
     id(state) {
-      return state.tableData[state.tableData.length - 1]?.id + 1;
+      const defaultId = 1;
+      if (state.tableData && state.tableData.length > 0) {
+        return state.tableData[state.tableData.length - 1].id + 1;
+      } else {
+        return defaultId;
+      }
     },
   },
 };

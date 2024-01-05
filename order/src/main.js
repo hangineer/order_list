@@ -42,12 +42,6 @@ new Vue({
   render: (h) => h(App),
   router,
   store,
-  // created: function () {
-  //   console.log("Vue.prototype", Vue.prototype);
-  //   console.log("this.$http", this.$http);
-  //   console.log("this", this);
-  //   this.$http;
-  // },
 }).$mount("#app");
 // (Vue.config.globalProperties.$http = axios), vue3
 Vue.config.productionTip = false;

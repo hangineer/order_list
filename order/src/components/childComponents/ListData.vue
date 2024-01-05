@@ -8,13 +8,13 @@ div
     el-table-column(prop='price' label='商品價格' fixed align ='center')
     el-table-column(prop='total' label='訂單總額' fixed align='center')
     el-table-column(prop='note' label='訂單備註' fixed align='center')
-    el-table-column(fixed='right' width='100') 
+    el-table-column(fixed='right' width='100')
       template(slot-scope='scope')
         el-button.data-button(size='mini' v-if="isAdmin"  @click='editItem(scope.$index, scope.row)' icon='el-icon-edit' :data-editId="scope.row.id") 編輯
         el-button.data-button(size='mini' v-if="isAdmin"  @click='removeShow(scope.$index, scope.row)' icon='el-icon-delete' :data-removeId="scope.row.id") 刪除
         el-dialog(title='確定要刪除此筆訂單嗎？' :visible.sync='centerDialogVisible' :modal-append-to-body='false' :close-on-click-modal='false' width='30%' center='')
           span.dialog-footer(slot='footer')
-            el-button(@click='centerDialogVisible = false') 取消 
+            el-button(@click='centerDialogVisible = false') 取消
             el-button#removeSure(type='primary'  @click.native.prevent='removeItem()' @click='centerDialogVisible = false') 確定
 
 </template>
@@ -67,7 +67,6 @@ export default {
         productId,
         info,
       });
-      console.log("updateProductInventory", productId, info);
     },
     //刪除
     async removeItem() {
@@ -77,7 +76,6 @@ export default {
         if (e.id == this.deleteIndex) {
           productId = e.productId;
           quantity = e.quantity;
-          console.log(quantity);
         }
       });
       // let inventory =
@@ -91,23 +89,6 @@ export default {
         inventory: Number(quantity) + this.productData[productId - 1].inventory,
       });
       await this.$store.dispatch("listModule/renderTableData");
-      // axios
-      //   .delete(`http://localhost:3000/orders/${this.deleteIndex}`)
-      //   .then((res) => {
-      //     // console.log("被刪除的資料", tableData[index]);
-      //     // _this.$store.dispatch("listModule/removeTableData", index);
-      //     axios
-      //       .patch(`http://localhost:3000/products/${parseInt(productId)}`, {
-      //         inventory: inventory,
-      //       })
-      //       .then(function (response) {
-      //         _this.getTableData();
-      //       });
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //     throw err;
-      //   });
     },
     //修改
     editItem(index, rows) {
