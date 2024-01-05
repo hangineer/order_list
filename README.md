@@ -1,7 +1,7 @@
 ## 本專案使用到的技術
 * 畫面：Vue2 + element UI + SCSS
 * DB： 以 json-server 模擬 DB 環境
-* 測試：playwright + cypress
+* e2e 測試：playwright + cypress
 * 部署：前台（Netlify） + 後台 (Render) / Docker
   
 ## File details 資料夾結構
@@ -59,6 +59,10 @@
 
 管理者帳密：
 email: hannah@admin.com
+password: 111111
+
+使用者帳密：
+email: test@gmail.com
 password: 111111
 ```
 
