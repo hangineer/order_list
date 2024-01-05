@@ -1,6 +1,6 @@
 ## 本專案使用到的技術
-* 畫面：Vue2 + element UI + SCSS
-* DB： 以 json-server 模擬 DB 環境
+* 前端：Vue2 + element UI + SCSS
+* 資料： 以 json-server 模擬後端環境，串接 API
 * e2e 測試：playwright + cypress
 * 部署：前台（Netlify） + 後台 (Render) / Docker
   
@@ -55,7 +55,7 @@
 根目錄(登入及註冊) => 查看訂單 => 編輯或刪除訂單
 
 管理者：
-根目錄(登入及註冊) => 查看訂單 or 查看產品列表 => 編輯或刪除產品列表
+根目錄(登入) => 查看訂單 or 查看產品列表 => 編輯或刪除產品列表
 
 管理者帳密：
 email: hannah@admin.com
