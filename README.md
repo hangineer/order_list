@@ -2,7 +2,7 @@
 * 前端：Vue2 + element UI + SCSS
 * 資料： 以 json-server 模擬後端環境，串接 API
 * e2e 測試：playwright + cypress
-* 部署：前台（Netlify） + json=server (Render) / Docker
+* 部署：前台（Netlify） + json-server (Render) / Docker
   
 ## File details 資料夾結構
 ```
